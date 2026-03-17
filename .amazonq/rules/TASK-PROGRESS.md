@@ -8,7 +8,7 @@ This document tracks the development progress of the Budget Tracker application 
 
 ## 🎯 Current Task
 
-**No active task** - Awaiting implementation instructions
+**UI/UX Design Enhancement** - Completed on 2026-03-17
 
 ---
 
@@ -16,38 +16,38 @@ This document tracks the development progress of the Budget Tracker application 
 
 ### Foundation Setup
 
-- ⏸️ **Supabase Integration** - Not started
-  - Install @supabase/supabase-js
-  - Create Supabase project and obtain credentials
-  - Initialize Supabase client
-  - Configure environment variables
-- ⏸️ **Tailwind CSS Setup** - Not started
-  - Install Tailwind and dependencies
-  - Configure tailwind.config.js with pink color palette
-  - Set up PostCSS
-  - Update index.css with Tailwind directives
-- ⏸️ **Project Structure Organization** - Not started
-  - Create folder structure (components, pages, hooks, utils, lib, constants)
-  - Set up routing (React Router)
-  - Configure base layout components
+- ✅ **Supabase Integration** - Completed
+  - ✅ Install @supabase/supabase-js
+  - ✅ Create Supabase project and obtain credentials
+  - ✅ Initialize Supabase client
+  - ✅ Configure environment variables
+- ✅ **Tailwind CSS Setup** - Completed
+  - ✅ Install Tailwind and dependencies
+  - ✅ Configure tailwind.config.js with pink color palette
+  - ✅ Set up PostCSS
+  - ✅ Update index.css with Tailwind directives
+- ✅ **Project Structure Organization** - Completed
+  - ✅ Create folder structure (components, pages, hooks, utils, lib, constants)
+  - ✅ Set up routing (React Router)
+  - ✅ Configure base layout components
 
 ### Core Features
 
-- ⏸️ **Authentication System** - Not started
-  - Auth context and provider
-  - Login/Signup components
-  - Protected routes
-  - Password reset flow
-  - User profile management
-- ⏸️ **Database Schema & RLS** - Not started
-  - Create profiles table
-  - Create bank_cards table
-  - Create e_wallets table
-  - Create categories table
-  - Create transactions table (with card_id and wallet_id foreign keys)
-  - Create budgets table
-  - Create goals table
-  - Configure RLS policies for all tables
+- ✅ **Authentication System** - Completed
+  - ✅ Auth context and provider
+  - ✅ Login/Signup components (with enhanced 2-column design)
+  - ✅ Protected routes
+  - ✅ Password reset flow
+  - ⏸️ User profile management
+- ✅ **Database Schema & RLS** - Completed
+  - ✅ Create profiles table
+  - ✅ Create bank_cards table
+  - ✅ Create e_wallets table
+  - ✅ Create categories table
+  - ✅ Create transactions table (with card_id and wallet_id foreign keys)
+  - ✅ Create budgets table
+  - ✅ Create goals table
+  - ✅ Configure RLS policies for all tables
 - ⏸️ **Bank Cards & E-Wallets Management** - Not started
   - Card/wallet list view with balances
   - Add/Edit card form
@@ -139,96 +139,204 @@ This document tracks the development progress of the Budget Tracker application 
 ---
 ```
 
-### Example: Initial Setup - [Date]
-
-**Status:** ⏸️ Not started
+### UI/UX Design Enhancement - 2026-03-17
+**Status:** ✅ Completed
 
 **Description:**
-Set up Supabase client, Tailwind CSS, and basic project structure
+Enhanced the design for Home.jsx and all authentication pages (Login, Signup, ForgotPassword) with modern UI/UX improvements following the pink color palette from tailwind.config.js.
 
-**Files to Modify/Create:**
-
-- `.env.local`
-- `src/lib/supabase.js`
-- `tailwind.config.js`
-- `postcss.config.js`
-- `src/index.css`
-- `src/components/` (new directory)
-- `src/pages/` (new directory)
-- `src/hooks/` (new directory)
-- `src/utils/` (new directory)
-- `src/constants/` (new directory)
+**Files Modified:**
+- `src/pages/home/Home.jsx`
+- `src/pages/auth/Login.jsx`
+- `src/pages/auth/Signup.jsx`
+- `src/pages/auth/ForgotPassword.jsx`
 
 **Outcome:**
-Pending
+- Home page now uses consistent pink palette (pink-50 through pink-900) instead of hardcoded colors
+- All gradients updated from pink-to-purple to pink-to-pink for brand consistency
+- Authentication pages redesigned with 65/35 two-column split layout
+- Left column features light pink background (pink-100) with feature grid and back button
+- Right column features enhanced form design with bold pink text colors and improved typography
+- Removed stats sections from auth pages for cleaner design
+- All pages now fully utilize the custom Tailwind pink palette
 
 **Notes:**
+- Design is fully responsive with mobile-first approach
+- Feature cards use glassmorphism effect with white/80 backdrop
+- Form inputs have pink-themed styling with custom placeholder colors
+- All buttons use gradient backgrounds with hover effects
 
-- Must create Supabase project first
-- Need to obtain API keys
-- Tailwind should integrate with existing CSS variables for theming
+---
+
+### UI/UX & Auth Security Enhancements - 2026-03-17
+**Status:** ✅ Completed
+
+**Description:**
+Enhanced Authentication UI with password visibility toggles and added a mandatory "Terms and Agreement" checkbox to the signup flow. Created a dedicated Terms and Conditions page.
+
+**Files Modified:**
+- `src/pages/auth/Login.jsx`: Added password visibility toggle.
+- `src/pages/auth/Signup.jsx`: Added toggles for both password fields and a terms checkbox with validation.
+- `src/pages/auth/TermsAndAgreement.jsx`: Created new terms page.
+- `src/App.jsx`: Added route for the terms page.
+- `src/pages/home/Home.jsx`: Linked footer to the terms page.
+
+**Outcome:**
+- Improved user experience with password visibility control.
+- Legally compliant signup flow with terms agreement.
+- Consistent design across all auth-related pages.
+
+---
+
+### SVG Icon Migration - 2026-03-17
+**Status:** ✅ Completed
+
+**Description:**
+Replaced all emoji-based icons in `Home.jsx` and all Auth pages with custom, styled SVG icons that align with the "Butterfly Budget" brand and use the project's pink color palette.
+
+**Files Modified:**
+- `src/pages/home/Home.jsx`
+- `src/pages/auth/Login.jsx`
+- `src/pages/auth/Signup.jsx`
+- `src/pages/auth/ForgotPassword.jsx`
+- `src/pages/auth/TermsAndAgreement.jsx`
+
+**Outcome:**
+- Unified visual style using SVGs instead of emojis.
+- Enhanced brand identity with custom-colored icons.
+- Improved accessibility and professional look.
+
+---
+
+### Custom Butterfly SVG Integration - 2026-03-17
+**Status:** ✅ Completed
+
+**Description:**
+Integrated a custom-designed butterfly SVG provided by the user across all pages, replacing the placeholder icons. The SVG was ported to be theme-aware using `currentColor` for better brand consistency.
+
+**Files Modified:**
+- `src/pages/home/Home.jsx`
+- `src/pages/auth/Login.jsx`
+- `src/pages/auth/Signup.jsx`
+- `src/pages/auth/ForgotPassword.jsx`
+- `src/pages/auth/TermsAndAgreement.jsx`
+
+**Outcome:**
+- Unified brand identity with a custom, owner-provided mascot.
+- Better visual depth using opacity variants for the SVG wings and spots.
+- Seamless integration with existing color schemes.
+
+---
+
+### Auth Mobile Layout Refinement - 2026-03-17
+**Status:** ✅ Completed
+
+**Description:**
+Optimized the authentication pages for mobile devices by hiding the left-side marketing column and ensuring the "Back to Home" navigation remains visible at the top of the form area on smaller screens.
+
+**Files Modified:**
+- `src/pages/auth/Login.jsx`
+- `src/pages/auth/Signup.jsx`
+- `src/pages/auth/ForgotPassword.jsx`
+
+**Outcome:**
+- Cleaner and more focused mobile experience for authentication.
+- Navigation consistency maintained across desktop and mobile views.
+- Improved accessibility with a clear "Back to Home" link on all screen sizes.
+
+---
+
+### Rebranding to PennyWings - 2026-03-17
+**Status:** ✅ Completed
+
+**Description:**
+Renamed the application from "Butterfly Budget" to "PennyWings" across all UI components, legal text, and project documentation to align with the new brand identity.
+
+**Files Modified:**
+- `src/pages/home/Home.jsx`
+- `src/pages/auth/Login.jsx`
+- `src/pages/auth/Signup.jsx`
+- `src/pages/auth/ForgotPassword.jsx`
+- `src/pages/auth/TermsAndAgreement.jsx`
+
+**Outcome:**
+- Unified branding under the new name "PennyWings".
+- Updated all copyright notices and legal terms.
+- Maintained design consistency while updating text labels.
+
+---
+
+### Home Page Content Refinement - 2026-03-17
+**Status:** ✅ Completed
+
+**Description:**
+Removed the Stats Banner and the Bottom CTA section from `Home.jsx` to simplify the user experience and create a cleaner landing page design.
+
+**Files Modified:**
+- `src/pages/home/Home.jsx`
+
+**Outcome:**
+- More focused landing page without excessive marketing statistics.
+- Simplified navigation flow by removing the redundant bottom CTA.
+- Cleaner visual layout that emphasizes the core value proposition.
+- Updated mock transaction colors (negative amounts are now red).
+- Updated local currency to Philippine Peso (₱) across all mockups.
+
+---
+
+### Password Reset Flow Implementation - 2026-03-17
+**Status:** ✅ Completed
+
+**Description:**
+Implemented the end-to-end password reset flow. This included adding `updatePassword` functionality to the `AuthContext`, creating a dedicated `ResetPassword.jsx` page with themed UI, and configuring the necessary routes.
+
+**Files Modified:**
+- `src/contexts/AuthContext.jsx`
+- `src/App.jsx`
+- `src/pages/auth/ResetPassword.jsx` [NEW]
+
+**Outcome:**
+- Users can now securely reset their passwords via email links.
+- Consistent **PennyWings** branding maintained throughout the recovery flow.
+- Added password validation and confirmation on the reset page.
+- Fixed a bug where `updatePassword` returned `undefined` due to a missing return statement.
 
 ---
 
 ## 🔄 Active Development Phases
 
-### Phase 1: Foundation ⏸️
+### Phase 1: Foundation ✅
 
 **Goal:** Set up core infrastructure (Supabase, Tailwind with pink theme, folder structure)
 
 **Tasks:**
 
-- [ ] Create Supabase project and obtain API keys
-- [ ] Install and configure Supabase client (`@supabase/supabase-js`)
-- [ ] Install and configure Tailwind CSS with custom pink color palette
-- [ ] Create folder structure (components, pages, hooks, utils, lib, constants)
-- [ ] Set up environment variables (`.env.local`)
-- [ ] Create Supabase client initialization (`src/lib/supabase.js`)
-- [ ] Configure Tailwind with light pink theme colors
-- [ ] Set up React Router for navigation
-- [ ] Create base layout components
-
-**Files to Create/Modify:**
-
-- `.env.local`
-- `src/lib/supabase.js`
-- `tailwind.config.js`
-- `postcss.config.js`
-- `src/index.css`
-- `src/components/`
-- `src/pages/`
-- `src/hooks/`
-- `src/utils/`
-- `src/constants/`
-- `package.json`
-
-**Dependencies:** None
-
-**Blockers:** None
-
-**Success Criteria:**
-
-- Dev server runs with Tailwind styles
-- Supabase client connects successfully
-- Pink color palette applied
-- Folder structure organized
+- ✅ Create Supabase project and obtain API keys
+- ✅ Install and configure Supabase client (`@supabase/supabase-js`)
+- ✅ Install and configure Tailwind CSS with custom pink color palette
+- ✅ Create folder structure (components, pages, hooks, utils, lib, constants)
+- ✅ Set up environment variables (`.env.local`)
+- ✅ Create Supabase client initialization (`src/lib/supabase.js`)
+- ✅ Configure Tailwind with light pink theme colors
+- ✅ Set up React Router for navigation
+- ✅ Create base layout components
 
 ---
 
-### Phase 2: Authentication ⏸️
+### Phase 2: Authentication ✅
 
 **Goal:** Implement user authentication and protected routes
 
 **Tasks:**
 
-- [ ] Create auth context and provider (`src/contexts/AuthContext.jsx`)
-- [ ] Build login component with pink theme
-- [ ] Build signup component with pink theme
-- [ ] Implement password reset flow
-- [ ] Set up protected route wrapper component
-- [ ] Create user profile page
-- [ ] Add logout functionality
-- [ ] Handle auth state persistence
+- ✅ Create auth context and provider (`src/contexts/AuthContext.jsx`)
+- ✅ Build login component with pink theme
+- ✅ Build signup component with pink theme
+- ✅ Implement password reset flow
+- ✅ Set up protected route wrapper component
+- ⏸️ Create user profile page
+- ✅ Add logout functionality
+- ✅ Handle auth state persistence
 
 **Files to Create/Modify:**
 
@@ -253,21 +361,19 @@ Pending
 
 ---
 
-### Phase 3: Database Schema ⏸️
+### Phase 3: Database Schema ✅
 
 **Goal:** Design and implement database tables with RLS policies
 
+**Status:** ✅ Completed
+
 **Tasks:**
 
-- [ ] Create profiles table (extended user data)
-- [ ] Create bank_cards table with balance and card type fields
-- [ ] Create categories table (default income/expense categories)
-- [ ] Create transactions table with card_id foreign key
-- [ ] Create budgets table (per category limits)
-- [ ] Create goals table (savings goals)
-- [ ] Configure RLS policies for all tables (user-specific access)
-- [ ] Seed default categories
-- [ ] Test RLS policies
+- [x] Create SQL migration script for all tables and RLS policies
+- [x] Apply migration in Supabase SQL Editor
+- [x] Seed default categories
+- [x] Verify RLS policies are active and restrictive
+- [x] Test foreign key relationships between transactions and cards/wallets
 
 **SQL Tables:**
 
@@ -294,7 +400,7 @@ Pending
 
 ---
 
-### Phase 4: Bank Cards & E-Wallets Module ⏸️
+### Phase 4: Bank Cards & E-Wallets Module 🔄
 
 **Goal:** Build bank card and e-wallet management with balance tracking
 
