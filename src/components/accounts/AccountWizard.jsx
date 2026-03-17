@@ -126,25 +126,26 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-pink-900/20 backdrop-blur-sm">
-      <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
-        <div className="p-8">
-          {/* Header */}
-          <div className="flex justify-between items-center mb-8">
-            <div className="flex items-center gap-2">
-              {step > 1 && (
-                <button onClick={handleBack} className="p-2 hover:bg-pink-50 rounded-full text-gray-400 transition-colors">
-                  <Icon name="arrowLeft" color="currentColor" className="w-5 h-5" /> 
-                </button>
-              )}
-              <h2 className="text-2xl font-black text-gray-800 tracking-tight">
-            {formData.type === 'cash' ? 'Cash on Hand' : `Step ${step} of 3`}
-          </h2>
-            </div>
-            <button onClick={onClose} className="p-2 hover:bg-pink-50 rounded-full text-gray-400 transition-colors">
-              <Icon name="x" color="currentColor" className="w-6 h-6" />
-            </button>
+      <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 flex flex-col max-h-[90vh]">
+        {/* Header - Fixed */}
+        <div className="p-8 pb-4 flex justify-between items-center border-b border-pink-50">
+          <div className="flex items-center gap-2">
+            {step > 1 && (
+              <button onClick={handleBack} className="p-2 hover:bg-pink-50 rounded-full text-gray-400 transition-colors">
+                <Icon name="arrowLeft" color="currentColor" className="w-5 h-5" /> 
+              </button>
+            )}
+            <h2 className="text-2xl font-black text-gray-800 tracking-tight">
+              {formData.type === 'cash' ? 'Cash on Hand' : `Step ${step} of 3`}
+            </h2>
           </div>
+          <button onClick={onClose} className="p-2 hover:bg-pink-50 rounded-full text-gray-400 transition-colors">
+            <Icon name="x" color="currentColor" className="w-6 h-6" />
+          </button>
+        </div>
 
+        {/* Scrollable Content Area */}
+        <div className="p-8 pt-4 overflow-y-auto flex-1 custom-scrollbar">
           {/* Progress Bar */}
           <div className="flex gap-2 mb-8">
             {[1, 2, 3].map((s) => (

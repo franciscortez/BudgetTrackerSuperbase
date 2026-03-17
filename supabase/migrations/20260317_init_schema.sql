@@ -137,7 +137,14 @@ INSERT INTO public.categories (name, type, icon, color, is_default) VALUES
 ('Utilities', 'expense', 'zap', '#FB7185', true),
 ('Health', 'expense', 'heart', '#F43F5E', true),
 ('Travel', 'expense', 'plane', '#FDA4AF', true),
-('Education', 'expense', 'book', '#E11D48', true);
+('Education', 'expense', 'book', '#E11D48', true),
+('Allowance', 'expense', 'wallet', '#FBBF24', true),
+('Gifts', 'expense', 'gift', '#EC4899', true),
+('Salary', 'expense', 'banknote', '#10B981', true),
+('Family', 'expense', 'home', '#6366F1', true),
+('Bills', 'expense', 'receipt', '#EF4444', true),
+('Groceries', 'expense', 'shopping-cart', '#F97316', true),
+('Others', 'expense', 'more-horizontal', '#94A3B8', true);
 
 -- 8. Enable Real-time for specific tables
 -- This allows the Supabase client to listen for changes to these tables

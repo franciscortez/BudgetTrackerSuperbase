@@ -1,17 +1,11 @@
 import React, { useMemo } from "react";
-import { useAuth } from "../contexts/AuthContext";
 import Layout from "../components/Layout";
-import { useBankCards } from "../hooks/useBankCards";
-import { useEWallets } from "../hooks/useEWallets";
-import { useTransactions } from "../hooks/useTransactions";
+import { useDashboardData } from "../hooks/useDashboardData";
 import { Link } from "react-router-dom";
 import Icon from "../components/Icon";
 
 export default function Dashboard() {
-  const { user } = useAuth();
-  const { cards } = useBankCards();
-  const { wallets } = useEWallets();
-  const { transactions, loading: loadingTx } = useTransactions(5);
+  const { cards, wallets, transactions, loading } = useDashboardData(5);
 
   const totalBalance = useMemo(() => {
     const cardTotal = cards.reduce((sum, card) => sum + Number(card.balance || 0), 0);
@@ -140,7 +134,7 @@ export default function Dashboard() {
           </div>
 
           <div className="space-y-6">
-            {loadingTx ? (
+            {loading ? (
               <div className="py-20 flex flex-col items-center">
                 <div className="w-10 h-10 border-4 border-pink-100 border-t-pink-500 rounded-full animate-spin mb-4"></div>
                 <p className="text-gray-400 font-bold animate-pulse">Scanning the ledger...</p>

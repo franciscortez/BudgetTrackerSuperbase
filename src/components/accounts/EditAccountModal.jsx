@@ -96,16 +96,15 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-pink-900/20 backdrop-blur-sm">
-      <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
-        <div className="p-8">
-          {/* Header */}
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-black text-gray-800 tracking-tight">{title}</h2>
-            <button onClick={onClose} className="p-2 hover:bg-pink-50 rounded-full text-gray-400 transition-colors">
-              <Icon name="x" color="currentColor" className="w-6 h-6" />
-            </button>
-          </div>
+      <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 flex flex-col max-h-[90vh]">
+        <div className="p-8 pb-4 flex justify-between items-center border-b border-pink-50">
+          <h2 className="text-2xl font-black text-gray-800 tracking-tight">{title}</h2>
+          <button onClick={onClose} className="p-2 hover:bg-pink-50 rounded-full text-gray-400 transition-colors">
+            <Icon name="x" color="currentColor" className="w-6 h-6" />
+          </button>
+        </div>
 
+        <div className="p-8 pt-4 overflow-y-auto flex-1 custom-scrollbar">
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl text-red-600 text-sm font-bold">
               {error}
