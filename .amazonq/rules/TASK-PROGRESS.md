@@ -1,6 +1,6 @@
 # Budget Tracker - Task Progress
 
-> **Last Updated:** [Date will be updated as work progresses]
+> **Last Updated:** 2026-03-17
 
 This document tracks the development progress of the Budget Tracker application following the established workflow rules.
 
@@ -8,7 +8,7 @@ This document tracks the development progress of the Budget Tracker application 
 
 ## 🎯 Current Task
 
-**UI/UX Design Enhancement** - Completed on 2026-03-17
+**Dashboard & Accounts Refactor** - Completed on 2026-03-17
 
 ---
 
@@ -48,29 +48,28 @@ This document tracks the development progress of the Budget Tracker application 
   - ✅ Create budgets table
   - ✅ Create goals table
   - ✅ Configure RLS policies for all tables
-- ⏸️ **Bank Cards & E-Wallets Management** - Not started
-  - Card/wallet list view with balances
-  - Add/Edit card form
-  - Add/Edit e-wallet form
-  - Card type selection (credit/debit/savings)
-  - E-wallet type selection (PayPal/GCash/Venmo/etc.)
-  - Balance tracking for both
-  - Credit limit for credit cards
-  - Color customization
-  - Archive/activate accounts
-  - Total balance calculation across all accounts
-- ⏸️ **Transaction Management** - Not started
-  - Transaction list with card/wallet info
-  - Add/Edit transaction form
-  - Link transaction to bank card or e-wallet
-  - Payment method dropdown (Cash/Card/E-Wallet)
-  - Category selection
-  - Income/Expense/Withdrawal toggle
-  - Date picker
-  - Receipt upload
-  - Filter by card, wallet, category, date, payment method
-  - Auto-update account balance
-- ⏸️ **Budget Management** - Not started
+- ✅ **Accounts Management** - Completed
+   - ✅ Account list view with balances
+   - ✅ Unified Account Creation Wizard (3-Step Flow)
+   - ✅ Support for Digital Banks, Traditional Banks, and E-Wallets
+   - ✅ Provider selection (BDO, GCash, Maya, etc.)
+   - ✅ Balance tracking across all accounts
+   - ✅ Color and theme customization
+   - ✅ Total balance calculation across all accounts (Net Worth)
+   - ✅ Real-time account updates
+- 🔄 **Transaction Management** - In Progress
+  - ✅ Fetch transactions with account/category relationships
+  - ✅ Recent transactions list on Dashboard
+  - ⏸️ Add/Edit transaction form
+  - ⏸️ Link transaction to bank card or e-wallet
+  - ⏸️ Payment method dropdown (Cash/Card/E-Wallet)
+  - ⏸️ Category selection
+  - ⏸️ Income/Expense/Withdrawal toggle
+  - ⏸️ Date picker
+  - ⏸️ Receipt upload
+  - ⏸️ Filter by card, wallet, category, date, payment method
+  - ✅ Auto-update account balance (implemented in hooks)
+- 🚫 **Budget Management** - Removed (by User request)
   - Budget setup per category
   - Budget vs actual spending visualization
   - Progress bars with color indicators
@@ -81,15 +80,13 @@ This document tracks the development progress of the Budget Tracker application 
   - Track progress toward goals
   - Target date management
   - Visual progress indicators
-- ⏸️ **Dashboard UI** - Not started
-  - Financial overview cards
-  - Total balance across all cards and e-wallets
-  - Bank cards and e-wallets quick view
-  - Recent transactions with card/wallet info
-  - Budget progress indicators
-  - Goals progress
-  - Monthly spending by card/wallet chart
-  - Income vs expenses chart
+- ✅ **Dashboard UI** - Completed
+  - ✅ Financial overview cards (Income, Expenses, Net Worth)
+  - ✅ Total balance across all cards and e-wallets
+  - ✅ Quick access to Accounts and Transactions
+  - ✅ Recent Activity list with category icons
+  - ✅ Monthly Pulse Report (Savings Rate)
+  - ✅ Real-time data synchronization
 
 ### Additional Features
 
@@ -139,7 +136,34 @@ This document tracks the development progress of the Budget Tracker application 
 ---
 ```
 
-### UI/UX Design Enhancement - 2026-03-17
+### Dashboard & Accounts Refactor - 2026-03-17
+**Status:** ✅ Completed
+
+**Description:**
+Implemented a comprehensive refactor of the dashboard and account management. Created a unified 3-step AccountWizard, enhanced the dashboard with real-time analytics, and cleaned up the UI by removing unnecessary modules.
+
+**Files Modified/Created:**
+- `src/components/accounts/AccountWizard.jsx` [NEW]
+- `src/components/dashboard/Dashboard.jsx` (Enhanced)
+- `src/components/Layout.jsx` (Cleaned up)
+- `src/pages/accounts/Accounts.jsx` (Integrated Wizard)
+- `src/hooks/useTransactions.js` [NEW]
+- `src/hooks/useBankCards.js` & `src/hooks/useEWallets.js` (Fixed & Optimized)
+
+**Outcome:**
+- Unified account creation flow for Digital Banks, Traditional Banks, and E-Wallets.
+- Dashboard now features a "Pulse Report" with savings rate and recent activity.
+- Navigation simplified: removed Budgets and Free Plan labels.
+- Fixed a critical bug in bank card creation by ensuring balance is handled as a number.
+- Improved runtime stability with optional chaining across all data-driven components.
+
+**Notes:**
+- Consolidated legacy forms into a single multi-step wizard for better UX.
+- Improved real-time data flow using Supabase subscriptions.
+
+---
+ 
+ ### UI/UX Design Enhancement - 2026-03-17
 **Status:** ✅ Completed
 
 **Description:**
