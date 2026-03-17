@@ -88,11 +88,10 @@ When planning tasks, always consider the system flow:
 ### Core Modules
 
 1. **Authentication Layer** - Supabase Auth (login/signup/protected routes)
-2. **Bank Cards & E-Wallets Module** - Account management with balance tracking
-3. **Transactions Module** - Income/expense tracking linked to cards/wallets
-4. **Budgets Module** - Budget limits and spending visualization
-5. **Goals Module** - Savings goals and progress tracking
-6. **Dashboard** - Overview and analytics
+2. **Accounts Module** - Unified management via `AccountWizard` (Digital/Traditional Banks, E-Wallets)
+3. **Transactions Module** - Income/expense tracking linked to accounts
+4. **Goals Module** - Savings goals and progress tracking
+5. **Dashboard** - Overview and analytics with real-time net worth
 
 ### Data Flow Pattern
 
@@ -112,8 +111,8 @@ User Action → React Component → Supabase Client → PostgreSQL + RLS → Rea
 1. Foundation (Supabase + Tailwind + Structure)
 2. Authentication (User access control)
 3. Database Schema (Tables + RLS policies)
-4. Bank Cards & E-Wallets (Core feature for transaction linking)
-5. Transactions (Income/expense with card/wallet association)
-6. Budgets & Goals (Financial planning features)
+4. Accounts Module (Unified Wizard for Bank/E-Wallet setup)
+5. Transactions (Income/expense with account association)
+6. Goals (Financial planning features)
 7. Dashboard (Analytics and overview)
 8. Enhancements (Charts, export, receipts)
