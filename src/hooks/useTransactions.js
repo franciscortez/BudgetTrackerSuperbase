@@ -2,6 +2,22 @@ import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 
+const TX_SELECT = `
+  *,
+  category:categories(name, icon, color),
+  card:bank_cards(card_name, color),
+  wallet:e_wallets(wallet_name, color)
+`
+
+// Helper: atomically update a bank card or wallet balance by a delta
+const applyBalanceDelta = async (cardId, walletId, delta) => {
+  if (cardId) {
+    await supabase.rpc('update_card_balance', { p_id: cardId, p_delta: delta })
+  } else if (walletId) {
+    await supabase.rpc('update_wallet_balance', { p_id: walletId, p_delta: delta })
+  }
+}
+
 export const useTransactions = (limit = 10) => {
   const { user } = useAuth()
   const [transactions, setTransactions] = useState([])
@@ -13,12 +29,7 @@ export const useTransactions = (limit = 10) => {
       if (!background) setLoading(true)
       const { data, error } = await supabase
         .from('transactions')
-        .select(`
-          *,
-          category:categories(name, icon, color),
-          card:bank_cards(card_name, color),
-          wallet:e_wallets(wallet_name, color)
-        `)
+        .select(TX_SELECT)
         .eq('user_id', user?.id)
         .order('transaction_date', { ascending: false })
         .order('created_at', { ascending: false })
@@ -39,8 +50,8 @@ export const useTransactions = (limit = 10) => {
 
       const subscription = supabase
         .channel('transactions_changes')
-        .on('postgres_changes', 
-          { event: '*', schema: 'public', table: 'transactions', filter: `user_id=eq.${user.id}` }, 
+        .on('postgres_changes',
+          { event: '*', schema: 'public', table: 'transactions', filter: `user_id=eq.${user.id}` },
           () => fetchTransactions(true)
         )
         .subscribe()
@@ -52,19 +63,19 @@ export const useTransactions = (limit = 10) => {
   }, [user, fetchTransactions])
 
   const addTransaction = async (transactionData) => {
-    try {
-      const tempId = 'temp-' + Date.now();
-      const optimisticTx = {
-        ...transactionData,
-        id: tempId,
-        user_id: user?.id,
-        category: {},
-        card: {},
-        wallet: {}
-      }
-      setTransactions(prev => [optimisticTx, ...prev].slice(0, limit))
+    const tempId = 'temp-' + Date.now()
+    const optimisticTx = {
+      ...transactionData,
+      id: tempId,
+      user_id: user?.id,
+      category: {},
+      card: {},
+      wallet: {}
+    }
+    setTransactions(prev => [optimisticTx, ...prev].slice(0, limit))
 
-      // 1. Insert Transaction
+    try {
+      // 1. Insert the transaction
       const { data: transaction, error: txError } = await supabase
         .from('transactions')
         .insert([{ ...transactionData, user_id: user?.id }])
@@ -72,62 +83,37 @@ export const useTransactions = (limit = 10) => {
         .single()
 
       if (txError) throw txError
-      
-      setTransactions(prev => prev.map(t => t.id === tempId ? { ...transaction, category: {}, card: {}, wallet: {} } : t))
 
-      // 2. Update Balance if card_id or wallet_id is provided
+      // 2. Fetch the full joined record to avoid flicker (no blank category/card)
+      const { data: joinedTx } = await supabase
+        .from('transactions')
+        .select(TX_SELECT)
+        .eq('id', transaction.id)
+        .single()
+
+      setTransactions(prev =>
+        prev.map(t => t.id === tempId ? (joinedTx || transaction) : t)
+      )
+
+      // 3. Atomically update the account balance
       const amount = Number(transaction.amount)
-      const isIncome = transaction.type === 'income'
-      
-      if (transaction.card_id) {
-        const { data: card } = await supabase
-          .from('bank_cards')
-          .select('balance')
-          .eq('id', transaction.card_id)
-          .single()
-
-        if (card) {
-          const newBalance = isIncome 
-            ? Number(card.balance) + amount 
-            : Number(card.balance) - amount
-            
-          await supabase
-            .from('bank_cards')
-            .update({ balance: newBalance })
-            .eq('id', transaction.card_id)
-        }
-      } else if (transaction.wallet_id) {
-        const { data: wallet } = await supabase
-          .from('e_wallets')
-          .select('balance')
-          .eq('id', transaction.wallet_id)
-          .single()
-
-        if (wallet) {
-          const newBalance = isIncome 
-            ? Number(wallet.balance) + amount 
-            : Number(wallet.balance) - amount
-            
-          await supabase
-            .from('e_wallets')
-            .update({ balance: newBalance })
-            .eq('id', transaction.wallet_id)
-        }
-      }
+      const delta = transaction.type === 'income' ? amount : -amount
+      await applyBalanceDelta(transaction.card_id, transaction.wallet_id, delta)
 
       return { data: transaction, error: null }
     } catch (err) {
       console.error('Error adding transaction:', err)
-      fetchTransactions(true)
+      fetchTransactions(true) // revert optimistic
       return { data: null, error: err.message }
     }
   }
 
   const deleteTransaction = async (transaction) => {
     try {
+      // Optimistic removal
       setTransactions(prev => prev.filter(t => t.id !== transaction.id))
-      
-      // 1. Delete Transaction
+
+      // 1. Delete the transaction record
       const { error: delError } = await supabase
         .from('transactions')
         .delete()
@@ -135,62 +121,69 @@ export const useTransactions = (limit = 10) => {
 
       if (delError) throw delError
 
-      // 2. Revert Balance
+      // 2. Atomically revert the account balance
       const amount = Number(transaction.amount)
-      const isIncome = transaction.type === 'income'
-      
-      if (transaction.card_id) {
-        const { data: card } = await supabase
-          .from('bank_cards')
-          .select('balance')
-          .eq('id', transaction.card_id)
-          .single()
-
-        if (card) {
-          const newBalance = isIncome 
-            ? Number(card.balance) - amount 
-            : Number(card.balance) + amount
-            
-          await supabase
-            .from('bank_cards')
-            .update({ balance: newBalance })
-            .eq('id', transaction.card_id)
-        }
-      } else if (transaction.wallet_id) {
-        const { data: wallet } = await supabase
-          .from('e_wallets')
-          .select('balance')
-          .eq('id', transaction.wallet_id)
-          .single()
-
-        if (wallet) {
-          const newBalance = isIncome 
-            ? Number(wallet.balance) - amount 
-            : Number(wallet.balance) + amount
-            
-          await supabase
-            .from('e_wallets')
-            .update({ balance: newBalance })
-            .eq('id', transaction.wallet_id)
-        }
-      }
+      const revertDelta = transaction.type === 'income' ? -amount : amount
+      await applyBalanceDelta(transaction.card_id, transaction.wallet_id, revertDelta)
 
       return { error: null }
     } catch (err) {
       console.error('Error deleting transaction:', err)
-      fetchTransactions(true)
+      fetchTransactions(true) // revert optimistic
       return { error: err.message }
     }
   }
 
   const updateTransaction = async (id, updates, oldTransaction) => {
     try {
-      // For simplicity in MVP, we delete and re-add or just revert and apply
-      // Revert old
-      await deleteTransaction(oldTransaction)
-      // Add new
-      return await addTransaction({ ...oldTransaction, ...updates })
+      const newData = { ...oldTransaction, ...updates }
+
+      // 1. Update the DB record
+      const { data: updatedTx, error: updateError } = await supabase
+        .from('transactions')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+
+      if (updateError) throw updateError
+
+      // 2. Optimistically update local state with joined data
+      const { data: joinedTx } = await supabase
+        .from('transactions')
+        .select(TX_SELECT)
+        .eq('id', id)
+        .single()
+
+      setTransactions(prev =>
+        prev.map(t => t.id === id ? (joinedTx || updatedTx) : t)
+      )
+
+      // 3. Calculate and apply balance delta atomically
+      const oldAmount = Number(oldTransaction.amount)
+      const newAmount = Number(newData.amount)
+      const oldDelta = oldTransaction.type === 'income' ? oldAmount : -oldAmount
+      const newDelta = newData.type === 'income' ? newAmount : -newAmount
+
+      const sameCard = oldTransaction.card_id === newData.card_id
+      const sameWallet = oldTransaction.wallet_id === newData.wallet_id
+
+      if (sameCard && sameWallet) {
+        // Same account — apply net difference
+        const netDelta = newDelta - oldDelta
+        if (netDelta !== 0) {
+          await applyBalanceDelta(newData.card_id, newData.wallet_id, netDelta)
+        }
+      } else {
+        // Account changed — revert old and apply new separately
+        await applyBalanceDelta(oldTransaction.card_id, oldTransaction.wallet_id, -oldDelta)
+        await applyBalanceDelta(newData.card_id, newData.wallet_id, newDelta)
+      }
+
+      return { data: updatedTx, error: null }
     } catch (err) {
+      console.error('Error updating transaction:', err)
+      fetchTransactions(true)
       return { data: null, error: err.message }
     }
   }

@@ -7,7 +7,9 @@ export const getCategoryData = (transactions) => {
   const categories = {};
 
   transactions.filter(t => t.type === 'expense').forEach(t => {
-    const categoryName = t.categories?.name || 'Uncategorized';
+    if (!t.amount || isNaN(parseFloat(t.amount))) return;
+    // Reports.jsx uses non-aliased joins so joined data key is 'categories' (table name)
+    const categoryName = t.categories?.name || t.category?.name || 'Uncategorized';
     categories[categoryName] = (categories[categoryName] || 0) + parseFloat(t.amount);
   });
 
@@ -28,7 +30,10 @@ export const getTrendData = (transactions, startDate, endDate) => {
   const days = eachDayOfInterval({ start, end });
 
   return days.map(day => {
-    const dayTransactions = transactions.filter(t => isSameDay(parseISO(t.transaction_date), day));
+    const dayTransactions = transactions.filter(t => {
+      if (!t.transaction_date) return false;
+      try { return isSameDay(parseISO(t.transaction_date), day); } catch { return false; }
+    });
 
     const income = dayTransactions
       .filter(t => t.type === 'income')
@@ -51,11 +56,11 @@ export const getTrendData = (transactions, startDate, endDate) => {
  */
 export const getReportSummary = (transactions) => {
   const income = transactions
-    .filter(t => t.type === 'income')
+    .filter(t => t.type === 'income' && t.amount && !isNaN(parseFloat(t.amount)))
     .reduce((sum, t) => sum + parseFloat(t.amount), 0);
 
   const expense = transactions
-    .filter(t => t.type === 'expense')
+    .filter(t => t.type === 'expense' && t.amount && !isNaN(parseFloat(t.amount)))
     .reduce((sum, t) => sum + parseFloat(t.amount), 0);
 
   return {

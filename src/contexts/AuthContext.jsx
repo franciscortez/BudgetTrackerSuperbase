@@ -16,16 +16,8 @@ export function AuthProvider({ children }) {
         .single()
 
       if (error) {
-        if (error.code === 'PGRST116') {
-          // Profile doesn't exist yet, create one
-          const { data: newProfile, error: createError } = await supabase
-            .from('profiles')
-            .insert({ id: uid })
-            .select()
-            .single()
-          
-          if (!createError) setProfile(newProfile)
-        } else {
+        // PGRST116 = row not found: profile may not exist yet (DB trigger may be pending)
+        if (error.code !== 'PGRST116') {
           console.error('Error fetching profile:', error)
         }
       } else {
@@ -66,9 +58,9 @@ export function AuthProvider({ children }) {
         setProfile(null)
       }
 
-      if (event === 'SIGNED_IN') {
-        setLoading(false)
-      }
+      // Always resolve loading after any auth state change, not just SIGNED_IN
+      // Prevents the app from getting stuck in an indefinite loading state
+      setLoading(false)
     })
 
     return () => subscription.unsubscribe()

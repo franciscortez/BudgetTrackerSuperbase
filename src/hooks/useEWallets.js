@@ -27,6 +27,15 @@ export const useEWallets = () => {
   }, [user?.id])
 
   const addWallet = async (walletData) => {
+    const tempId = 'temp-' + Date.now()
+    const optimisticWallet = {
+      ...walletData,
+      id: tempId,
+      user_id: user?.id,
+      created_at: new Date().toISOString()
+    }
+    setWallets(prev => [optimisticWallet, ...prev])
+
     try {
       const { data, error } = await supabase
         .from('e_wallets')
@@ -34,9 +43,10 @@ export const useEWallets = () => {
         .select()
 
       if (error) throw error
-      if (data) setWallets(prev => [data[0], ...prev])
+      if (data) setWallets(prev => prev.map(w => w.id === tempId ? data[0] : w))
       return { data, error: null }
     } catch (err) {
+      setWallets(prev => prev.filter(w => w.id !== tempId)) // revert optimistic
       return { data: null, error: err.message }
     }
   }

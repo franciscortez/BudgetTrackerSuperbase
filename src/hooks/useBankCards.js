@@ -27,6 +27,15 @@ export const useBankCards = () => {
   }, [user?.id])
 
   const addCard = async (cardData) => {
+    const tempId = 'temp-' + Date.now()
+    const optimisticCard = {
+      ...cardData,
+      id: tempId,
+      user_id: user?.id,
+      created_at: new Date().toISOString()
+    }
+    setCards(prev => [optimisticCard, ...prev])
+
     try {
       const { data, error } = await supabase
         .from('bank_cards')
@@ -34,9 +43,10 @@ export const useBankCards = () => {
         .select()
 
       if (error) throw error
-      if (data) setCards(prev => [data[0], ...prev])
+      if (data) setCards(prev => prev.map(c => c.id === tempId ? data[0] : c))
       return { data, error: null }
     } catch (err) {
+      setCards(prev => prev.filter(c => c.id !== tempId)) // revert optimistic
       return { data: null, error: err.message }
     }
   }
