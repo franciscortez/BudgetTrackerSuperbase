@@ -184,13 +184,13 @@ export default function Transactions() {
           <div className="w-full lg:w-auto text-left">
             <label className="block text-[10px] font-black text-gray-400 dark:text-white uppercase tracking-widest mb-2 ml-4">Filter Type</label>
             <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-              {['all', 'income', 'expense', 'withdrawal'].map(type => (
+              {['all', 'income', 'expense', 'withdrawal', 'transfer'].map(type => (
                 <button
                   key={type}
                   onClick={() => onFilterChange(type)}
                   className={`px-6 py-4 rounded-[1.2rem] font-bold text-xs uppercase tracking-widest transition-all whitespace-nowrap ${
                     filterType === type 
-                    ? 'bg-gray-900 dark:bg-pink-500 text-white' 
+                    ? 'bg-gray-900 dark:bg-pink-500 text-white'
                     : 'bg-pink-50/50 dark:bg-dark-bg/50 text-gray-400 dark:text-white/50 hover:text-pink-500 hover:bg-pink-100/50 dark:hover:bg-dark-border border border-pink-100 dark:border-dark-border'
                   }`}
                 >
@@ -221,8 +221,9 @@ export default function Transactions() {
                     <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em]">Transaction</th>
                     <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em]">Category</th>
                     <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em]">Account</th>
+                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em]">Payment</th>
                     <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em] text-right">Amount</th>
-                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em] text-center">Actions</th>
+                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em] text-center">Action</th>
                   </tr>
                 </thead>
                 <Motion.tbody 
@@ -254,24 +255,37 @@ export default function Transactions() {
                           </span>
                         </td>
                         <td className="px-8 py-6">
-                          <div className="flex items-center gap-2 text-gray-500 dark:text-dark-muted">
-                            <Icon name="bank" className="w-4 h-4 opacity-50" />
-                            <span className="text-xs font-bold uppercase tracking-wider">
-                              {tx.card?.card_name || tx.wallet?.wallet_name || 'Cash'}
-                            </span>
+                          <div className="flex flex-col gap-1">
+                            <div className="flex items-center gap-2 text-gray-500 dark:text-dark-muted">
+                              <Icon name="bank" className="w-4 h-4 opacity-50" />
+                              <span className="text-[10px] font-bold uppercase tracking-wider">
+                                {tx.type === 'transfer' ? (
+                                  `${tx.card?.card_name || tx.wallet?.wallet_name || 'Account'} → ${tx.to_card?.card_name || tx.to_wallet?.wallet_name || 'Account'}`
+                                ) : (
+                                  tx.card?.card_name || tx.wallet?.wallet_name || 'Cash'
+                                )}
+                              </span>
+                            </div>
                           </div>
+                        </td>
+                        <td className="px-8 py-6">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 dark:text-dark-muted">
+                            {tx.type === 'transfer' ? '---' : tx.payment_method === 'card' ? 'Bank Card' : tx.payment_method === 'ewallet' ? 'E-Wallet' : 'Cash'}
+                          </span>
                         </td>
                         <td className="px-8 py-6 text-right">
                           <p className={`text-sm sm:text-base font-black tracking-tight ${
                             tx.type === 'income' ? 'text-emerald-500' : 
                             tx.type === 'expense' ? 'text-rose-500' : 
+                            tx.type === 'transfer' ? 'text-blue-500' :
                             'text-orange-500'
                           }`}>
-                            {tx.type === 'income' ? '+' : '-'}₱{Number(tx.amount).toLocaleString()}
+                            {tx.type === 'income' ? '+' : tx.type === 'transfer' ? '' : '-'}₱{Number(tx.amount).toLocaleString()}
                           </p>
                           <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${
                             tx.type === 'income' ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-500' :
                             tx.type === 'withdrawal' ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-500' :
+                            tx.type === 'transfer' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-500' :
                             'bg-rose-50 dark:bg-rose-900/20 text-rose-500'
                           }`}>
                             {tx.type}
