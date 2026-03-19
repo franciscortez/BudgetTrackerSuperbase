@@ -6,8 +6,8 @@ export default function ProtectedRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-pink-50 flex items-center justify-center">
-        <div className="animate-pulse text-pink-600 font-medium">
+      <div className="min-h-screen bg-pink-50 dark:bg-dark-bg flex items-center justify-center transition-colors">
+        <div className="animate-pulse text-pink-600 dark:text-pink-400 font-medium">
           Loading...
         </div>
       </div>

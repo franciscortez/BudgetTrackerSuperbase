@@ -96,10 +96,10 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-pink-900/20 backdrop-blur-sm">
-      <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 flex flex-col max-h-[90vh]">
-        <div className="p-8 pb-4 flex justify-between items-center border-b border-pink-50">
-          <h2 className="text-2xl font-black text-gray-800 tracking-tight">{title}</h2>
-          <button onClick={onClose} className="p-2 hover:bg-pink-50 rounded-full text-gray-400 transition-colors">
+      <div className="bg-white dark:bg-dark-card w-full max-w-md rounded-[2.5rem] border border-pink-100 dark:border-dark-border overflow-hidden animate-in fade-in zoom-in duration-300 flex flex-col max-h-[90vh]">
+        <div className="p-8 pb-4 flex justify-between items-center border-b border-pink-50 dark:border-dark-border">
+          <h2 className="text-2xl font-black text-gray-800 dark:text-white tracking-tight">{title}</h2>
+          <button onClick={onClose} className="p-2 hover:bg-pink-50 dark:hover:bg-dark-bg rounded-full text-gray-400 dark:text-dark-muted transition-colors">
             <Icon name="x" color="currentColor" className="w-6 h-6" />
           </button>
         </div>
@@ -114,7 +114,7 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Name */}
             <div className="space-y-2">
-              <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+              <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest ml-1">
                 {isCash ? 'Label' : isCard ? 'Card Name' : 'Wallet Name'}
               </label>
               <input
@@ -124,7 +124,7 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
                 onChange={(e) =>
                   setFormData({ ...formData, [isCard ? 'card_name' : 'wallet_name']: e.target.value })
                 }
-                className="w-full px-5 py-4 bg-pink-50/50 border border-pink-100 rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700"
+                className="w-full px-5 py-4 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white"
               />
             </div>
 
@@ -132,7 +132,7 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
             {isCard && (
               <>
                 <div className="space-y-2">
-                  <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Card Type</label>
+                  <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest ml-1">Card Type</label>
                   <select
                     value={formData.card_type}
                     onChange={(e) => setFormData({ ...formData, card_type: e.target.value })}
@@ -145,7 +145,7 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Last 4 Digits</label>
+                  <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest ml-1">Last 4 Digits</label>
                   <input
                     type="text"
                     maxLength="4"
@@ -163,7 +163,7 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
             {/* Wallet-specific: phone/email (hide for cash) */}
             {!isCard && !isCash && (
               <div className="space-y-2">
-                <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Phone / Email</label>
+                <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest ml-1">Phone / Email</label>
                 <input
                   type="text"
                   placeholder="0917..."
@@ -176,9 +176,9 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
 
             {/* Balance */}
             <div className="space-y-2">
-              <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Current Balance</label>
+              <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest ml-1">Current Balance</label>
               <div className="relative">
-                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-xl font-black text-pink-300">₱</span>
+                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-xl font-black text-pink-300 dark:text-pink-900/50">₱</span>
                 <input
                   required
                   type="number"
@@ -186,21 +186,21 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
                   placeholder="0.00"
                   value={formData.balance}
                   onChange={(e) => setFormData({ ...formData, balance: e.target.value })}
-                  className="w-full pl-10 pr-6 py-4 bg-pink-50/50 border-2 border-pink-100 rounded-2xl focus:border-pink-500 outline-none transition-all text-xl font-black text-gray-800"
+                  className="w-full pl-10 pr-6 py-4 bg-pink-50/50 dark:bg-dark-bg border-2 border-pink-100 dark:border-dark-border rounded-2xl focus:border-pink-500 outline-none transition-all text-xl font-black text-gray-800 dark:text-white placeholder:text-pink-300 dark:placeholder:text-white"
                 />
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Card Color</label>
+                <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest ml-1">Card Color</label>
                 <div className="flex flex-wrap gap-2">
                   {COLOR_OPTIONS.map(c => (
                     <button
                       key={c}
                       type="button"
                       onClick={() => setFormData({ ...formData, color: c })}
-                      className={`w-8 h-8 rounded-xl transition-all ${formData.color === c ? 'ring-2 ring-offset-2 ring-pink-500 scale-110' : 'hover:scale-105 border border-gray-200'
+                      className={`w-8 h-8 rounded-xl transition-all ${formData.color === c ? 'ring-2 ring-offset-2 ring-pink-500 scale-110' : 'hover:scale-105 border border-gray-200 dark:border-dark-border'
                         }`}
                       style={{ backgroundColor: c }}
                     />
@@ -209,14 +209,14 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
               </div>
 
               <div className="space-y-2">
-                <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Text Color</label>
+                <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest ml-1">Text Color</label>
                 <div className="flex flex-wrap gap-2">
                   {TEXT_COLOR_OPTIONS.map(c => (
                     <button
                       key={c}
                       type="button"
                       onClick={() => setFormData({ ...formData, text_color: c })}
-                      className={`w-8 h-8 rounded-xl transition-all border ${formData.text_color === c ? 'ring-2 ring-offset-2 ring-pink-500 scale-110 border-transparent' : 'hover:scale-105 border-gray-300'
+                      className={`w-8 h-8 rounded-xl transition-all border ${formData.text_color === c ? 'ring-2 ring-offset-2 ring-pink-500 scale-110 border-transparent' : 'hover:scale-105 border-gray-300 dark:border-dark-border'
                         }`}
                       style={{ backgroundColor: c }}
                     />
@@ -226,14 +226,14 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
             </div>
 
             <div
-              className="h-16 rounded-[1.5rem] flex items-center justify-center transition-all duration-300 shadow-md font-bold text-lg"
+              className="h-16 rounded-[1.5rem] flex items-center justify-center transition-all duration-300 border border-pink-100 dark:border-dark-border font-bold text-lg"
               style={{ background: `linear-gradient(135deg, ${formData.color}, ${formData.color}DD)`, color: formData.text_color }}
             >
               Preview Card
             </div>            <button
               disabled={loading}
               type="submit"
-              className="w-full py-5 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-3xl font-black text-lg shadow-xl shadow-pink-200 hover:shadow-2xl hover:translate-y-[-4px] transition-all disabled:opacity-50"
+              className="w-full py-5 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-3xl font-black text-lg transition-all disabled:opacity-50"
             >
               {loading ? 'Saving...' : 'Save Changes'}
             </button>

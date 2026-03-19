@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useTheme } from "../contexts/ThemeContext";
 import Icon from "./Icon";
 import Swal from "sweetalert2";
 import AnimatedPage from "./common/AnimatedPage";
+import { motion as Motion } from "motion/react";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: "bank" },
   { name: "Accounts", href: "/accounts", icon: "card" },
-  { name: "Transactions", href: "/transactions", icon: "clock" },
+  { name: "Transactions", href: "/transactions", icon: "history" },
   { name: "Reports", href: "/reports", icon: "reports" },
   { name: "Settings", href: "/profile", icon: "settings" },
 ];
 
 export default function Layout({ children }) {
   const { profile, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
     const saved = localStorage.getItem("sidebarOpen");
@@ -55,9 +58,9 @@ export default function Layout({ children }) {
   };
 
   return (
-    <div className="min-h-screen bg-pink-50 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-pink-50 dark:bg-dark-bg flex flex-col md:flex-row transition-colors duration-300">
       {/* Mobile Header */}
-      <div className="md:hidden bg-white px-4 py-3 flex items-center justify-between shadow-sm border-b border-pink-100">
+      <div className="md:hidden bg-white dark:bg-dark-card px-4 py-3 flex items-center justify-between border-b border-pink-100 dark:border-dark-border transition-colors">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-pink-500 rounded-lg flex items-center justify-center">
             <svg
@@ -76,20 +79,28 @@ export default function Layout({ children }) {
               <circle cx="50" cy="18" r="4" fill="currentColor" />
             </svg>
           </div>
-          <span className="font-bold text-gray-800 tracking-tight">
+          <span className="font-bold text-gray-800 dark:text-dark-text tracking-tight">
             PennyWings
           </span>
         </div>
         <div className="flex items-center gap-2">
+          <Motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={toggleTheme}
+            className="w-8 h-8 bg-pink-50 dark:bg-dark-border rounded-full flex items-center justify-center text-pink-500 dark:text-pink-400 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors"
+            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            <Icon name={theme === 'light' ? 'moon' : 'sun'} className="w-5 h-5" />
+          </Motion.button>
           <Link
             to="/profile"
-            className="w-8 h-8 bg-pink-50 rounded-full flex items-center justify-center text-pink-500 hover:bg-pink-100 transition-colors"
+            className="w-8 h-8 bg-pink-50 dark:bg-dark-border rounded-full flex items-center justify-center text-pink-500 dark:text-pink-400 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors"
           >
             <Icon name="user" className="w-5 h-5" />
           </Link>
           <button
             onClick={handleLogout}
-            className="p-2 text-rose-500 hover:bg-rose-50 rounded-full transition-colors"
+            className="p-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-full transition-colors"
             title="Sign Out"
           >
             <Icon name="logout" className="w-5 h-5" />
@@ -99,14 +110,14 @@ export default function Layout({ children }) {
 
       {/* Sidebar (Desktop) */}
       <aside 
-        className={`hidden md:flex flex-col bg-white border-r border-pink-100 h-screen sticky top-0 transition-all duration-300 z-40 ${
+        className={`hidden md:flex flex-col bg-white dark:bg-dark-card border-r border-pink-100 dark:border-dark-border h-screen sticky top-0 transition-all duration-300 z-40 ${
           isSidebarOpen ? "w-64" : "w-20"
         }`}
       >
         <div className={`p-6 flex items-center ${isSidebarOpen ? "justify-between" : "justify-center"}`}>
           {isSidebarOpen && (
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-pink-200 shrink-0">
+              <div className="w-10 h-10 bg-pink-500 rounded-xl flex items-center justify-center shrink-0">
                 <svg
                   className="w-6 h-6 text-white"
                   viewBox="0 0 100 100"
@@ -123,14 +134,14 @@ export default function Layout({ children }) {
                   <circle cx="50" cy="18" r="4" fill="currentColor" />
                 </svg>
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-pink-500 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
+              <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-pink-500 dark:from-pink-400 dark:to-pink-500 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
                 PennyWings
               </span>
             </div>
           )}
           <button
             onClick={toggleSidebar}
-            className={`p-1.5 text-gray-400 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-colors ${!isSidebarOpen ? "mt-2" : ""}`}
+            className={`p-1.5 text-gray-400 dark:text-dark-muted hover:text-pink-500 dark:hover:text-pink-400 hover:bg-pink-50 dark:hover:bg-dark-border rounded-lg transition-colors ${!isSidebarOpen ? "mt-2" : ""}`}
             title={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
           >
             <Icon name={isSidebarOpen ? "arrowLeft" : "menu"} className="w-6 h-6" />
@@ -146,8 +157,8 @@ export default function Layout({ children }) {
                 to={item.href}
                 className={`flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-3 rounded-xl font-medium transition-all ${
                   isActive
-                    ? "bg-pink-50 text-pink-600 shadow-sm shadow-pink-100"
-                    : "text-gray-500 hover:bg-pink-50/50 hover:text-pink-500"
+                    ? "bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400"
+                    : "text-gray-500 dark:text-dark-muted hover:bg-pink-50/50 dark:hover:bg-dark-border hover:text-pink-500 dark:hover:text-pink-400"
                 }`}
                 title={!isSidebarOpen ? item.name : undefined}
               >
@@ -162,10 +173,19 @@ export default function Layout({ children }) {
           })}
         </nav>
 
-        <div className="p-4 border-t border-pink-50">
+        <div className="p-4 border-t border-pink-50 dark:border-dark-border space-y-2">
+          <Motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={toggleTheme}
+            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 dark:text-dark-muted hover:text-pink-500 dark:hover:text-pink-400 hover:bg-pink-50 dark:hover:bg-dark-border rounded-lg transition-colors text-sm font-medium`}
+            title={!isSidebarOpen ? `Switch to ${theme === 'light' ? 'dark' : 'light'} mode` : undefined}
+          >
+            <Icon name={theme === 'light' ? 'moon' : 'sun'} className="w-5 h-5 shrink-0" />
+            {isSidebarOpen && <span>{theme === 'light' ? 'Dark' : 'Light'} Mode</span>}
+          </Motion.button>
           <button
             onClick={handleLogout}
-            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors text-sm font-medium`}
+            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 dark:text-dark-muted hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors text-sm font-medium`}
             title={!isSidebarOpen ? "Sign Out" : undefined}
           >
             <Icon name="logout" className="w-5 h-5 shrink-0" />
@@ -182,7 +202,7 @@ export default function Layout({ children }) {
       </main>
 
       {/* Mobile Navigation */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-pink-100 flex justify-around p-2 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-dark-card border-t border-pink-100 dark:border-dark-border flex justify-around p-2 z-50 transition-colors">
         {navigation.filter(item => item.name !== "Settings").map((item) => {
           const isActive = location.pathname === item.href;
           return (
@@ -190,7 +210,7 @@ export default function Layout({ children }) {
               key={item.name}
               to={item.href}
               className={`flex flex-col items-center p-2 rounded-xl transition-all ${
-                isActive ? "text-pink-600" : "text-gray-400"
+                isActive ? "text-pink-600 dark:text-pink-400" : "text-gray-400 dark:text-dark-muted"
               }`}
             >
               <Icon name={item.icon} color="currentColor" className="w-6 h-6" />

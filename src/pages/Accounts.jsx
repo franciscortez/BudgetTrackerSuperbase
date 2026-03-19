@@ -80,7 +80,7 @@ export default function Accounts() {
       cancelButtonColor: '#94A3B8', // slate-400
       confirmButtonText: 'Yes, Delete It',
       customClass: {
-        popup: 'rounded-[2.5rem] p-8 font-bold',
+        popup: 'rounded-[2.5rem] p-8 font-bold border border-pink-50 dark:border-dark-border dark:bg-dark-card dark:text-dark-text',
         confirmButton: 'rounded-2xl px-6 py-3',
         cancelButton: 'rounded-2xl px-6 py-3'
       }
@@ -120,7 +120,7 @@ export default function Accounts() {
       cancelButtonColor: '#94A3B8',
       confirmButtonText: 'Yes, Delete It',
       customClass: {
-        popup: 'rounded-[2.5rem] p-8 font-bold',
+        popup: 'rounded-[2.5rem] p-8 font-bold border border-pink-50 dark:border-dark-border dark:bg-dark-card dark:text-dark-text',
         confirmButton: 'rounded-2xl px-6 py-3',
         cancelButton: 'rounded-2xl px-6 py-3'
       }
@@ -167,8 +167,8 @@ export default function Accounts() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-2">My Accounts</h1>
-        <p className="text-gray-500">Manage your bank cards and digital wallets in one place.</p>
+        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-dark-text tracking-tight mb-2">My Accounts</h1>
+        <p className="text-gray-500 dark:text-dark-muted">Manage your bank cards and digital wallets in one place.</p>
       </Motion.div>
 
       <TotalBalance 
@@ -183,21 +183,21 @@ export default function Accounts() {
         transition={{ delay: 0.2 }}
         className="flex flex-col md:flex-row gap-4 mb-10 items-center justify-between"
       >
-        <div className="flex gap-2 p-1.5 bg-pink-100/30 backdrop-blur-md rounded-[2rem] border border-pink-100 w-full overflow-x-auto no-scrollbar md:w-fit whitespace-nowrap snap-x">
+        <div className="flex gap-2 p-1.5 bg-pink-100/30 dark:bg-dark-card/30 backdrop-blur-md rounded-[2rem] border border-pink-100 dark:border-dark-border w-full overflow-x-auto no-scrollbar md:w-fit whitespace-nowrap snap-x">
           {['all', 'cards', 'wallets', 'cash'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`flex items-center justify-center flex-1 md:flex-none gap-2 px-6 py-3 rounded-[1.2rem] font-bold transition-all snap-center ${
                 activeTab === tab
-                  ? 'bg-white text-pink-600 shadow-xl shadow-pink-200/50 scale-105'
-                  : 'text-gray-400 hover:text-pink-400'
+                  ? 'bg-white dark:bg-dark-card text-pink-600 dark:text-pink-400 scale-105'
+                  : 'text-gray-400 dark:text-dark-muted hover:text-pink-400'
               }`}
             >
               <Icon name={tab === 'all' ? 'grid' : tab === 'cards' ? 'card' : tab === 'wallets' ? 'wallet' : 'cash'} color="currentColor" className="w-5 h-5" />
-              {tab.charAt(0).toUpperCase() + tab.slice(1).replace('all', 'All').replace('cards', 'Bank Cards').replace('wallets', 'E-Wallets')}
+              {tab === 'all' ? 'All' : tab === 'cards' ? 'Cards' : tab === 'wallets' ? 'E-Wallet' : 'Cash'}
               <span className={`ml-2 px-2 py-0.5 rounded-full text-[10px] ${
-                activeTab === tab ? 'bg-pink-100 text-pink-600' : 'bg-gray-100 text-gray-400'
+                activeTab === tab ? 'bg-pink-100 dark:bg-dark-border text-pink-600 dark:text-pink-400' : 'bg-gray-100 dark:bg-dark-bg text-gray-400 dark:text-dark-muted'
               }`}>
                 {tab === 'all' ? filteredCards.length + wallets.length : 
                  tab === 'cards' ? filteredCards.length :
@@ -214,7 +214,7 @@ export default function Accounts() {
             placeholder="Search accounts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-5 py-3 bg-white border border-pink-100 rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 text-sm"
+            className="w-full px-5 py-3 bg-white dark:bg-dark-card border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-dark-text text-sm"
           />
         </div>
       </Motion.div>
@@ -233,10 +233,10 @@ export default function Accounts() {
               <div className="space-y-12">
                 <section>
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-8 h-8 rounded-lg bg-pink-100 flex items-center justify-center text-pink-600">
+                    <div className="w-8 h-8 rounded-lg bg-pink-100 dark:bg-dark-border flex items-center justify-center text-pink-600 dark:text-pink-400">
                       <Icon name="card" className="w-4 h-4" />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-800">Bank Cards</h3>
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-dark-text">Bank Cards</h3>
                   </div>
                   <CardList 
                     cards={filteredCards} 
@@ -248,10 +248,10 @@ export default function Accounts() {
                 
                 <section>
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-8 h-8 rounded-lg bg-pink-100 flex items-center justify-center text-pink-600">
+                    <div className="w-8 h-8 rounded-lg bg-pink-100 dark:bg-dark-border flex items-center justify-center text-pink-600 dark:text-pink-400">
                       <Icon name="wallet" className="w-4 h-4" />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-800">Digital Wallets & Cash</h3>
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-dark-text">Digital Wallets & Cash</h3>
                   </div>
                   <WalletList 
                     wallets={wallets.filter(w => 

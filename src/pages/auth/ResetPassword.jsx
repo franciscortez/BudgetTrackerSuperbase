@@ -62,7 +62,7 @@ export default function ResetPassword() {
         {/* Content Container - Vertically Centered */}
         <div className="flex-1 flex flex-col justify-center">
           <div className="relative z-10 max-w-2xl mx-auto w-full">
-            <div className="inline-flex items-center gap-2 bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-8 shadow-sm">
+            <div className="inline-flex items-center gap-2 bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-8">
               <svg className="w-5 h-5 text-white" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M 48 20 C 40 10 30 15 35 20" stroke="currentColor" strokeWidth="2" fill="none"/>
                 <path d="M 52 20 C 60 10 70 15 65 20" stroke="currentColor" strokeWidth="2" fill="none"/>
@@ -84,7 +84,7 @@ export default function ResetPassword() {
             
             {/* Feature Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300 shadow-sm">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300">
                 <div className="w-12 h-12 bg-pink-200 rounded-xl flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -93,7 +93,7 @@ export default function ResetPassword() {
                 <h3 className="text-pink-800 font-semibold text-lg mb-2">Strong Encryption</h3>
                 <p className="text-pink-600 text-sm">All passwords are hashed and salted using industry-standard protocols.</p>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300 shadow-sm">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300">
                 <div className="w-12 h-12 bg-pink-200 rounded-xl flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -102,7 +102,7 @@ export default function ResetPassword() {
                 <h3 className="text-pink-800 font-semibold text-lg mb-2">Enhanced Security</h3>
                 <p className="text-pink-600 text-sm">Automatic log out from other devices after password change.</p>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300 shadow-sm">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300">
                 <div className="w-12 h-12 bg-pink-200 rounded-xl flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
@@ -111,7 +111,7 @@ export default function ResetPassword() {
                 <h3 className="text-pink-800 font-semibold text-lg mb-2">Instant Sync</h3>
                 <p className="text-pink-600 text-sm">Your new password works across all your devices immediately.</p>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300 shadow-sm">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300">
                 <div className="w-12 h-12 bg-pink-200 rounded-xl flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -227,7 +227,7 @@ export default function ResetPassword() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white font-bold py-3.5 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white font-bold py-3.5 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
             >
               {loading ? "Updating…" : "Update Password"}
             </button>

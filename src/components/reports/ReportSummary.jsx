@@ -39,20 +39,20 @@ export default function ReportSummary({
       {stats.map((stat, i) => (
         <div
           key={i}
-          className={`relative overflow-hidden bg-gradient-to-br ${stat.gradient} p-8 rounded-[2.5rem] border border-pink-100 shadow-sm flex items-center gap-6 group hover:shadow-xl hover:translate-y-[-4px] transition-all duration-500`}
+          className={`relative overflow-hidden bg-gradient-to-br ${stat.gradient} dark:from-dark-card dark:to-dark-card p-8 rounded-[2.5rem] border border-pink-100 dark:border-dark-border flex items-center gap-6 group hover:translate-y-[-4px] transition-all duration-500`}
         >
           {/* Background Blob */}
           <div
-            className={`absolute -right-4 -bottom-4 w-24 h-24 ${stat.blob} rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700`}
+            className={`absolute -right-4 -bottom-4 w-24 h-24 ${stat.blob} dark:bg-pink-900/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700`}
           ></div>
 
           <div
-            className={`${stat.iconBg} text-white w-16 h-16 rounded-[1.5rem] flex items-center justify-center p-4 shadow-lg group-hover:rotate-12 transition-transform duration-500 z-10`}
+            className={`${stat.iconBg} text-white w-16 h-16 rounded-[1.5rem] flex items-center justify-center p-4 group-hover:rotate-12 transition-transform duration-500 z-10`}
           >
             <Icon name={stat.icon} color="white" className="w-8 h-8" />
           </div>
           <div className="z-10">
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1.5">
+            <p className="text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em] mb-1.5">
               {stat.label}
             </p>
             <p

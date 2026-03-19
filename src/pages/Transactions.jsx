@@ -32,11 +32,14 @@ const Toast = Swal.mixin({
   color: '#1f2937',
   iconColor: '#ec4899',
   customClass: {
-    popup: 'rounded-2xl shadow-xl border border-pink-50'
+    popup: 'rounded-2xl border border-pink-50 dark:border-dark-border dark:bg-dark-card dark:text-dark-text'
   }
 });
 
+import { useTheme } from "../contexts/ThemeContext";
+
 export default function Transactions() {
+  const { theme } = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
   
   // URL-synced states
@@ -88,7 +91,7 @@ export default function Transactions() {
       cancelButtonColor: '#94A3B8',
       confirmButtonText: 'Yes, Delete it',
       customClass: {
-        popup: 'rounded-[2.5rem]',
+        popup: 'rounded-[2.5rem] border border-pink-50 dark:border-dark-border dark:bg-dark-card dark:text-dark-text',
         confirmButton: 'rounded-2xl px-8 py-3',
         cancelButton: 'rounded-2xl px-8 py-3'
       }
@@ -146,14 +149,14 @@ export default function Transactions() {
           className="flex flex-col md:flex-row md:items-center justify-between gap-4"
         >
           <div>
-            <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-2">Transaction History</h1>
-            <p className="text-gray-500 font-medium font-bold">Manage your cashflow with precision.</p>
+            <h1 className="text-4xl font-black text-gray-900 dark:text-dark-text tracking-tight mb-2">Transaction History</h1>
+            <p className="text-gray-500 dark:text-dark-muted font-medium font-bold">Manage your cashflow with precision.</p>
           </div>
           <Motion.button 
             whileHover={{ scale: 1.05, y: -4 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsFormOpen(true)}
-            className="flex items-center justify-center gap-2 px-8 py-4 bg-pink-500 text-white rounded-[2rem] font-black shadow-xl shadow-pink-200 hover:bg-pink-600 transition-all font-bold"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-pink-500 text-white rounded-[2rem] font-black hover:bg-pink-600 transition-all font-bold"
           >
             <Icon name="plus" color="white" className="w-5 h-5" />
             New Transaction
@@ -165,10 +168,10 @@ export default function Transactions() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="flex flex-col lg:flex-row gap-4 items-center bg-white p-6 rounded-[2.5rem] border border-pink-50 shadow-sm"
+          className="flex flex-col lg:flex-row gap-4 items-center bg-white dark:bg-dark-card p-6 rounded-[2.5rem] border border-pink-50 dark:border-dark-border"
         >
           <div className="relative flex-1 w-full text-left">
-            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-4">Search Ledger</label>
+            <label className="block text-[10px] font-black text-gray-400 dark:text-white uppercase tracking-widest mb-2 ml-4">Search Ledger</label>
             <div className="relative">
               <Icon name="search" color="#F9A8D4" className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5" />
               <input 
@@ -176,12 +179,12 @@ export default function Transactions() {
                 placeholder="Description, category..." 
                 value={searchQuery}
                 onChange={onSearchChange}
-                className="w-full pl-12 pr-6 py-4 bg-pink-50/30 border border-pink-100 rounded-[1.5rem] focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700"
+                className="w-full pl-12 pr-6 py-4 bg-pink-50/30 dark:bg-dark-bg/30 border border-pink-100 dark:border-dark-border rounded-[1.5rem] focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-dark-text"
               />
             </div>
           </div>
           <div className="w-full lg:w-auto text-left">
-            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-4">Filter Type</label>
+            <label className="block text-[10px] font-black text-gray-400 dark:text-white uppercase tracking-widest mb-2 ml-4">Filter Type</label>
             <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
               {['all', 'income', 'expense', 'withdrawal'].map(type => (
                 <button
@@ -189,8 +192,8 @@ export default function Transactions() {
                   onClick={() => onFilterChange(type)}
                   className={`px-6 py-4 rounded-[1.2rem] font-bold text-xs uppercase tracking-widest transition-all whitespace-nowrap ${
                     filterType === type 
-                      ? 'bg-gray-900 text-white shadow-lg' 
-                      : 'bg-pink-50/50 text-gray-400 hover:text-pink-500 hover:bg-pink-100/50 border border-pink-50'
+                    ? 'bg-gray-900 dark:bg-pink-500 text-white' 
+                    : 'bg-pink-50/50 dark:bg-dark-bg/50 text-gray-400 dark:text-white/50 hover:text-pink-500 hover:bg-pink-100/50 dark:hover:bg-dark-border border border-pink-100 dark:border-dark-border'
                   }`}
                 >
                   {type}
@@ -205,30 +208,30 @@ export default function Transactions() {
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-[3rem] border border-pink-50 shadow-xl shadow-pink-100/20 overflow-hidden"
+          className="bg-white dark:bg-dark-card rounded-[3rem] border border-pink-50 dark:border-dark-border overflow-hidden"
         >
           {loading ? (
             <div className="py-20 flex flex-col items-center">
               <div className="w-12 h-12 border-4 border-pink-100 border-t-pink-500 rounded-full animate-spin mb-4"></div>
-              <p className="text-gray-400 font-black tracking-widest uppercase animate-pulse text-xs">Fetching Ledger...</p>
+              <p className="text-gray-400 dark:text-dark-muted font-black tracking-widest uppercase animate-pulse text-xs">Fetching Ledger...</p>
             </div>
           ) : transactions.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-left">
                 <thead>
-                  <tr className="bg-pink-50/50 border-b border-pink-100">
-                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Transaction</th>
-                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Category</th>
-                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Account</th>
-                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">Amount</th>
-                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center">Actions</th>
+                  <tr className="bg-pink-50/50 dark:bg-dark-bg/50 border-b border-pink-100 dark:border-dark-border">
+                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em]">Transaction</th>
+                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em]">Category</th>
+                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em]">Account</th>
+                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em] text-right">Amount</th>
+                    <th className="px-8 py-6 text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-[0.2em] text-center">Actions</th>
                   </tr>
                 </thead>
                 <Motion.tbody 
                   variants={staggerContainer}
                   initial="initial"
                   animate="animate"
-                  className="divide-y divide-pink-50"
+                  className="divide-y divide-pink-50 dark:divide-dark-border"
                 >
                   <AnimatePresence mode="popLayout">
                     {transactions.map(tx => (
@@ -236,24 +239,24 @@ export default function Transactions() {
                         key={tx.id} 
                         variants={fadeInUp}
                         layout
-                        className="group hover:bg-pink-50/30 transition-colors"
+                        className="group hover:bg-pink-50/30 dark:hover:bg-dark-bg/30 transition-colors"
                       >
                         <td className="px-8 py-6">
                           <div>
-                            <p className="font-black text-gray-900 tracking-tight leading-none mb-1">{tx.description || tx.category?.name}</p>
-                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-1">
+                            <p className="font-black text-gray-900 dark:text-dark-text tracking-tight leading-none mb-1">{tx.description || tx.category?.name}</p>
+                            <p className="text-[10px] font-bold text-gray-400 dark:text-dark-muted uppercase tracking-widest flex items-center gap-1">
                               <Icon name="clock" className="w-3 h-3" />
                               {new Date(tx.transaction_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                             </p>
                           </div>
                         </td>
                         <td className="px-8 py-6">
-                          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-pink-50 text-pink-500 text-xs font-black uppercase tracking-widest border border-pink-100">
+                          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-pink-50 dark:bg-dark-bg text-pink-500 dark:text-pink-400 text-xs font-black uppercase tracking-widest border border-pink-100 dark:border-dark-border">
                             {tx.category?.name || 'Uncategorized'}
                           </span>
                         </td>
                         <td className="px-8 py-6">
-                          <div className="flex items-center gap-2 text-gray-500">
+                          <div className="flex items-center gap-2 text-gray-500 dark:text-dark-muted">
                             <Icon name="bank" className="w-4 h-4 opacity-50" />
                             <span className="text-xs font-bold uppercase tracking-wider">
                               {tx.card?.card_name || tx.wallet?.wallet_name || 'Cash'}
@@ -261,27 +264,27 @@ export default function Transactions() {
                           </div>
                         </td>
                         <td className="px-8 py-6 text-right">
-                          <p className={`text-xl font-black tracking-tighter ${
+                          <p className={`text-sm sm:text-base font-black tracking-tight ${
                             tx.type === 'income' ? 'text-emerald-500' : 
-                            tx.type === 'withdrawal' ? 'text-amber-500' : 
-                            'text-rose-500'
+                            tx.type === 'expense' ? 'text-rose-500' : 
+                            'text-orange-500'
                           }`}>
-                            {tx.type === 'income' ? '+' : '-'}₱{Number(tx.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                            {tx.type === 'income' ? '+' : '-'}₱{Number(tx.amount).toLocaleString()}
                           </p>
                           <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${
-                            tx.type === 'income' ? 'bg-emerald-50 text-emerald-500' :
-                            tx.type === 'withdrawal' ? 'bg-amber-50 text-amber-500' :
-                            'bg-rose-50 text-rose-500'
+                            tx.type === 'income' ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-500' :
+                            tx.type === 'withdrawal' ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-500' :
+                            'bg-rose-50 dark:bg-rose-900/20 text-rose-500'
                           }`}>
                             {tx.type}
                           </span>
                         </td>
                         <td className="px-8 py-6 text-center">
                           <Motion.button 
-                            whileHover={{ scale: 1.1, backgroundColor: '#FFF1F2' }}
+                            whileHover={{ scale: 1.1, backgroundColor: theme === 'dark' ? '#312e8166' : '#FFF1F2' }}
                             whileTap={{ scale: 0.9 }}
                             onClick={() => handleDeleteTransaction(tx)}
-                            className="p-3 text-gray-200 hover:text-rose-500 rounded-xl transition-colors"
+                            className="p-3 text-gray-200 dark:text-dark-muted hover:text-rose-500 rounded-xl transition-colors"
                           >
                             <Icon name="delete" color="currentColor" className="w-5 h-5" />
                           </Motion.button>
@@ -295,17 +298,17 @@ export default function Transactions() {
           ) : (
             <div className="py-24 text-center">
               <div className="w-20 h-20 bg-pink-50 rounded-[2rem] flex items-center justify-center mx-auto mb-6">
-                 <Icon name="bank" color="#F9A8D4" className="w-10 h-10" />
+                 <Icon name="bank" color={theme === 'dark' ? '#4a3b5a' : '#F9A8D4'} className="w-10 h-10" />
               </div>
-              <p className="text-lg font-black text-gray-400 uppercase tracking-widest">No entries found</p>
+               <p className="text-lg font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest">No entries found</p>
             </div>
           )}
 
           {/* Pagination Controls */}
           {totalPages > 1 && (
-            <div className="px-8 py-6 bg-pink-50/30 border-t border-pink-100 flex items-center justify-between">
-              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                Showing <span className="text-pink-500">{(page - 1) * pageSize + 1}</span> to <span className="text-pink-500">{Math.min(page * pageSize, totalCount)}</span> of {totalCount}
+            <div className="px-8 py-6 bg-pink-50/30 dark:bg-dark-bg/30 border-t border-pink-100 dark:border-dark-border flex items-center justify-between">
+              <p className="text-[10px] font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest">
+                Showing <span className="text-pink-500 dark:text-pink-400">{(page - 1) * pageSize + 1}</span> to <span className="text-pink-500 dark:text-pink-400">{Math.min(page * pageSize, totalCount)}</span> of {totalCount}
               </p>
               <div className="flex gap-2">
                 <Motion.button
@@ -313,7 +316,7 @@ export default function Transactions() {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => onPageChange(Math.max(1, page - 1))}
                   disabled={page === 1}
-                  className="p-3 rounded-xl bg-white border border-pink-100 text-gray-400 hover:text-pink-500 hover:border-pink-200 transition-all disabled:opacity-30"
+                  className="p-3 rounded-xl bg-white dark:bg-dark-card border border-pink-100 dark:border-dark-border text-gray-400 dark:text-dark-muted hover:text-pink-500 hover:border-pink-200 dark:hover:border-dark-muted transition-all disabled:opacity-30"
                 >
                   <Icon name="arrowLeft" className="w-4 h-4" />
                 </Motion.button>
@@ -335,8 +338,8 @@ export default function Transactions() {
                         onClick={() => onPageChange(p)}
                         className={`w-10 h-10 rounded-xl text-xs font-black transition-all ${
                           page === p
-                            ? 'bg-pink-500 text-white shadow-lg'
-                            : 'bg-white border border-pink-100 text-gray-400 hover:bg-pink-50'
+                            ? 'bg-pink-500 text-white'
+                            : 'bg-white dark:bg-dark-card border border-pink-100 dark:border-dark-border text-gray-400 dark:text-dark-muted hover:bg-pink-50 dark:hover:bg-dark-bg'
                         }`}
                       >
                         {p}
@@ -349,7 +352,7 @@ export default function Transactions() {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => onPageChange(Math.min(totalPages, page + 1))}
                   disabled={page === totalPages}
-                  className="p-3 rounded-xl bg-white border border-pink-100 text-gray-400 hover:text-pink-500 hover:border-pink-200 transition-all rotate-180 disabled:opacity-30"
+                  className="p-3 rounded-xl bg-white dark:bg-dark-card border border-pink-100 dark:border-dark-border text-gray-400 dark:text-dark-muted hover:text-pink-500 hover:border-pink-200 dark:hover:border-dark-muted transition-all rotate-180 disabled:opacity-30"
                 >
                   <Icon name="arrowLeft" className="w-4 h-4" />
                 </Motion.button>

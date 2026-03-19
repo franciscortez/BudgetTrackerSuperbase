@@ -20,9 +20,9 @@ export default function TermsAndAgreement() {
         </Link>
 
         {/* Content Card */}
-        <div className="bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-pink-200 p-8 md:p-12">
+        <div className="bg-white/90 backdrop-blur-xl rounded-[2.5rem] border border-pink-200 p-8 md:p-12">
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-700 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-200">
+            <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-700 rounded-2xl flex items-center justify-center">
               <svg className="w-8 h-8 text-white" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M 48 20 C 40 10 30 15 35 20" stroke="currentColor" strokeWidth="2" fill="none"/>
                 <path d="M 52 20 C 60 10 70 15 65 20" stroke="currentColor" strokeWidth="2" fill="none"/>
@@ -99,7 +99,7 @@ export default function TermsAndAgreement() {
         <div className="mt-12 text-center">
           <Link
             to="/signup"
-            className="inline-block px-10 py-4 bg-gradient-to-r from-pink-600 to-pink-800 hover:from-pink-700 hover:to-pink-900 text-white font-bold rounded-full shadow-lg shadow-pink-300/50 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+            className="inline-block px-10 py-4 bg-gradient-to-r from-pink-600 to-pink-800 hover:from-pink-700 hover:to-pink-900 text-white font-bold rounded-full transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
           >
             I Understand, Let's Go!
           </Link>

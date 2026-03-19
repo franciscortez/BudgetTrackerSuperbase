@@ -14,6 +14,11 @@ body {
   margin: 0;
   background-color: #fff0f5;
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.dark body {
+  background-color: #0f0a15;
 }
 
 #root {
@@ -23,27 +28,43 @@ body {
 @layer components {
   /* Premium UI Effects */
   .glass-panel {
-    @apply bg-white/70 backdrop-blur-xl border border-white/50 shadow-sm transition-all duration-300;
+    @apply bg-white/70 backdrop-blur-xl border border-white/50 transition-all duration-300;
   }
 
-  .premium-card {
-    @apply glass-panel rounded-[2.5rem] md:rounded-[3.5rem];
+  .dark .glass-panel {
+    @apply bg-dark-card/70 border-dark-border/50;
   }
-  
-  .premium-card-hover {
-    @apply hover:shadow-xl hover:translate-y-[-4px] hover:border-pink-100;
+
+  .glass-card {
+    @apply bg-white/60 backdrop-blur-lg border border-white/40 rounded-[2rem] transition-all duration-500 overflow-hidden;
+  }
+
+  .glass-card:hover {
+    @apply hover:translate-y-[-4px] hover:border-pink-100;
+  }
+
+  .dark .glass-card {
+    @apply bg-dark-card/60 border-dark-border/30;
   }
   
   .premium-btn {
-    @apply flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-black transition-all duration-300 active:scale-95;
+    @apply relative overflow-hidden transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
   }
   
-  .premium-btn-primary {
-    @apply premium-btn bg-pink-500 text-white shadow-lg shadow-pink-200 hover:bg-pink-600 hover:shadow-xl hover:-translate-y-1;
+  .premium-btn-pink {
+    @apply premium-btn bg-pink-500 text-white hover:bg-pink-600 hover:-translate-y-1;
+  }
+
+  .dark .premium-btn-pink {
+    @apply shadow-pink-900/30 hover:shadow-pink-900/50;
   }
 
   .premium-btn-secondary {
     @apply premium-btn bg-pink-50 text-pink-600 hover:bg-pink-100;
+  }
+
+  .dark .premium-btn-secondary {
+    @apply bg-dark-card text-pink-400 hover:bg-dark-border;
   }
 }
 
@@ -59,4 +80,43 @@ body {
 
 .animate-pulse-premium {
   animation: pulse-premium 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-pink-50;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-dark-card;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-pink-200 rounded-full;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-pink-900/50;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-pink-300;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-pink-800/70;
+}
+
+/* Hide scrollbar for mobile */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

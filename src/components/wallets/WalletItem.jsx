@@ -1,8 +1,11 @@
 import React from 'react'
 import Icon from '../Icon'
 import { motion as Motion } from 'motion/react'
+import { useTheme } from '../../contexts/ThemeContext'
 
 export default function WalletItem({ wallet, onEdit, onDelete }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const bgColor = wallet.color || '#FFB6C1'
   
   return (
@@ -12,14 +15,13 @@ export default function WalletItem({ wallet, onEdit, onDelete }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       whileHover={{ y: -5 }}
-      className="bg-white rounded-[2.5rem] p-6 shadow-sm border border-pink-50 relative overflow-hidden group transition-all duration-300"
+      className="bg-white dark:bg-dark-card rounded-[2.5rem] p-6 border border-pink-50 dark:border-dark-border relative overflow-hidden group transition-all duration-300"
     >
       <Motion.div 
         whileHover={{ scale: 1.02 }}
-        className="relative h-48 rounded-[2rem] p-6 overflow-hidden shadow-lg mb-4 cursor-pointer"
+        className="relative h-48 rounded-[2rem] p-6 overflow-hidden mb-4 cursor-pointer"
         style={{ 
           background: `linear-gradient(135deg, ${bgColor}, ${bgColor}DD)`,
-          boxShadow: `0 10px 20px -5px ${bgColor}66`,
           color: wallet.text_color || '#FFFFFF'
         }}
       >
@@ -63,19 +65,19 @@ export default function WalletItem({ wallet, onEdit, onDelete }) {
       <div className="flex items-center justify-between px-2">
         <div className="flex items-center gap-3">
           <Motion.button 
-            whileHover={{ scale: 1.1, backgroundColor: '#FDF2F8' }}
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => onEdit(wallet)}
-            className="p-2 text-gray-400 hover:text-pink-500 rounded-xl transition-colors"
+            className="p-2 text-gray-400 dark:text-dark-muted hover:text-pink-500 dark:hover:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20 rounded-xl transition-all"
             title="Edit Wallet"
           >
             <Icon name="edit" color="currentColor" className="w-5 h-5" />
           </Motion.button>
           <Motion.button 
-            whileHover={{ scale: 1.1, backgroundColor: '#FFF1F2' }}
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => onDelete(wallet.id)}
-            className="p-2 text-gray-400 hover:text-rose-500 rounded-xl transition-colors"
+            className="p-2 text-gray-400 dark:text-dark-muted hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-xl transition-all"
             title="Delete Wallet"
           >
             <Icon name="delete" color="currentColor" className="w-5 h-5" />

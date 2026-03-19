@@ -150,10 +150,10 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden relative z-10 flex flex-col max-h-[90vh]"
+          className="bg-white dark:bg-dark-card w-full max-w-md rounded-[2.5rem] border border-pink-100 dark:border-dark-border overflow-hidden relative z-10 flex flex-col max-h-[90vh]"
         >
           {/* Header */}
-          <div className="p-8 pb-4 flex justify-between items-center border-b border-pink-50">
+          <div className="p-8 pb-4 flex justify-between items-center border-b border-pink-50 dark:border-dark-border">
             <div className="flex items-center gap-2">
               <AnimatePresence mode="wait">
                 {step > 1 && (
@@ -162,13 +162,13 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
                     onClick={handleBack} 
-                    className="p-2 hover:bg-pink-50 rounded-full text-gray-400 transition-colors"
+                    className="p-2 hover:bg-pink-50 dark:hover:bg-dark-bg rounded-full text-gray-400 dark:text-dark-muted transition-colors"
                   >
                     <Icon name="arrowLeft" color="currentColor" className="w-5 h-5" /> 
                   </Motion.button>
                 )}
               </AnimatePresence>
-              <h2 className="text-2xl font-black text-gray-800 tracking-tight">
+              <h2 className="text-2xl font-black text-gray-800 dark:text-white tracking-tight">
                 {formData.type === 'cash' ? 'Cash on Hand' : `Step ${step} of 3`}
               </h2>
             </div>
@@ -189,14 +189,14 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
               {[1, 2, 3].map((s) => (
                 <div 
                   key={s} 
-                  className="h-2 flex-1 rounded-full bg-pink-100 relative overflow-hidden"
+                  className="h-2 flex-1 rounded-full bg-pink-100 dark:bg-dark-bg relative overflow-hidden"
                 >
                   <Motion.div 
                     initial={false}
                     animate={{ 
                       width: (formData.type === 'cash' ? s <= 3 : s <= step) ? "100%" : "0%" 
                     }}
-                    className="absolute inset-0 bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.3)]"
+                    className="absolute inset-0 bg-pink-500"
                   />
                 </div>
               ))}
@@ -223,7 +223,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                     exit="exit"
                     className="space-y-6"
                   >
-                    <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">What kind of account?</label>
+                    <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest ml-1">What kind of account?</label>
                     <div className="grid grid-cols-2 gap-4">
                       {ACCOUNT_TYPES.filter(type => !(type.id === 'cash' && hasCashAccount)).map((type) => (
                         <Motion.button
@@ -234,12 +234,12 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                           onClick={() => handleSelectType(type.id)}
                           className={`flex flex-col items-center justify-center gap-3 p-6 border-2 rounded-[2rem] transition-all group text-center ${
                             formData.type === type.id
-                              ? 'border-pink-500 bg-pink-50 shadow-md scale-[1.02]'
-                              : 'border-transparent bg-pink-50/50 hover:border-pink-200 hover:bg-white hover:scale-[1.02]'
+                              ? 'border-pink-500 bg-pink-50 dark:bg-dark-bg scale-[1.02]'
+                              : 'border-transparent bg-pink-50/50 dark:bg-dark-bg/50 hover:border-pink-200 dark:hover:border-dark-border hover:bg-white dark:hover:bg-dark-bg hover:scale-[1.02]'
                           }`}
                         >
-                          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm transition-transform ${
-                            formData.type === type.id ? 'bg-pink-500 text-white' : 'bg-white text-pink-500'
+                          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-transform ${
+                            formData.type === type.id ? 'bg-pink-500 text-white' : 'bg-white dark:bg-dark-card text-pink-500'
                           }`}>
                             <Icon name={type.icon === 'traditional' ? 'card' : type.icon} color="currentColor" />
                           </div>
@@ -255,7 +255,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                       type="button"
                       onClick={handleStep1Next}
                       disabled={!formData.type}
-                      className="w-full py-4 mt-2 bg-gray-900 text-white rounded-2xl font-black text-lg hover:bg-black transition-all disabled:opacity-30"
+                      className="w-full py-4 mt-2 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-2xl font-black text-lg hover:translate-y-[-2px] transition-all disabled:opacity-30"
                     >
                       Continue
                     </Motion.button>
@@ -272,12 +272,12 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                     className="space-y-6"
                   >
                     <div>
-                      <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">Select Provider</label>
+                      <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest mb-3 ml-1">Select Provider</label>
                       <select
                         required
                         value={formData.provider}
                         onChange={(e) => setFormData({ ...formData, provider: e.target.value })}
-                        className="w-full px-5 py-4 bg-pink-50/50 border border-pink-100 rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700"
+                        className="w-full px-5 py-4 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white"
                       >
                         <option value="">Choose a bank/wallet...</option>
                         {PROVIDERS[formData.type === 'traditional' ? 'traditional' : formData.type === 'digital' ? 'digital' : 'ewallet']?.map(p => (
@@ -286,36 +286,36 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">Custom Name (Optional)</label>
+                      <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest mb-3 ml-1">Custom Name (Optional)</label>
                       <input
                         type="text"
                         placeholder="e.g. My Savings"
                         value={formData.account_name}
                         onChange={(e) => setFormData({ ...formData, account_name: e.target.value })}
-                        className="w-full px-5 py-4 bg-pink-50/50 border border-pink-100 rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700"
+                        className="w-full px-5 py-4 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white"
                       />
                     </div>
                     {formData.type !== 'ewallet' ? (
                       <div>
-                        <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">Last 4 Digits</label>
+                        <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest mb-3 ml-1">Last 4 Digits</label>
                         <input
                           type="text"
                           maxLength="4"
                           placeholder="0000"
                           value={formData.last_four}
                           onChange={(e) => setFormData({ ...formData, last_four: e.target.value.replace(/\D/g, '') })}
-                          className="w-full px-5 py-4 bg-pink-50/50 border border-pink-100 rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 text-center tracking-[0.5em]"
+                          className="w-full px-5 py-4 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white text-center tracking-[0.5em]"
                         />
                       </div>
                     ) : (
                       <div>
-                        <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">Phone / Email</label>
+                        <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest mb-3 ml-1">Phone / Email</label>
                         <input
                           type="text"
                           placeholder="0917..."
                           value={formData.account_identifier}
                           onChange={(e) => setFormData({ ...formData, account_identifier: e.target.value })}
-                          className="w-full px-5 py-4 bg-pink-50/50 border border-pink-100 rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700"
+                          className="w-full px-5 py-4 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white"
                         />
                       </div>
                     )}
@@ -325,7 +325,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                       type="button"
                       onClick={handleNext}
                       disabled={!formData.provider}
-                      className="w-full py-4 bg-gray-900 text-white rounded-2xl font-black text-lg hover:bg-black transition-all disabled:opacity-30"
+                      className="w-full py-4 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-2xl font-black text-lg hover:translate-y-[-2px] transition-all disabled:opacity-30"
                     >
                       Continue
                     </Motion.button>
@@ -342,7 +342,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                     className="space-y-8"
                   >
                     <div className="text-center">
-                      <label className="block text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Initial Balance</label>
+                      <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-[0.2em] mb-4">Initial Balance</label>
                       <div className="relative inline-block w-full">
                         <span className="absolute left-6 top-1/2 -translate-y-1/2 text-4xl font-black text-pink-300">₱</span>
                         <input
@@ -353,7 +353,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                           placeholder="0.00"
                           value={formData.balance}
                           onChange={(e) => setFormData({ ...formData, balance: e.target.value })}
-                          className="w-full pl-16 pr-6 py-8 bg-pink-50/50 border-2 border-pink-100 rounded-[2.5rem] focus:border-pink-500 outline-none transition-all text-4xl font-black text-gray-800 text-center placeholder:text-pink-100"
+                           className="w-full pl-16 pr-6 py-8 bg-pink-50/50 dark:bg-dark-bg border-2 border-pink-100 dark:border-dark-border rounded-[2.5rem] focus:border-pink-500 outline-none transition-all text-4xl font-black text-gray-800 dark:text-white text-center placeholder:text-pink-300 dark:placeholder:text-white"
                         />
                       </div>
                     </div>
@@ -368,7 +368,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                               type="button"
                               onClick={() => setFormData({ ...formData, color: c })}
                               className={`w-8 h-8 rounded-xl transition-all ${
-                                formData.color === c ? 'ring-2 ring-offset-2 ring-pink-500 scale-110' : 'hover:scale-105 border border-gray-200'
+                                formData.color === c ? 'ring-2 ring-offset-2 ring-pink-500 scale-110' : 'hover:scale-105 border border-gray-200 dark:border-dark-border'
                               }`}
                               style={{ backgroundColor: c }}
                             />
@@ -385,7 +385,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                               type="button"
                               onClick={() => setFormData({ ...formData, text_color: c })}
                               className={`w-8 h-8 rounded-xl transition-all border ${
-                                formData.text_color === c ? 'ring-2 ring-offset-2 ring-pink-500 scale-110 border-transparent' : 'hover:scale-105 border-gray-300'
+                                formData.text_color === c ? 'ring-2 ring-offset-2 ring-pink-500 scale-110 border-transparent' : 'hover:scale-105 border-gray-300 dark:border-dark-border'
                               }`}
                               style={{ backgroundColor: c }}
                             />
@@ -395,7 +395,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                     </div>
 
                     <div
-                      className="h-16 rounded-[1.5rem] flex items-center justify-center transition-all duration-300 shadow-md font-bold text-lg"
+                      className="h-16 rounded-[1.5rem] flex items-center justify-center transition-all duration-300 font-bold text-lg border border-pink-100 dark:border-dark-border"
                       style={{ background: `linear-gradient(135deg, ${formData.color}, ${formData.color}DD)`, color: formData.text_color }}
                     >
                       Preview Card
@@ -406,7 +406,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                       whileTap={{ scale: 0.98 }}
                       disabled={loading}
                       type="submit"
-                      className="w-full py-5 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-3xl font-black text-xl shadow-xl shadow-pink-200 hover:shadow-2xl hover:translate-y-[-4px] transition-all disabled:opacity-50"
+                      className="w-full py-5 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-3xl font-black text-xl hover:translate-y-[-4px] transition-all disabled:opacity-50"
                     >
                       {loading ? 'Creating...' : 'Finalize Account'}
                     </Motion.button>

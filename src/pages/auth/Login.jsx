@@ -104,7 +104,7 @@ export default function Login() {
         {/* Content Container - Vertically Centered */}
         <div className="flex-1 flex flex-col justify-center">
           <div className="relative z-10 max-w-2xl mx-auto w-full">
-            <div className="inline-flex items-center gap-2 bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-8 shadow-sm">
+            <div className="inline-flex items-center gap-2 bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-8">
               <svg className="w-5 h-5 text-white" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M 48 20 C 40 10 30 15 35 20" stroke="currentColor" strokeWidth="2" fill="none"/>
                 <path d="M 52 20 C 60 10 70 15 65 20" stroke="currentColor" strokeWidth="2" fill="none"/>
@@ -126,7 +126,7 @@ export default function Login() {
             
             {/* Feature Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300 shadow-sm">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300">
                 <div className="w-12 h-12 bg-pink-200 rounded-xl flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -135,7 +135,7 @@ export default function Login() {
                 <h3 className="text-pink-800 font-semibold text-lg mb-2">Real-time Tracking</h3>
                 <p className="text-pink-600 text-sm">Monitor your expenses and income as they happen across all your accounts.</p>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300 shadow-sm">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300">
                 <div className="w-12 h-12 bg-pink-200 rounded-xl flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -144,7 +144,7 @@ export default function Login() {
                 <h3 className="text-pink-800 font-semibold text-lg mb-2">Smart Budgets</h3>
                 <p className="text-pink-600 text-sm">Set intelligent budget limits and get alerts before you overspend.</p>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300 shadow-sm">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300">
                 <div className="w-12 h-12 bg-pink-200 rounded-xl flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -153,7 +153,7 @@ export default function Login() {
                 <h3 className="text-pink-800 font-semibold text-lg mb-2">Visual Analytics</h3>
                 <p className="text-pink-600 text-sm">Beautiful charts and insights to understand your spending patterns.</p>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300 shadow-sm">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300">
                 <div className="w-12 h-12 bg-pink-200 rounded-xl flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -197,7 +197,7 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-bold text-pink-700 mb-2">
+               <label className="block text-sm font-bold text-pink-700 mb-2">
                 Email Address
               </label>
               <input
@@ -206,16 +206,16 @@ export default function Login() {
                 value={form.email}
                 onChange={handleChange}
                 required
-                className="w-full border-2 border-pink-200 rounded-xl px-4 py-3 text-sm text-pink-900 placeholder:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+                className="w-full bg-white border-2 border-pink-200 rounded-xl px-4 py-3 text-sm text-pink-900 placeholder:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
                 placeholder="you@example.com"
               />
             </div>
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="block text-sm font-bold text-pink-700">
-                  Password
-                </label>
-                <Link to="/forgot-password" className="text-xs text-pink-600 hover:text-pink-700 font-bold">
+                 <label className="block text-sm font-bold text-pink-700">
+                 Password
+                 </label>
+                 <Link to="/forgot-password" size="xs" className="text-xs text-pink-600 hover:text-pink-700 font-bold">
                   Forgot password?
                 </Link>
               </div>
@@ -226,7 +226,7 @@ export default function Login() {
                   value={form.password}
                   onChange={handleChange}
                   required
-                  className="w-full border-2 border-pink-200 rounded-xl px-4 py-3 text-sm text-pink-900 placeholder:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition pr-12"
+                   className="w-full bg-white border-2 border-pink-200 rounded-xl px-4 py-3 text-sm text-pink-900 placeholder:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition pr-12"
                   placeholder="••••••••"
                 />
                 <button
@@ -250,7 +250,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white font-bold py-3.5 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white font-bold py-3.5 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
             >
               {loading ? "Signing in…" : "Sign In"}
             </button>
@@ -258,16 +258,16 @@ export default function Login() {
 
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-pink-100"></div>
+               <div className="w-full border-t border-pink-100"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-pink-400 font-medium">Or continue with</span>
+               <span className="px-4 bg-white text-pink-400 font-medium">Or continue with</span>
             </div>
           </div>
 
           <button
             onClick={handleGoogleLogin}
-            className="w-full bg-white border-2 border-pink-100 hover:border-pink-200 text-pink-700 font-bold py-3.5 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-md flex items-center justify-center gap-3 group"
+             className="w-full bg-white border-2 border-pink-100 hover:border-pink-200 text-pink-700 font-bold py-3.5 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-3 group"
           >
             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
               <path
@@ -291,11 +291,11 @@ export default function Login() {
           </button>
 
           <div className="mt-8 text-center">
-            <p className="text-sm text-pink-600">
+             <p className="text-sm text-pink-600">
               Don't have an account?{" "}
               <Link
                 to="/signup"
-                className="text-pink-700 font-bold hover:text-pink-800 transition"
+                 className="text-pink-700 font-bold hover:text-pink-800 transition"
               >
                 Create account
               </Link>

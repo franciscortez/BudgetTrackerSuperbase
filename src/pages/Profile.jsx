@@ -139,15 +139,15 @@ export default function Profile() {
         {/* Header Section */}
         <Motion.div 
           variants={item}
-          className="relative overflow-hidden bg-gradient-to-br from-pink-500 to-pink-600 rounded-[3rem] p-10 text-white shadow-2xl shadow-pink-200"
+          className="relative overflow-hidden bg-gradient-to-br from-pink-500 to-pink-600 dark:from-pink-600 dark:to-pink-700 rounded-[3rem] p-10 text-white"
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full translate-x-10 translate-y-[-20px] blur-3xl"></div>
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
             <Motion.div 
               whileHover={{ scale: 1.05, rotate: 5 }}
-              className="w-32 h-32 bg-white/20 backdrop-blur-md rounded-full border-4 border-white/30 flex items-center justify-center p-2 shadow-xl"
+              className="w-32 h-32 bg-white/20 backdrop-blur-md rounded-full border-4 border-white/30 flex items-center justify-center p-2"
             >
-              <div className="w-full h-full bg-pink-100 rounded-full flex items-center justify-center text-pink-500">
+              <div className="w-full h-full bg-pink-100 dark:bg-dark-border rounded-full flex items-center justify-center text-pink-500 dark:text-pink-400">
                 <Icon name="user" className="w-16 h-16" />
               </div>
             </Motion.div>
@@ -178,7 +178,7 @@ export default function Profile() {
           <Motion.div 
             variants={item}
             whileHover={{ y: -5 }}
-            className="bg-white rounded-[3.5rem] p-8 md:p-10 border border-pink-50 shadow-sm"
+            className="bg-white dark:bg-dark-card rounded-[3.5rem] p-8 md:p-10 border border-pink-50 dark:border-dark-border"
           >
             <h2 className="text-2xl font-black text-gray-900 mb-8 flex items-center gap-3">
               <Motion.span 
@@ -192,22 +192,22 @@ export default function Profile() {
             
             <form onSubmit={handleUpdateProfile} className="space-y-6 text-left">
               <div>
-                <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Email Address (Read Only)</label>
-                <div className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-400 font-bold">
+                 <label className="block text-xs font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest mb-2 ml-1">Email Address (Read Only)</label>
+                 <div className="w-full px-6 py-4 bg-gray-50 dark:bg-dark-bg border border-gray-100 dark:border-dark-border rounded-2xl text-gray-400 dark:text-dark-muted/60 font-bold">
                   {user?.email}
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Full Name</label>
+                 <label className="block text-xs font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest mb-2 ml-1">Full Name</label>
                 <Motion.input
-                  whileFocus={{ scale: 1.01, boxShadow: "0 10px 15px -3px rgba(236, 72, 153, 0.1)" }}
+                  whileFocus={{ scale: 1.01 }}
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Enter your name"
-                  className="w-full px-6 py-4 bg-white border border-pink-100 rounded-2xl focus:ring-4 focus:ring-pink-50 focus:border-pink-300 transition-all font-bold text-gray-700 placeholder:text-gray-300 outline-none"
-                />
+                   placeholder="Enter your name"
+                   className="w-full px-6 py-4 bg-white dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-4 focus:ring-50 dark:focus:ring-pink-900/10 focus:border-pink-300 transition-all font-bold text-gray-700 dark:text-dark-text placeholder:text-gray-300 dark:placeholder:text-gray-600 outline-none"
+                 />
               </div>
 
               <Motion.button
@@ -215,7 +215,7 @@ export default function Profile() {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isUpdatingProfile}
-                className="w-full py-4 bg-pink-500 text-white rounded-2xl font-black tracking-tight shadow-lg shadow-pink-200 hover:bg-pink-600 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                 className="w-full py-4 bg-pink-500 text-white rounded-2xl font-black tracking-tight hover:bg-pink-600 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {isUpdatingProfile ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -231,7 +231,7 @@ export default function Profile() {
           <Motion.div 
             variants={item}
             whileHover={{ y: -5 }}
-            className="bg-white rounded-[3.5rem] p-8 md:p-10 border border-pink-50 shadow-sm"
+            className="bg-white dark:bg-dark-card rounded-[3.5rem] p-8 md:p-10 border border-pink-50 dark:border-dark-border"
           >
             <h2 className="text-2xl font-black text-gray-900 mb-8 flex items-center gap-3">
               <Motion.span 
@@ -245,26 +245,26 @@ export default function Profile() {
 
             <form onSubmit={handleUpdatePassword} className="space-y-6 text-left">
               <div>
-                <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">New Password</label>
+                 <label className="block text-xs font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest mb-2 ml-1">New Password</label>
                 <Motion.input
-                  whileFocus={{ scale: 1.01, boxShadow: "0 10px 15px -3px rgba(236, 72, 153, 0.1)" }}
+                  whileFocus={{ scale: 1.01 }}
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-6 py-4 bg-white border border-pink-100 rounded-2xl focus:ring-4 focus:ring-pink-50 focus:border-pink-300 transition-all font-bold text-gray-700 placeholder:text-gray-300 outline-none"
+                  className="w-full px-6 py-4 bg-white dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-4 focus:ring-pink-50 dark:focus:ring-pink-900/10 focus:border-pink-300 transition-all font-bold text-gray-700 dark:text-dark-text placeholder:text-gray-300 dark:placeholder:text-gray-600 outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Confirm Password</label>
+                 <label className="block text-xs font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest mb-2 ml-1">Confirm Password</label>
                 <Motion.input
-                  whileFocus={{ scale: 1.01, boxShadow: "0 10px 15px -3px rgba(236, 72, 153, 0.1)" }}
+                  whileFocus={{ scale: 1.01 }}
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-6 py-4 bg-white border border-pink-100 rounded-2xl focus:ring-4 focus:ring-pink-50 focus:border-pink-300 transition-all font-bold text-gray-700 placeholder:text-gray-300 outline-none"
+                  className="w-full px-6 py-4 bg-white dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-4 focus:ring-pink-50 dark:focus:ring-pink-900/10 focus:border-pink-300 transition-all font-bold text-gray-700 dark:text-dark-text placeholder:text-gray-300 dark:placeholder:text-gray-600 outline-none"
                 />
               </div>
 
@@ -273,7 +273,7 @@ export default function Profile() {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isUpdatingPassword}
-                className="w-full py-4 bg-gray-900 text-white rounded-2xl font-black tracking-tight shadow-xl hover:bg-black transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                 className="w-full py-4 bg-gray-900 dark:bg-pink-600 text-white rounded-2xl font-black tracking-tight hover:bg-black dark:hover:bg-pink-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {isUpdatingPassword ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

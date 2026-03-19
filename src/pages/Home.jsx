@@ -127,7 +127,7 @@ export default function Home() {
           <div className="flex-1 text-center md:text-left space-y-6">
             <Motion.div
               variants={fadeInUp}
-              className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm text-pink-600 px-4 py-2 rounded-full text-sm font-medium mb-2 shadow-sm border border-pink-200"
+              className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm text-pink-600 px-4 py-2 rounded-full text-sm font-medium mb-2 border border-pink-200"
             >
               <svg
                 className="w-5 h-5 text-pink-500"
@@ -211,7 +211,7 @@ export default function Home() {
             >
               <Link
                 to="/signup"
-                className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-medium rounded-xl shadow-lg shadow-pink-200/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-pink-300/50 text-center"
+                className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-medium rounded-xl transition-all duration-300 transform hover:-translate-y-1 text-center"
               >
                 Get Started Free
               </Link>
@@ -232,7 +232,7 @@ export default function Home() {
             className="flex-1 w-full relative max-w-md mx-auto md:max-w-none group"
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-pink-300 to-pink-200 rounded-[2.5rem] transform rotate-3 scale-105 opacity-50 blur-lg transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110"></div>
-            <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl border border-pink-200 transition-transform duration-500 transform group-hover:-translate-y-2">
+            <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-[2.5rem] border border-pink-200 transition-transform duration-500 transform group-hover:-translate-y-2">
               {/* Mockup UI Elements */}
               <div className="space-y-6">
                 <div className="flex justify-between items-center mb-8">
@@ -244,7 +244,7 @@ export default function Home() {
                       ₱12,450.00
                     </div>
                   </div>
-                  <div className="h-14 w-14 bg-gradient-to-br from-pink-100 to-pink-200 rounded-full flex items-center justify-center shadow-inner border border-white">
+                  <div className="h-14 w-14 bg-gradient-to-br from-pink-100 to-pink-200 rounded-full flex items-center justify-center border border-white">
                     <svg
                       className="w-10 h-10 text-pink-600"
                       viewBox="0 0 100 100"
@@ -373,10 +373,10 @@ export default function Home() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 1 + i * 0.1 }}
-                      className="flex justify-between items-center p-3 rounded-xl bg-gray-50/80 hover:bg-pink-50 transition-all duration-300 border border-transparent hover:border-pink-200 hover:shadow-sm transform hover:-translate-y-0.5"
+                      className="flex justify-between items-center p-3 rounded-xl bg-gray-50/80 hover:bg-pink-50 transition-all duration-300 border border-transparent hover:border-pink-200 transform hover:-translate-y-0.5"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="bg-white p-2 rounded-lg shadow-sm">
+                        <div className="bg-white p-2 rounded-lg">
                           {tx.icon}
                         </div>
                         <span className="font-medium text-gray-700">
@@ -433,9 +433,9 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 whileHover={{ y: -10 }}
-                className="group p-8 rounded-[2rem] bg-pink-50/50 border border-pink-200 hover:shadow-xl hover:shadow-pink-200/50 transition-shadow duration-500 flex flex-col items-center text-center"
+                className="group p-8 rounded-[2rem] bg-pink-50/50 border border-pink-200 transition-all duration-500 flex flex-col items-center text-center"
               >
-                <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-3xl mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">

@@ -22,6 +22,10 @@ import {
   TrendingUp,
   Menu,
   Settings,
+  Moon,
+  Sun,
+  History,
+  ArrowRightLeft,
 } from "lucide-react";
 
 const icons = {
@@ -48,6 +52,10 @@ const icons = {
   reports: TrendingUp,
   menu: Menu,
   settings: Settings,
+  moon: Moon,
+  sun: Sun,
+  history: History,
+  exchange: ArrowRightLeft,
 };
 
 const Icon = ({

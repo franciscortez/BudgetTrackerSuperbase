@@ -91,18 +91,18 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden relative z-10"
+            className="bg-white dark:bg-dark-card w-full max-w-md rounded-[2.5rem] border border-pink-100 dark:border-dark-border overflow-hidden relative z-10"
           >
             <div className="p-8">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-black text-gray-800 tracking-tight">
+                <h2 className="text-2xl font-black text-gray-800 dark:text-white tracking-tight">
                   New Transaction
                 </h2>
                 <Motion.button
                   whileHover={{ rotate: 90, scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={onClose}
-                  className="p-2 hover:bg-pink-50 rounded-full text-gray-400 transition-colors"
+                  className="p-2 hover:bg-pink-50 dark:hover:bg-dark-bg rounded-full text-gray-400 dark:text-dark-muted transition-colors"
                 >
                   <Icon name="x" color="currentColor" className="w-6 h-6" />
                 </Motion.button>
@@ -110,24 +110,24 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Type Toggle */}
-                <div className="flex p-1 bg-pink-50 rounded-2xl relative">
+                <div className="flex p-1 bg-pink-50 dark:bg-dark-bg rounded-2xl relative">
                   {["income", "expense", "withdrawal"].map((t) => (
                     <button
                       key={t}
                       type="button"
                       onClick={() => setFormData({ ...formData, type: t })}
-                      className={`relative z-10 flex-1 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
+                      className={`relative z-10 flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 ${
                         formData.type === t
-                          ? "text-pink-600"
-                          : "text-gray-400 hover:text-pink-400"
+                          ? "text-white"
+                          : "text-gray-400 dark:text-white/50 hover:text-pink-400"
                       }`}
                     >
                       {t}
                       {formData.type === t && (
                         <Motion.div 
                           layoutId="activeTab"
-                          className="absolute inset-0 bg-white rounded-xl shadow-sm -z-10"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          className="absolute inset-0 bg-gray-900 dark:bg-pink-500 rounded-xl -z-10"
+                          transition={{ type: "spring", bounce: 0.1, duration: 0.5 }}
                         />
                       )}
                     </button>
@@ -136,11 +136,11 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
 
                 {/* Amount */}
                 <div className="text-center">
-                  <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 text-left">
+                  <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest mb-3 ml-1 text-left">
                     How much?
                   </label>
                   <div className="relative">
-                    <span className="absolute left-6 top-1/2 -translate-y-1/2 text-2xl font-black text-pink-300">
+                    <span className="absolute left-6 top-1/2 -translate-y-1/2 text-2xl font-black text-pink-300 dark:text-pink-900/50">
                       ₱
                     </span>
                     <Motion.input
@@ -153,7 +153,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                       onChange={(e) =>
                         setFormData({ ...formData, amount: e.target.value })
                       }
-                      className="w-full pl-12 pr-6 py-4 bg-pink-50/50 border-2 border-pink-100 rounded-2xl focus:border-pink-500 outline-none transition-all text-2xl font-black text-gray-800"
+                      className="w-full pl-12 pr-6 py-4 bg-pink-50/50 dark:bg-dark-bg border-2 border-pink-100 dark:border-dark-border rounded-2xl focus:border-pink-500 outline-none transition-all text-2xl font-black text-gray-800 dark:text-white placeholder:text-pink-300 dark:placeholder:text-white"
                     />
                   </div>
                 </div>
@@ -161,7 +161,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                 {/* Account & Method */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+                    <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest ml-1">
                       Payment Method
                     </label>
                     <select
@@ -174,7 +174,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                           wallet_id: "",
                         })
                       }
-                      className="w-full px-4 py-3 bg-pink-50/50 border border-pink-100 rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 text-sm"
+                      className="w-full px-4 py-3 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white text-sm"
                     >
                       {formData.type !== "withdrawal" && <option value="cash">Cash</option>}
                       <option value="card">Bank Card</option>
@@ -183,7 +183,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+                    <label className="block text-xs font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest ml-1">
                       Select Account
                     </label>
                     {formData.payment_method === "card" ? (
@@ -193,7 +193,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                         onChange={(e) =>
                           setFormData({ ...formData, card_id: e.target.value })
                         }
-                        className="w-full px-4 py-3 bg-pink-50/50 border border-pink-100 rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 text-sm"
+                        className="w-full px-4 py-3 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white text-sm"
                       >
                         <option value="">Select Card</option>
                         {cards.map((c) => (
@@ -209,7 +209,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                         onChange={(e) =>
                           setFormData({ ...formData, wallet_id: e.target.value })
                         }
-                        className="w-full px-4 py-3 bg-pink-50/50 border border-pink-100 rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 text-sm"
+                        className="w-full px-4 py-3 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white text-sm"
                       >
                         <option value="">Select Wallet</option>
                         {wallets
@@ -224,8 +224,8 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                       <div
                         className={`px-4 py-3 border rounded-xl text-sm font-bold ${
                           wallets.some((w) => w.wallet_type === "cash")
-                            ? "bg-pink-50/50 text-gray-700 border-pink-100"
-                            : "bg-gray-100 text-gray-400 border-gray-200"
+                            ? "bg-pink-50/50 dark:bg-dark-bg text-gray-700 dark:text-white border-pink-100 dark:border-dark-border"
+                          : "bg-gray-100 dark:bg-dark-bg/50 text-gray-400 dark:text-white/50 border-gray-200 dark:border-dark-border"
                         }`}
                       >
                         {wallets.some((w) => w.wallet_type === "cash")
@@ -239,7 +239,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                 {/* Category & Date */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+                    <label className="block text-xs font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest ml-1">
                       Category
                     </label>
                     <select
@@ -248,7 +248,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                       onChange={(e) =>
                         setFormData({ ...formData, category_id: e.target.value })
                       }
-                      className="w-full px-4 py-3 bg-pink-50/50 border border-pink-100 rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 text-sm"
+                      className="w-full px-4 py-3 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white text-sm"
                     >
                       <option value="">Choose Box...</option>
                       {filteredCategories.map((c) => (
@@ -260,7 +260,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+                    <label className="block text-xs font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest ml-1">
                       Date
                     </label>
                     <input
@@ -273,14 +273,14 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                           transaction_date: e.target.value,
                         })
                       }
-                      className="w-full px-4 py-3 bg-pink-50/50 border border-pink-100 rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 text-sm"
+                      className="w-full px-4 py-3 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white text-sm"
                     />
                   </div>
                 </div>
 
                 {/* Description */}
                 <div className="space-y-2">
-                  <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+                  <label className="block text-xs font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest ml-1">
                     Note (Optional)
                   </label>
                   <Motion.input
@@ -291,7 +291,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                     onChange={(e) =>
                       setFormData({ ...formData, description: e.target.value })
                     }
-                    className="w-full px-5 py-4 bg-pink-50/50 border border-pink-100 rounded-2xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700"
+                    className="w-full px-5 py-4 bg-pink-50/50 dark:bg-dark-bg border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-white placeholder:text-pink-200 dark:placeholder:text-white/30"
                   />
                 </div>
 
@@ -300,7 +300,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                   whileTap={{ scale: 0.98 }}
                   disabled={loading}
                   type="submit"
-                  className="w-full py-5 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-3xl font-black text-xl shadow-xl shadow-pink-200 transition-all disabled:opacity-50"
+                  className="w-full py-5 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-3xl font-black text-xl transition-all disabled:opacity-50"
                 >
                   {loading ? "Recording..." : "Save Transaction"}
                 </Motion.button>

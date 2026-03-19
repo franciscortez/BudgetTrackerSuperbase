@@ -5,7 +5,7 @@ export default function PageLoader() {
   return (
     <div className="min-h-screen bg-pink-50 flex flex-col items-center justify-center p-4">
       <svg
-        className="w-24 h-24 text-pink-500 animate-bounce mb-6 drop-shadow-xl"
+        className="w-24 h-24 text-pink-500 animate-bounce mb-6"
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

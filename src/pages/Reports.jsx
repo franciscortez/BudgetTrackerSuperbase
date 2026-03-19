@@ -172,13 +172,13 @@ export default function Reports() {
             <div className="flex items-center gap-3 mb-2">
               <Motion.div 
                 whileHover={{ rotate: 10, scale: 1.1 }}
-                className="w-10 h-10 bg-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-pink-200"
+                className="w-10 h-10 bg-pink-500 rounded-xl flex items-center justify-center"
               >
                  <Icon name="reports" color="white" className="w-6 h-6" />
               </Motion.div>
-              <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Financial Insights</h1>
+              <h1 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-dark-text tracking-tight">Financial Insights</h1>
             </div>
-            <p className="text-gray-500 font-medium italic">
+            <p className="text-gray-500 dark:text-dark-muted font-medium italic">
               "Every penny tells a story. Let's see yours."
             </p>
           </div>
@@ -193,7 +193,7 @@ export default function Reports() {
                 <select
                   value={filterProvider}
                   onChange={(e) => setFilterProvider(e.target.value)}
-                  className="w-full sm:w-auto appearance-none pl-5 pr-12 py-3 bg-white/80 backdrop-blur-xl border border-pink-100 rounded-[2rem] text-sm font-bold text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-300 transition-all cursor-pointer hover:shadow-md"
+                  className="w-full sm:w-auto appearance-none pl-5 pr-12 py-3 bg-white/80 dark:bg-dark-card/80 backdrop-blur-xl border border-pink-100 dark:border-dark-border rounded-[2rem] text-sm font-bold text-gray-700 dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-300 transition-all cursor-pointer"
                 >
                   <option value="all">All Accounts</option>
                   {availableProviders.map(p => (
@@ -214,7 +214,7 @@ export default function Reports() {
               <select
                 value={timeframe}
                 onChange={(e) => setTimeframe(e.target.value)}
-                className="w-full sm:w-auto appearance-none pl-5 pr-10 py-3 bg-white/80 backdrop-blur-xl border border-pink-100 rounded-[2rem] text-sm font-bold text-pink-600 shadow-lg shadow-pink-50 focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-300 transition-all cursor-pointer hover:scale-105"
+                className="w-full sm:w-auto appearance-none pl-5 pr-10 py-3 bg-white/80 dark:bg-dark-card/80 backdrop-blur-xl border border-pink-100 dark:border-dark-border rounded-[2rem] text-sm font-bold text-pink-600 dark:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-300 transition-all cursor-pointer hover:scale-105"
               >
                 <option value="week">This Week</option>
                 <option value="month">This Month</option>
@@ -250,7 +250,7 @@ export default function Reports() {
             <Motion.div 
               variants={item}
               whileHover={{ y: -5 }}
-              className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 rounded-[3rem] p-10 text-white shadow-2xl group"
+              className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 dark:from-dark-card dark:to-dark-bg rounded-[3rem] p-10 text-white group border border-white/5 dark:border-dark-border"
             >
               <div className="absolute top-0 right-0 w-64 h-64 bg-pink-500/20 rounded-full translate-x-20 translate-y-[-20px] blur-3xl group-hover:scale-125 transition-transform duration-1000"></div>
               <div className="relative z-10">
@@ -266,7 +266,7 @@ export default function Reports() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="text-gray-400 font-medium mb-8 leading-relaxed max-w-xl"
+                    className="text-gray-400 dark:text-dark-muted font-medium mb-8 leading-relaxed max-w-xl"
                   >
                     You've managed a total flow of <span className="text-white font-bold text-lg">₱{summary.expense.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span> in expenses. 
                     {" "}{getPulseMessage()}
