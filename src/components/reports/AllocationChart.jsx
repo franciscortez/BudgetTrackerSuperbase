@@ -12,7 +12,7 @@ const COLORS = [
   "#c084fc",
 ];
 
-export default function AllocationChart({ data = [] }) {
+export default React.memo(function AllocationChart({ data = [] }) {
   const hasData = data.length > 0;
   const totalSpent = data.reduce((sum, item) => sum + item.value, 0);
 
@@ -112,4 +112,4 @@ export default function AllocationChart({ data = [] }) {
       )}
     </div>
   );
-}
+});

@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "../Icon";
 
-export default function ReportSummary({
+export default React.memo(function ReportSummary({
   summary = { income: 0, expense: 0, net: 0 },
 }) {
   const stats = [
@@ -69,4 +69,4 @@ export default function ReportSummary({
       ))}
     </div>
   );
-}
+});

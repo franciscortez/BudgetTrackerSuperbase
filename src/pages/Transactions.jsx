@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom';
 import Layout from "../components/Layout";
 import { useTransactions } from "../hooks/useTransactions";
@@ -30,7 +30,7 @@ export default function Transactions() {
   const [searchParams, setSearchParams] = useSearchParams();
   
   // URL-synced states
-  const page = parseInt(searchParams.get('page') || '1', 10);
+  const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10) || 1);
   const filterType = searchParams.get('type') || 'all';
   const searchQuery = searchParams.get('search') || '';
   
@@ -49,6 +49,17 @@ export default function Transactions() {
     search: searchQuery, 
     type: filterType 
   });
+
+  // Handle out-of-bounds pagination (e.g., after deletion or manual URL entry)
+  useEffect(() => {
+    if (!loading && totalPages > 0 && page > totalPages) {
+      // If current page is beyond total pages, snap to last page
+      onPageChange(totalPages, true);
+    } else if (!loading && totalPages === 0 && page > 1) {
+      // If no data exists at all but page is not 1, snap to page 1
+      onPageChange(1, true);
+    }
+  }, [page, totalPages, loading, setSearchParams]);
 
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -119,12 +130,12 @@ export default function Transactions() {
     });
   };
 
-  const onPageChange = (newPage) => {
+  const onPageChange = useCallback((newPage, replace = false) => {
     setSearchParams(prev => {
       prev.set('page', newPage.toString());
       return prev;
-    });
-  };
+    }, { replace });
+  }, [setSearchParams]);
 
   return (
     <Layout>

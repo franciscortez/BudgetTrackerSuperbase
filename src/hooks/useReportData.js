@@ -12,7 +12,7 @@ export const useReportData = (dateRange) => {
       const { data, error } = await supabase
         .from('transactions')
         .select(`
-          *,
+          id, type, amount, description, transaction_date,
           categories (
             name
           ),

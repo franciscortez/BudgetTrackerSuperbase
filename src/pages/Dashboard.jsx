@@ -1,10 +1,13 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useDashboardData } from "../hooks/useDashboardData";
 import { Link } from "react-router-dom";
 import Icon from "../components/Icon";
 import SkeletonLoader from "../components/common/SkeletonLoader";
 import { motion as Motion, AnimatePresence } from "motion/react";
+import { queryClient } from "../lib/queryClient";
+import { startOfMonth, endOfMonth, format } from "date-fns";
+import { useAuth } from "../hooks/useAuth";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -22,7 +25,33 @@ const staggerContainer = {
 };
 
 export default function Dashboard() {
+  const { user } = useAuth();
   const { cards, wallets, transactions, monthlyStats: stats, loading } = useDashboardData(5);
+
+  // Background Prefetching for other pages
+  useEffect(() => {
+    if (!user?.id) return;
+
+    // Prefetch Transactions (Page 1)
+    queryClient.prefetchQuery({
+      queryKey: ['transactions', user.id, 1, 10, '', 'all'],
+      staleTime: 1000 * 60 * 5,
+    });
+
+    // Prefetch Reports (This Month)
+    const now = new Date();
+    const start = format(startOfMonth(now), 'yyyy-MM-dd');
+    const end = format(endOfMonth(now), 'yyyy-MM-dd');
+    queryClient.prefetchQuery({
+      queryKey: ['report_transactions', user.id, start, end],
+      staleTime: 1000 * 60 * 5,
+    });
+
+    // Prefetch JS Chunks
+    import("./Transactions");
+    import("./Reports");
+    import("./Accounts");
+  }, [user?.id]);
 
   const totalBalance = useMemo(() => {
     const cardTotal = cards.reduce((sum, card) => sum + Number(card.balance || 0), 0);

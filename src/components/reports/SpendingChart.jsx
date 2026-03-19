@@ -11,7 +11,7 @@ import {
 
 import { useTheme } from "../../contexts/ThemeContext";
 
-export default function SpendingChart({ data = [] }) {
+export default React.memo(function SpendingChart({ data = [] }) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -125,4 +125,4 @@ export default function SpendingChart({ data = [] }) {
       </div>
     </div>
   );
-}
+});

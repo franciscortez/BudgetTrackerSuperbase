@@ -4,7 +4,7 @@ import { supabase } from "../lib/supabase";
 import { useAuth } from "../hooks/useAuth";
 
 const TX_SELECT = `
-  *,
+  id, type, payment_method, amount, description, transaction_date, card_id, wallet_id, category_id,
   category:categories(name, icon, color),
   card:bank_cards(card_name, color),
   wallet:e_wallets(wallet_name, color)

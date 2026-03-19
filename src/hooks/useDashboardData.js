@@ -13,7 +13,7 @@ export const useDashboardData = (txLimit = 5) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('bank_cards')
-        .select('*')
+        .select('id, card_name, balance, color, text_color')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
       if (error) throw error
@@ -28,7 +28,7 @@ export const useDashboardData = (txLimit = 5) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('e_wallets')
-        .select('*')
+        .select('id, wallet_name, balance, color, text_color')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
       if (error) throw error
@@ -44,7 +44,7 @@ export const useDashboardData = (txLimit = 5) => {
       const { data, error } = await supabase
         .from('transactions')
         .select(`
-          *,
+          id, type, amount, description, transaction_date,
           category:categories(name, icon, color),
           card:bank_cards(card_name, color),
           wallet:e_wallets(wallet_name, color)

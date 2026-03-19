@@ -128,6 +128,25 @@ This document tracks the development progress of the Budget Tracker application 
 
 ---
  
+### [Task Name] - [Date]
+```
+ 
+### Pagination Error Handling & Safety Checks - 2026-03-19
+**Status:** ✅ Completed
+
+**Description:**
+Implemented a robust pagination safety check in `Transactions.jsx`. The system now automatically detects if a user is on an empty page (due to manual URL entry or data deletion) and silently redirects them to the nearest valid page. This prevents "No entries found" states when data exists on other pages.
+
+**Files Modified/Created:**
+- `src/pages/Transactions.jsx` (Added redirection logic and memoized handlers)
+
+**Outcome:**
+- Users requesting out-of-bounds pages (e.g., `?page=99`) are automatically redirected to `totalPages`.
+- Deleting the last item on a page now correctly transitions the user to the previous page.
+- URL state remains synchronized with valid server data.
+
+---
+ 
 ### Premium Design Restoration & Framer Motion Integration - 2026-03-19
 **Status:** ✅ Completed
 

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../contexts/ThemeContext";
+import { queryClient } from "../lib/queryClient";
+import { startOfMonth, endOfMonth, format } from "date-fns";
 import Icon from "./Icon";
 import Swal from "sweetalert2";
 import AnimatedPage from "./common/AnimatedPage";
@@ -10,8 +12,43 @@ import { motion as Motion } from "motion/react";
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: "bank" },
   { name: "Accounts", href: "/accounts", icon: "card" },
-  { name: "Transactions", href: "/transactions", icon: "history" },
-  { name: "Reports", href: "/reports", icon: "reports" },
+  { 
+    name: "Transactions", 
+    href: "/transactions", 
+    icon: "history",
+    prefetch: () => {
+      // Prefetch Component
+      import("../pages/Transactions");
+      // Prefetch Data (Page 1, all types)
+      const userId = queryClient.getQueryData(['auth'])?.user?.id;
+      if (userId) {
+        queryClient.prefetchQuery({
+          queryKey: ['transactions', userId, 1, 10, '', 'all'],
+          staleTime: 1000 * 60 * 5,
+        });
+      }
+    }
+  },
+  { 
+    name: "Reports", 
+    href: "/reports", 
+    icon: "reports",
+    prefetch: () => {
+      // Prefetch Component
+      import("../pages/Reports");
+      // Prefetch Data (This Month)
+      const userId = queryClient.getQueryData(['auth'])?.user?.id;
+      if (userId) {
+        const now = new Date();
+        const start = format(startOfMonth(now), 'yyyy-MM-dd');
+        const end = format(endOfMonth(now), 'yyyy-MM-dd');
+        queryClient.prefetchQuery({
+          queryKey: ['report_transactions', userId, start, end],
+          staleTime: 1000 * 60 * 5,
+        });
+      }
+    }
+  },
   { name: "Settings", href: "/profile", icon: "settings" },
 ];
 
@@ -155,6 +192,7 @@ export default function Layout({ children }) {
               <Link
                 key={item.name}
                 to={item.href}
+                onMouseEnter={() => item.prefetch?.()}
                 className={`flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-3 rounded-xl font-medium transition-all ${
                   isActive
                     ? "bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400"
@@ -177,18 +215,18 @@ export default function Layout({ children }) {
           <Motion.button
             whileTap={{ scale: 0.95 }}
             onClick={toggleTheme}
-            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 dark:text-dark-muted hover:text-pink-500 dark:hover:text-pink-400 hover:bg-pink-50 dark:hover:bg-dark-border rounded-lg transition-colors text-sm font-medium`}
+            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 dark:text-dark-muted hover:text-pink-500 dark:hover:text-pink-400 hover:bg-pink-50 dark:hover:bg-dark-border rounded-lg transition-colors text-sm font-black italic`}
             title={!isSidebarOpen ? `Switch to ${theme === 'light' ? 'dark' : 'light'} mode` : undefined}
           >
-            <Icon name={theme === 'light' ? 'moon' : 'sun'} className="w-5 h-5 shrink-0" />
+            <Icon name={theme === 'light' ? 'moon' : 'sun'} className="w-7 h-7 shrink-0" />
             {isSidebarOpen && <span>{theme === 'light' ? 'Dark' : 'Light'} Mode</span>}
           </Motion.button>
           <button
             onClick={handleLogout}
-            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 dark:text-dark-muted hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors text-sm font-medium`}
+            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 dark:text-dark-muted hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors text-sm font-black italic`}
             title={!isSidebarOpen ? "Sign Out" : undefined}
           >
-            <Icon name="logout" className="w-5 h-5 shrink-0" />
+            <Icon name="logout" className="w-7 h-7 shrink-0" />
             {isSidebarOpen && <span>Sign Out</span>}
           </button>
         </div>
@@ -209,6 +247,7 @@ export default function Layout({ children }) {
             <Link
               key={item.name}
               to={item.href}
+              onMouseEnter={() => item.prefetch?.()}
               className={`flex flex-col items-center p-2 rounded-xl transition-all ${
                 isActive ? "text-pink-600 dark:text-pink-400" : "text-gray-400 dark:text-dark-muted"
               }`}
