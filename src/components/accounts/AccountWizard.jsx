@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Icon from '../Icon'
 import { motion as Motion, AnimatePresence } from 'motion/react'
+import Swal from 'sweetalert2'
+import { useTheme } from '../../contexts/ThemeContext'
+import { getToast } from '../../utils/toast'
 
 const ACCOUNT_TYPES = [
   { id: 'traditional', label: 'Traditional Bank', icon: 'traditional' },
@@ -49,12 +52,10 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
     text_color: '#FFFFFF'
   })
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (isOpen) {
       setStep(1)
-      setError(null)
       setFormData({
         type: '',
         provider: '',
@@ -87,7 +88,6 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
   const handleSubmitInternal = async (e) => {
     e.preventDefault()
     setLoading(true)
-    setError(null)
     try {
       const isCash = formData.type === 'cash'
       const isEWallet = formData.type === 'ewallet'
@@ -129,7 +129,10 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
       onClose()
     } catch (err) {
       console.error('Error creating account:', err)
-      setError(err.message || 'Failed to create account. Please try again.')
+      Toast.fire({
+        icon: 'error',
+        title: err.message || 'Failed to create account'
+      });
     } finally {
       setLoading(false)
     }
@@ -201,16 +204,6 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                 </div>
               ))}
             </div>
-
-            {error && (
-              <Motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl text-red-600 text-sm font-bold"
-              >
-                {error}
-              </Motion.div>
-            )}
 
             <form onSubmit={handleSubmitInternal} className="space-y-6">
               <AnimatePresence mode="wait">

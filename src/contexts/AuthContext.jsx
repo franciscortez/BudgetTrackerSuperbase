@@ -109,6 +109,33 @@ export function AuthProvider({ children }) {
     return { data, error };
   };
 
+  const deleteAccount = async (password) => {
+    if (!user) return { error: new Error("No user logged in") };
+    if (!password) return { error: new Error("Password is required for deletion") };
+
+    try {
+      // 1. Re-authenticate to verify the password
+      const { error: reauthError } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: password,
+      });
+
+      if (reauthError) throw new Error("Incorrect password. Please try again.");
+
+      // 2. Invoke the edge function to delete the user data and auth record
+      const { data, error: functionError } = await supabase.functions.invoke('delete-user');
+      
+      if (functionError) throw functionError;
+      
+      // 3. Successfully deleted on server, now sign out locally
+      await signOut();
+      return { data, success: true };
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      return { error };
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -122,6 +149,7 @@ export function AuthProvider({ children }) {
         resetPassword,
         updatePassword,
         updateProfile,
+        deleteAccount,
         refreshProfile: () => user && fetchProfile(user.id),
       }}
     >

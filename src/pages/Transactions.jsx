@@ -6,6 +6,8 @@ import TransactionForm from "../components/transactions/TransactionForm";
 import Icon from "../components/Icon";
 import Swal from 'sweetalert2'
 import { motion as Motion, AnimatePresence } from 'motion/react'
+import { useTheme } from "../contexts/ThemeContext";
+import { getToast } from "../utils/toast";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 10 },
@@ -22,24 +24,9 @@ const staggerContainer = {
   }
 };
 
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 2000,
-  timerProgressBar: false,
-  background: '#ffffff',
-  color: '#1f2937',
-  iconColor: '#ec4899',
-  customClass: {
-    popup: 'rounded-2xl border border-pink-50 dark:border-dark-border dark:bg-dark-card dark:text-dark-text'
-  }
-});
-
-import { useTheme } from "../contexts/ThemeContext";
-
 export default function Transactions() {
   const { theme } = useTheme();
+  const Toast = getToast(theme);
   const [searchParams, setSearchParams] = useSearchParams();
   
   // URL-synced states

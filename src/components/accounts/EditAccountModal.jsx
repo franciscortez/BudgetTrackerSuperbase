@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Icon from '../Icon'
+import Swal from 'sweetalert2'
+import { useTheme } from '../../contexts/ThemeContext'
+import { getToast } from '../../utils/toast'
 
 const COLOR_OPTIONS = [
   '#F472B6', '#EC4899', '#DB2777',
@@ -32,7 +35,6 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
 
   const [formData, setFormData] = useState({})
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (isOpen && account) {
@@ -55,7 +57,6 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
           text_color: account.text_color || '#FFFFFF',
         })
       }
-      setError(null)
     }
   }, [isOpen, account, isCard])
 
@@ -64,7 +65,6 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    setError(null)
     try {
       const updates = isCard
         ? {
@@ -86,7 +86,10 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
       if (error) throw new Error(error)
       onClose()
     } catch (err) {
-      setError(err.message || 'Failed to save. Please try again.')
+      Toast.fire({
+        icon: 'error',
+        title: err.message || 'Failed to save'
+      });
     } finally {
       setLoading(false)
     }
@@ -105,11 +108,6 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
         </div>
 
         <div className="p-8 pt-4 overflow-y-auto flex-1 custom-scrollbar">
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl text-red-600 text-sm font-bold">
-              {error}
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Name */}

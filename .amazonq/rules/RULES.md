@@ -63,9 +63,12 @@ Update this progress as you move through the work.
 - 💬 Be explicit about uncertainties and assumptions
 - 📋 Keep output structured and easy to scan
 - 🤔 If the task is ambiguous, first infer the most likely intent from the codebase and state your reasoning
-- 🚀 **Always leverage Available MCP Servers** for infrastructure and deployment tasks:
-    - **Supabase MCP**: Use for database migrations (`apply_migration`), executing SQL (`execute_sql`), managing Edge Functions (`deploy_edge_function`), and checking logs.
     - **Netlify MCP**: Use for managing site deployments (`deploy-site`), configuring environment variables (`manage-env-vars`), and checking deployment status.
+- 🍞 **Notifications**: Use the centralized `getToast(theme)` utility from `src/utils/toast.js` for all SweetAlert2 toasts.
+- 🌓 **Theme Constraints**: The following pages MUST remain in **Light Mode** only (#FFF0F5 background) and avoid dark mode implementations:
+    - `Home.jsx`
+    - `Login.jsx`
+    - `Signup.jsx`
 - ⚛️ **Use TanStack Query (React Query)** for all server state management (fetching, caching, synchronization, and mutations). Avoid complex `useEffect` chains for data fetching.
 - ✨ **Framer Motion Convention**: When using Framer Motion, always use the `Motion` alias for consistency: `import { motion as Motion } from 'motion/react'`. Use `AnimatePresence` for exit animations.
 
@@ -111,7 +114,7 @@ User Action → React Component → Supabase Client → PostgreSQL + RLS → Rea
 - **Framework**: Tailwind CSS with custom pink color palette
 - **Animations**: Framer Motion (`motion/react`) for all transitions and micro-interactions
 - **Icons**: Lucide React for consistent, theme-aware iconography
-- **Notifications**: SweetAlert2 for premium, themed dialogs
+- **Notifications**: SweetAlert2 for premium, themed dialogs. Always use `getToast(theme)` for non-blocking feedback.
 - **Components**: Card-based UI with premium glassmorphism (blur spots, overlays, gradients)
 - **Accessibility**: WCAG compliant contrast ratios on pink backgrounds
 

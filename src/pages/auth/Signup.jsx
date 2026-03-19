@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"; // trigger-reload
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import Swal from 'sweetalert2'
+import { getToast } from "../../utils/toast";
 
 export default function Signup() {
   const { signUp, signInWithGoogle, user } = useAuth();
@@ -31,11 +32,10 @@ export default function Signup() {
   const handleGoogleLogin = async () => {
     const { data, error } = await signInWithGoogle();
     if (error) {
-      Swal.fire({
+      getToast('light').fire({
         icon: 'error',
         title: 'Google Login Error',
-        text: error.message,
-        confirmButtonColor: '#EC4899',
+        text: error.message
       });
       return;
     }
@@ -54,11 +54,10 @@ export default function Signup() {
       popupRef.current = popup;
 
       if (!popup) {
-        Swal.fire({
+        getToast('light').fire({
           icon: 'warning',
           title: 'Popup Blocked',
-          text: 'Please enable popups for this site to sign in with Google.',
-          confirmButtonColor: '#EC4899',
+          text: 'Please enable popups for this site.'
         });
         return;
       }
@@ -75,34 +74,28 @@ export default function Signup() {
     const confirm = form.confirm;
 
     if (password !== confirm) {
-      Swal.fire({
+      getToast('light').fire({
         icon: 'error',
         title: 'Validation Error',
-        text: 'Passwords do not match.',
-        confirmButtonColor: '#EC4899',
-        customClass: { popup: 'rounded-[2.5rem]' }
+        text: 'Passwords do not match.'
       });
       return;
     }
     
     if (password.length < 6) {
-      Swal.fire({
+      getToast('light').fire({
         icon: 'error',
         title: 'Validation Error',
-        text: 'Password must be at least 6 characters.',
-        confirmButtonColor: '#EC4899',
-        customClass: { popup: 'rounded-[2.5rem]' }
+        text: 'Password must be at least 6 characters.'
       });
       return;
     }
     
     if (!acceptedTerms) {
-      Swal.fire({
-        icon: 'error',
+      getToast('light').fire({
+        icon: 'warning',
         title: 'Terms Required',
-        text: 'You must accept the Terms and Agreement.',
-        confirmButtonColor: '#EC4899',
-        customClass: { popup: 'rounded-[2.5rem]' }
+        text: 'Please accept the Terms and Agreement.'
       });
       return;
     }
@@ -111,20 +104,16 @@ export default function Signup() {
     try {
       const { error: signUpError } = await signUp(email, password);
       if (signUpError) {
-        Swal.fire({
+        getToast('light').fire({
           icon: 'error',
           title: 'Signup Failed',
-          text: signUpError.message,
-          confirmButtonColor: '#EC4899',
-          customClass: { popup: 'rounded-[2.5rem]' }
+          text: signUpError.message
         });
       } else {
-        Swal.fire({
+        getToast('light').fire({
           icon: 'success',
           title: 'Account Created!',
-          text: 'Please check your email to confirm your account before signing in.',
-          confirmButtonColor: '#EC4899',
-          customClass: { popup: 'rounded-[2.5rem]' }
+          text: 'Check your email to confirm.'
         }).then(() => {
           setForm({ email: "", password: "", confirm: "" });
           setAcceptedTerms(false);
@@ -132,12 +121,10 @@ export default function Signup() {
         });
       }
     } catch (err) {
-      Swal.fire({
+      getToast('light').fire({
         icon: 'error',
         title: 'Unexpected Error',
-        text: 'An unexpected error occurred. Please try again.',
-        confirmButtonColor: '#EC4899',
-        customClass: { popup: 'rounded-[2.5rem]' }
+        text: 'Please try again.'
       });
       console.error(err);
     } finally {

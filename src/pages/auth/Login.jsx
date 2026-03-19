@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"; // trigger-reload
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import Swal from 'sweetalert2'
+import { getToast } from "../../utils/toast";
 
 export default function Login() {
   const { signIn, signInWithGoogle, user } = useAuth();
@@ -28,21 +29,20 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     const { data, error } = await signInWithGoogle();
     if (error) {
-      Swal.fire({
+      getToast('light').fire({
         icon: 'error',
         title: 'Google Login Error',
-        text: error.message,
-        confirmButtonColor: '#EC4899',
+        text: error.message
       });
       return;
     }
-    
+
     if (data?.url) {
       const width = 500;
       const height = 650;
       const left = window.screenX + (window.outerWidth - width) / 2;
       const top = window.screenY + (window.outerHeight - height) / 2;
-      
+
       const popup = window.open(
         data.url,
         'google-login-popup',
@@ -51,11 +51,10 @@ export default function Login() {
       popupRef.current = popup;
 
       if (!popup) {
-        Swal.fire({
+        getToast('light').fire({
           icon: 'warning',
           title: 'Popup Blocked',
-          text: 'Please enable popups for this site to sign in with Google.',
-          confirmButtonColor: '#EC4899',
+          text: 'Please enable popups for this site.'
         });
         return;
       }
@@ -68,12 +67,10 @@ export default function Login() {
     setLoading(true);
     const { error: signInError } = await signIn(form.email, form.password);
     if (signInError) {
-      Swal.fire({
+      getToast('light').fire({
         icon: 'error',
         title: 'Login Failed',
-        text: signInError.message,
-        confirmButtonColor: '#EC4899',
-        customClass: { popup: 'rounded-[2.5rem]' }
+        text: signInError.message
       });
       setLoading(false);
     } else {
@@ -89,7 +86,7 @@ export default function Login() {
         {/* Decorative Elements */}
         <div className="absolute top-20 left-20 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse"></div>
         <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse delay-700"></div>
-        
+
         {/* Back Button */}
         <Link
           to="/"
@@ -106,14 +103,14 @@ export default function Login() {
           <div className="relative z-10 max-w-2xl mx-auto w-full">
             <div className="inline-flex items-center gap-2 bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-8">
               <svg className="w-5 h-5 text-white" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 48 20 C 40 10 30 15 35 20" stroke="currentColor" strokeWidth="2" fill="none"/>
-                <path d="M 52 20 C 60 10 70 15 65 20" stroke="currentColor" strokeWidth="2" fill="none"/>
-                <path d="M 48 30 C 20 -5 0 20 15 45 C 0 65 20 95 48 65 Z" fill="currentColor" fillOpacity="0.4" stroke="currentColor" strokeWidth="2"/>
-                <path d="M 52 30 C 80 -5 100 20 85 45 C 100 65 80 95 52 65 Z" fill="currentColor" fillOpacity="0.4" stroke="currentColor" strokeWidth="2"/>
-                <circle cx="25" cy="30" r="3" fill="currentColor" fillOpacity="0.2"/>
-                <circle cx="75" cy="30" r="3" fill="currentColor" fillOpacity="0.2"/>
-                <rect x="47" y="20" width="6" height="45" rx="3" fill="currentColor"/>
-                <circle cx="50" cy="18" r="4" fill="currentColor"/>
+                <path d="M 48 20 C 40 10 30 15 35 20" stroke="currentColor" strokeWidth="2" fill="none" />
+                <path d="M 52 20 C 60 10 70 15 65 20" stroke="currentColor" strokeWidth="2" fill="none" />
+                <path d="M 48 30 C 20 -5 0 20 15 45 C 0 65 20 95 48 65 Z" fill="currentColor" fillOpacity="0.4" stroke="currentColor" strokeWidth="2" />
+                <path d="M 52 30 C 80 -5 100 20 85 45 C 100 65 80 95 52 65 Z" fill="currentColor" fillOpacity="0.4" stroke="currentColor" strokeWidth="2" />
+                <circle cx="25" cy="30" r="3" fill="currentColor" fillOpacity="0.2" />
+                <circle cx="75" cy="30" r="3" fill="currentColor" fillOpacity="0.2" />
+                <rect x="47" y="20" width="6" height="45" rx="3" fill="currentColor" />
+                <circle cx="50" cy="18" r="4" fill="currentColor" />
               </svg>
               PennyWings
             </div>
@@ -123,7 +120,7 @@ export default function Login() {
             <p className="text-xl text-pink-700 mb-12 leading-relaxed">
               Continue tracking your expenses, managing your budgets, and achieving your financial goals with ease.
             </p>
-            
+
             {/* Feature Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200 hover:bg-white transition-all duration-300">
@@ -197,7 +194,7 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-               <label className="block text-sm font-bold text-pink-700 mb-2">
+              <label className="block text-sm font-bold text-pink-700 mb-2">
                 Email Address
               </label>
               <input
@@ -212,10 +209,10 @@ export default function Login() {
             </div>
             <div>
               <div className="flex justify-between items-center mb-2">
-                 <label className="block text-sm font-bold text-pink-700">
-                 Password
-                 </label>
-                 <Link to="/forgot-password" size="xs" className="text-xs text-pink-600 hover:text-pink-700 font-bold">
+                <label className="block text-sm font-bold text-pink-700">
+                  Password
+                </label>
+                <Link to="/forgot-password" size="xs" className="text-xs text-pink-600 hover:text-pink-700 font-bold">
                   Forgot password?
                 </Link>
               </div>
@@ -226,7 +223,7 @@ export default function Login() {
                   value={form.password}
                   onChange={handleChange}
                   required
-                   className="w-full bg-white border-2 border-pink-200 rounded-xl px-4 py-3 text-sm text-pink-900 placeholder:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition pr-12"
+                  className="w-full bg-white border-2 border-pink-200 rounded-xl px-4 py-3 text-sm text-pink-900 placeholder:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition pr-12"
                   placeholder="••••••••"
                 />
                 <button
@@ -258,16 +255,16 @@ export default function Login() {
 
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-               <div className="w-full border-t border-pink-100"></div>
+              <div className="w-full border-t border-pink-100"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-               <span className="px-4 bg-white text-pink-400 font-medium">Or continue with</span>
+              <span className="px-4 bg-white text-pink-400 font-medium">Or continue with</span>
             </div>
           </div>
 
           <button
             onClick={handleGoogleLogin}
-             className="w-full bg-white border-2 border-pink-100 hover:border-pink-200 text-pink-700 font-bold py-3.5 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-3 group"
+            className="w-full bg-white border-2 border-pink-100 hover:border-pink-200 text-pink-700 font-bold py-3.5 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-3 group"
           >
             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
               <path
@@ -291,11 +288,11 @@ export default function Login() {
           </button>
 
           <div className="mt-8 text-center">
-             <p className="text-sm text-pink-600">
+            <p className="text-sm text-pink-600">
               Don't have an account?{" "}
               <Link
                 to="/signup"
-                 className="text-pink-700 font-bold hover:text-pink-800 transition"
+                className="text-pink-700 font-bold hover:text-pink-800 transition"
               >
                 Create account
               </Link>
