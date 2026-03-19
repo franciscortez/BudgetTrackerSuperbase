@@ -16,10 +16,10 @@ export const useReportData = (dateRange) => {
           categories (
             name
           ),
-          bank_cards (
+          bank_cards:bank_cards!transactions_card_id_fkey (
             id, card_name
           ),
-          e_wallets (
+          e_wallets:e_wallets!transactions_wallet_id_fkey (
             id, wallet_name
           )
         `)

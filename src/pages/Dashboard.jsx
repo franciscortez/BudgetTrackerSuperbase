@@ -231,12 +231,15 @@ export default function Dashboard() {
                         <p className={`text-lg sm:text-xl font-black tracking-tighter ${
                           tx?.type === 'income' ? 'text-emerald-500' : 
                           tx?.type === 'expense' ? 'text-rose-500' : 
+                          tx?.type === 'transfer' ? 'text-blue-500' :
                           'text-orange-500'
                         }`}>
-                          {tx?.type === 'income' ? '+' : '-'}₱{Number(tx?.amount || 0).toLocaleString()}
+                          {tx?.type === 'income' ? '+' : tx?.type === 'transfer' ? '' : '-'}₱{Number(tx?.amount || 0).toLocaleString()}
                         </p>
                         <p className="text-[9px] sm:text-[10px] font-black text-gray-300 dark:text-dark-muted/50 uppercase tracking-tighter truncate max-w-[70px] sm:max-w-[120px] ml-auto">
-                          {tx?.card?.card_name || tx?.wallet?.wallet_name || 'Cash'}
+                          {tx?.type === 'transfer' 
+                            ? `${tx.card?.card_name || tx.wallet?.wallet_name || 'Account'} → ${tx.to_card?.card_name || tx.to_wallet?.wallet_name || 'Account'}`
+                            : tx?.card?.card_name || tx?.wallet?.wallet_name || 'Cash'}
                         </p>
                       </div>
                     </Motion.div>

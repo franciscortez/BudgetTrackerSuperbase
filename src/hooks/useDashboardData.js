@@ -45,9 +45,12 @@ export const useDashboardData = (txLimit = 5) => {
         .from('transactions')
         .select(`
           id, type, amount, description, transaction_date,
+          to_card_id, to_wallet_id,
           category:categories(name, icon, color),
-          card:bank_cards(card_name, color),
-          wallet:e_wallets(wallet_name, color)
+          card:bank_cards!transactions_card_id_fkey(card_name, color),
+          wallet:e_wallets!transactions_wallet_id_fkey(wallet_name, color),
+          to_card:bank_cards!transactions_to_card_id_fkey(card_name, color),
+          to_wallet:e_wallets!transactions_to_wallet_id_fkey(wallet_name, color)
         `)
         .eq('user_id', user.id)
         .order('transaction_date', { ascending: false })
