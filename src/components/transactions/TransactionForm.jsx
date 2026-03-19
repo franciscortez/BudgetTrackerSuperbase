@@ -38,6 +38,13 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
     }
   }, [isOpen]);
 
+  // Handle type-based constraints
+  useEffect(() => {
+    if (formData.type === "withdrawal" && formData.payment_method === "cash") {
+      setFormData(prev => ({ ...prev, payment_method: "card" }));
+    }
+  }, [formData.type]);
+
   const filteredCategories = categories.filter(
     (c) =>
       c.type === (formData.type === "withdrawal" ? "expense" : formData.type),
@@ -169,7 +176,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit }) {
                       }
                       className="w-full px-4 py-3 bg-pink-50/50 border border-pink-100 rounded-xl focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 text-sm"
                     >
-                      <option value="cash">Cash</option>
+                      {formData.type !== "withdrawal" && <option value="cash">Cash</option>}
                       <option value="card">Bank Card</option>
                       <option value="ewallet">E-Wallet</option>
                     </select>
