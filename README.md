@@ -18,6 +18,7 @@
 - ✅ **Smart Budgets**: Category-based budget limits for expenses with real-time visualization of spending pulse.
 - ✅ **Transaction Insights**: Comprehensive history with advanced filtering (by account, category, or payment method).
 - ✅ **Real-time Sync**: Powered by Supabase Realtime and TanStack Query for seamless data consistency.
+- ✅ **Penny AI Assistant**: A custom-built personal finance assistant powered by Google Gemini, providing tailored advice based on live user data.
 - ✅ **Premium UI/UX**: High-fidelity glassmorphism design with Framer Motion animations and custom pink color palette.
 
 ---
@@ -31,6 +32,7 @@
 3. **Transactions Module**: Full CRUD for income, expenses, and withdrawals/transfers linked to accounts.
 4. **Goals Module**: Financial planning with real-time progress derived from linked account balances.
 5. **Dashboard**: Centralized hub with financial pulse reports, net worth tracking, and interactive analytics.
+6. **Penny AI Service**: Integrated Google Gemini API with smart context injection and model fallback logic.
 
 ### Data Flow
 
@@ -106,6 +108,7 @@ PennyWings/
    ```env
    VITE_SUPABASE_URL=your_project_url
    VITE_SUPABASE_ANON_KEY=your_anon_key
+   VITE_GEMINI_API_KEY=your_gemini_api_key
    ```
 
 4. **Start development server**
@@ -161,6 +164,7 @@ The project is hosted on **Netlify** with continuous deployment.
 
 - Built with [React](https://react.dev/)
 - Powered by [Supabase](https://supabase.com/)
+- AI by [Google Gemini](https://ai.google.dev/)
 - Styled with [Tailwind CSS](https://tailwindcss.com/)
 - Icons by [Lucide](https://lucide.dev/)
 - Deployed on [Netlify](https://www.netlify.com/)

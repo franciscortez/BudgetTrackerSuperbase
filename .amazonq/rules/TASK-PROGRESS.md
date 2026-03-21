@@ -8,7 +8,7 @@ This document tracks the development progress of the Budget Tracker application 
 
 ## 🎯 Current Task
 
-**Transfer Feature Implementation & Context Synchronization**
+**Joint Accounts (Per-Account Sharing) Implementation**
 
 ---
 
@@ -49,14 +49,14 @@ This document tracks the development progress of the Budget Tracker application 
   - ✅ Create goals table
   - ✅ Configure RLS policies for all tables
 - ✅ **Accounts Management** - Completed
-   - ✅ Account list view with balances
-   - ✅ Unified Account Creation Wizard (3-Step Flow)
-   - ✅ Support for Digital Banks, Traditional Banks, and E-Wallets
-   - ✅ Provider selection (BDO, GCash, Maya, etc.)
-   - ✅ Balance tracking across all accounts
-   - ✅ Color and theme customization
-   - ✅ Total balance calculation across all accounts (Net Worth)
-   - ✅ Real-time account updates
+  - ✅ Account list view with balances
+  - ✅ Unified Account Creation Wizard (3-Step Flow)
+  - ✅ Support for Digital Banks, Traditional Banks, and E-Wallets
+  - ✅ Provider selection (BDO, GCash, Maya, etc.)
+  - ✅ Balance tracking across all accounts
+  - ✅ Color and theme customization
+  - ✅ Total balance calculation across all accounts (Net Worth)
+  - ✅ Real-time account updates
 - ✅ **Transaction Management** - Completed
   - ✅ Fetch transactions with account/category relationships
   - ✅ Recent transactions list on Dashboard
@@ -109,21 +109,87 @@ This document tracks the development progress of the Budget Tracker application 
 
 ---
 
-## 📝 Task History
+### AI Assistant Integration & Netlify Deployment - 2026-03-21
+
+**Status:** ✅ Completed
+
+**Description:**
+Successfully integrated "Penny", a personal AI financial assistant, into the global application layout. This involved building a custom chat interface using the Google Gemini API, injecting real-time user financial context (balances, budgets, transactions), and personalizing the experience with the user's authenticated name. Also completed a production build and deployment to Netlify, including the configuration of secure environment variables.
+
+**Files Modified/Created:**
+- `src/lib/gemini.js` (AI service with model fallback logic)
+- `src/components/ai/AIChatWindow.jsx` (Animated chat UI with auth-context)
+- `src/components/ai/AIFloatingButton.jsx` (Responsive round toggle button)
+- `src/components/Layout.jsx` (Fixed sidebar for 100vh reliability and AI integration)
+- `src/components/Icon.jsx` (Expanded with AI-specific icons)
+- `.amazonq/rules/DEPLOYMENT.md` (Updated with Netlify build & deploy instructions)
+
+**Outcome:**
+- Users have a permanent, round AI button to toggle the Chat window.
+- The assistant provides tailored advice using live Supabase data.
+- Dashboard and sidebar maintain a perfect 100% height across all devices.
+- The application is live and accessible via [penny-wings.netlify.app](https://penny-wings.netlify.app).
+
+---
+
+### Documentation Synchronization & Onboarding - 2026-03-21
+
+**Status:** ✅ Completed
+
+**Description:**
+Performed a comprehensive review of the project's meta-rules and synchronized all tracking documentation (`CONTEXT.md`, `TASK-PROGRESS.md`) with the latest codebase state. This included moving completed features (Transfers, Performance Optimization, responsive layouts) into the established context and verifying adherence to the new Framer Motion and account-linking conventions.
+
+**Files Modified/Created:**
+
+- `.amazonq/rules/CONTEXT.md` (Updated status of core modules)
+- `.amazonq/rules/TASK-PROGRESS.md` (Synced history and current task)
+- `Implementation Plan` & `Task Artifacts` (Generated as part of the onboarding protocol)
+
+**Outcome:**
+
+- Project documentation is now 100% accurate relative to the current build.
+- Onboarding protocol from `RULES.md` has been successfully executed.
+- Clear path established for future feature work (e.g., Export Functionality).
+
+---
+
+### Documentation Synchronization & Onboarding - 2026-03-21
+
+**Status:** ✅ Completed
+
+**Description:**
+Performed a comprehensive review of the project's meta-rules and synchronized all tracking documentation (`CONTEXT.md`, `TASK-PROGRESS.md`) with the latest codebase state. This included moving completed features (Transfers, Performance Optimization, responsive layouts) into the established context and verifying adherence to the new Framer Motion and account-linking conventions.
+
+**Files Modified/Created:**
+
+- `.amazonq/rules/CONTEXT.md` (Updated status of core modules)
+- `.amazonq/rules/TASK-PROGRESS.md` (Synced history and current task)
+- `Implementation Plan` & `Task Artifacts` (Generated as part of the onboarding protocol)
+
+**Outcome:**
+
+- Project documentation is now 100% accurate relative to the current build.
+- Onboarding protocol from `RULES.md` has been successfully executed.
+- Clear path established for future feature work (e.g., Export Functionality).
+
+---
 
 ### UI Refinements & Layout Optimization - 2026-03-21
+
 **Status:** ✅ Completed
 
 **Description:**
 Addressed mobile usability issues by fixing overlapping text in the bottom navigation bar (truncation and responsive scaling) and improving the responsiveness of the `Target Date` input in the `GoalForm`. Standardized the dashboard status cards to show real-time average progress for budgets and goals using live data hooks.
 
 **Files Modified/Created:**
+
 - `src/components/Layout.jsx` (Responsive navigation and icon size tweaks)
 - `src/pages/Dashboard.jsx` (Integrated `useGoals` and `useBudgetStats` for real-time progress)
 - `src/components/goals/GoalForm.jsx` (Target Date input refinement)
 - `src/pages/Monitoring.jsx` (Reordered tabs to show Goals first by default)
 
 **Outcome:**
+
 - A more professional and stable mobile UI with no overlapping text.
 - Dashboard stats provide immediate, accurate feedback on financial progress.
 - Forms are easier to use on small touchscreens.
@@ -131,43 +197,53 @@ Addressed mobile usability issues by fixing overlapping text in the bottom navig
 ---
 
 ### Automated Goal Tracking via Linked Accounts - 2026-03-21
+
 **Status:** ✅ Completed
 
 **Description:**
 Implemented Goal automation by linking goals directly to Accounts (Bank Cards or E-Wallets). When an account is linked, the Goal's `current_amount` dynamically mirrors the live balance of the linked account. This allows the new `Transfer` feature to seamlessly update Goal progress automatically without manual ledgers.
 
 **Files Modified/Created:**
+
 - `Supabase SQL` (Added `linked_card_id` and `linked_wallet_id` to `goals` table)
 - `src/components/goals/GoalForm.jsx` (Redesigned with Linking options)
 - `src/hooks/useGoals.js` (Dynamically maps live card/wallet balances into goals)
 - `src/components/goals/GoalItem.jsx` (Added visual "Linked" badge)
 
 **Outcome:**
+
 - Infinite flexibility for goal savings without disjointed data.
 - Removes manual data entry requirements for goal contributions.
 
 ---
+
 ### Monitoring Form Backdrop Blur Fix - 2026-03-21
+
 **Status:** ✅ Completed
 
 **Description:**
 Fixed a CSS context issue in `Monitoring.jsx` where the background blur for `BudgetForm` and `GoalForm` did not cover the entire viewport. The forms were previously nested inside `AnimatedPage`, which created a new CSS stacking context via `transform`, trapping the `fixed` positioning. Moving the modals to sit directly inside `<Layout>` resolved the issue, making the overlay accurately match `TransactionForm.jsx`.
 
 **Files Modified/Created:**
+
 - `src/pages/Monitoring.jsx` (Extracted forms from transformed wrapper)
 
 **Outcome:**
+
 - Form background blurs now correctly cover the whole screen.
 - Enhanced aesthetic consistency across all application modals.
 
 ---
+
 ### Transfer Feature Implementation - 2026-03-19
+
 **Status:** ✅ Completed
 
 **Description:**
 Implemented a robust "Transfer" feature allowing users to move funds between accounts (Bank Cards and E-Wallets). This involved a database schema update to support destination accounts, atomic balance management in the `useTransactions` hook (deducting from source, adding to destination), and a redesigned `TransactionForm` with a 2x2 type grid and conditional destination fields.
 
 **Files Modified/Created:**
+
 - `src/hooks/useTransactions.js` (Implemented transfer logic in add/delete/update mutations)
 - `src/components/transactions/TransactionForm.jsx` (Redesigned with 2x2 grid and transfer support)
 - `src/pages/Transactions.jsx` (Added transfer filter and styled table rows)
@@ -175,35 +251,41 @@ Implemented a robust "Transfer" feature allowing users to move funds between acc
 - `src/pages/Dashboard.jsx` (Display account-to-account moves in activity list)
 
 **Outcome:**
+
 - Users can now perform account-to-account transfers with blue-coded UI highlights.
 - Balance integrity is maintained across both source and destination accounts.
 - Transaction history clearly visualizes internal fund movements.
 
 ---
- 
+
 ### Cash Deposits & Transfer UI Unlocked - 2026-03-19
+
 **Status:** ✅ Completed
 
 **Description:**
-Enabled "Cash to Card" (Deposits) and "Card to Cash" (Withdrawals) uniformly by unlocking `Cash` as a fully valid `payment_method` in both the Source and Destination dropdowns within the `TransactionForm`. This prevents internal money movements from artificially inflating Income or Expense reports. 
+Enabled "Cash to Card" (Deposits) and "Card to Cash" (Withdrawals) uniformly by unlocking `Cash` as a fully valid `payment_method` in both the Source and Destination dropdowns within the `TransactionForm`. This prevents internal money movements from artificially inflating Income or Expense reports.
 
 **Files Modified/Created:**
+
 - `src/components/transactions/TransactionForm.jsx` (Removed cash UI restrictions, mapped destination `cashWallet.id` payload)
 - `src/hooks/useTransactions.js` (Reviewed update mutation recovery logic, confirmed mathematical soundness for reverts)
 
 **Outcome:**
+
 - Users can natively use the "Transfer" tab to deposit cash to a bank card or move e-wallet funds to physical cash.
 - Reporting numbers remain perfectly accurate because transfers do not trigger `income` or `expense` aggregations.
 
 ---
- 
+
 ### Monitoring Module & Responsive Forms Optimization - 2026-03-21
+
 **Status:** ✅ Completed
 
 **Description:**
 Combined the Budgets and Goals functionality into a unified `Monitoring.jsx` page with a tabbed interface. Standardized the responsive form design for `BudgetForm.jsx` and `GoalForm.jsx` to match the premium styling of `TransactionForm.jsx` (utilizing correct z-indices, scrolling behavior, and modal scales). Updated delete actions to use the centralized `getConfirm` preset utility.
 
 **Files Modified/Created:**
+
 - `src/pages/Monitoring.jsx` (New unified view)
 - `src/components/budgets/BudgetForm.jsx` (Responsive redesign)
 - `src/components/goals/GoalForm.jsx` (Responsive redesign)
@@ -211,35 +293,41 @@ Combined the Budgets and Goals functionality into a unified `Monitoring.jsx` pag
 - `src/components/goals/GoalItem.jsx` (Mobile UI)
 
 **Outcome:**
+
 - Users can switch between Budgets and Goals in one centralized tracking hub.
 - All forms behave perfectly on mobile with internal scrolling and proper overlay dismissals.
 - Delete confirmations share consistent theming and text defaults via `confirmPresets`.
 
 ---
- 
+
 ### Pagination Error Handling & Safety Checks - 2026-03-19
+
 **Status:** ✅ Completed
 
 **Description:**
 Implemented a robust pagination safety check in `Transactions.jsx`. The system now automatically detects if a user is on an empty page (due to manual URL entry or data deletion) and silently redirects them to the nearest valid page. This prevents "No entries found" states when data exists on other pages.
 
 **Files Modified/Created:**
+
 - `src/pages/Transactions.jsx` (Added redirection logic and memoized handlers)
 
 **Outcome:**
+
 - Users requesting out-of-bounds pages (e.g., `?page=99`) are automatically redirected to `totalPages`.
 - Deleting the last item on a page now correctly transitions the user to the previous page.
 - URL state remains synchronized with valid server data.
 
 ---
- 
+
 ### Premium Design Restoration & Framer Motion Integration - 2026-03-19
+
 **Status:** ✅ Completed
 
 **Description:**
 Restored original premium design elements (pink gradients, decorative blur spots, overlays) that were lost during earlier refactoring. Integrated Framer Motion across all pages and components for smooth transitions and interactive micro-animations. Standardized the `Motion` alias for `motion/react` to resolve linting conflicts.
 
 **Files Modified/Created:**
+
 - `src/components/accounts/TotalBalance.jsx` (Restored pink gradient and spots)
 - `src/components/accounts/AccountWizard.jsx` (Restored 3-step logic and layout)
 - `src/components/cards/CardItem.jsx` (Restored overlays and white background)
@@ -249,19 +337,22 @@ Restored original premium design elements (pink gradients, decorative blur spots
 - `src/index.css` (Added global page transitions)
 
 **Outcome:**
+
 - Zero lint errors (`npm run lint` passed).
 - All "wow" design factors restored while maintaining new animation capabilities.
 - Modernized, interactive UX with high design fidelity.
 
 ---
- 
+
 ### Infrastructure: React Query Integration - 2026-03-18
+
 **Status:** ✅ Completed
 
 **Description:**
 Integrated TanStack Query (React Query) v5 to manage asynchronous server state. Refactored all data-fetching hooks to use `useQuery` and `useMutation`, significantly improving caching, background synchronization, and UI responsiveness.
 
 **Files Modified/Created:**
+
 - `src/lib/queryClient.js` [NEW]
 - `src/App.jsx` (Added QueryClientProvider)
 - `src/hooks/useBankCards.js` (Refactored to use useQuery)
@@ -272,13 +363,15 @@ Integrated TanStack Query (React Query) v5 to manage asynchronous server state. 
 - `package.json` (Added @tanstack/react-query)
 
 **Outcome:**
+
 - Eliminates manual loading/error state management in components.
 - Provides automatic background data refresh and smart caching.
 - Synchronizes local balance state with the database atomically using RPC and reactive invalidation.
 - Dramatically smoother user experience when adding or deleting transactions.
 
 ---
-```
+
+````
 
 ### UI/UX Polish & Frontend Optimization - 2026-03-18
 **Status:** ✅ Completed
@@ -383,7 +476,7 @@ Implemented a comprehensive refactor of the dashboard and account management. Cr
 - Improved real-time data flow using Supabase subscriptions.
 
 ---
- 
+
  ### UI/UX Design Enhancement - 2026-03-17
 **Status:** ✅ Completed
 
@@ -635,7 +728,7 @@ Implemented the end-to-end password reset flow. This included adding `updatePass
 -- transactions (id, user_id, card_id, wallet_id, category_id, type, payment_method, amount, description, transaction_date, created_at, updated_at)
 -- budgets (id, user_id, category_id, limit_amount, period, created_at, updated_at)
 -- goals (id, user_id, name, target_amount, current_amount, target_date, created_at, updated_at)
-```
+````
 
 **Dependencies:** Phase 1 must be completed
 

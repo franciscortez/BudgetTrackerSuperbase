@@ -15,7 +15,6 @@ import {
   Smartphone,
   Wallet2,
   User,
-  X,
   LogOut,
   Lock,
   ArrowLeft,
@@ -28,6 +27,14 @@ import {
   History,
   ArrowRightLeft,
   ChevronDown,
+  Sparkles,
+  Bot,
+  MessageSquare,
+  Send,
+  X as CloseIcon,
+  ArrowRight,
+  Brain,
+  Cpu
 } from "lucide-react";
 
 const icons = {
@@ -47,7 +54,7 @@ const icons = {
   traditional: Building2,
   ewallet: Wallet2,
   user: User,
-  x: X,
+  x: CloseIcon,
   logout: LogOut,
   lock: Lock,
   arrowLeft: ArrowLeft,
@@ -60,6 +67,15 @@ const icons = {
   history: History,
   exchange: ArrowRightLeft,
   chevronDown: ChevronDown,
+  sparkles: Sparkles,
+  bot: Bot,
+  chat: MessageSquare,
+  send: Send,
+  close: CloseIcon,
+  search: Search,
+  arrowRight: ArrowRight,
+  brain: Brain,
+  cpu: Cpu
 };
 
 const Icon = ({

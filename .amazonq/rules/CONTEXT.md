@@ -188,8 +188,16 @@ BudgetTrackerSuperbase/
 -   ✅ Component architecture (Dashboard, Accounts, Transactions, Reports, etc.)
 -   ✅ Routing (Full set of authenticated and public routes)
 -   ✅ State management (AuthContext and TanStack Query correctly established)
+-   ✅ Real-time synchronization and balance auto-updates
+-   ✅ Mobile-responsive form layouts and navigation
+-   ✅ Performance optimization (Skeleton Loaders, Code Splitting)
+-   ✅ Transfer feature (Internal fund movements between accounts)
 
----
+### Missing / Future Enhancements
+
+-   ⏸️ Export Functionality (CSV/PDF)
+-   ⏸️ Advanced Analytics (Year-over-year comparisons)
+-   ⏸️ Push notifications for budget alerts
 
 ## Supabase Integration Guide
 
