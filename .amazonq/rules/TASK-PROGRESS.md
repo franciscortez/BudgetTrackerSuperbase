@@ -6,9 +6,27 @@ This document tracks the development progress of the Budget Tracker application 
 
 ---
 
+### Rebranding Seabank to Maribank & Category Update - 2026-03-26
+
+**Status:** ✅ Completed
+
+**Description:**
+Rebranded "Seabank" to "Maribank" in the digital bank provider list within the `AccountWizard` component. Additionally, created a new specialized expense category "Seabank to Maribank" with a custom transfer icon to facilitate tracking funds moved between these specific digital institutions.
+
+**Files Modified/Created:**
+- `src/components/accounts/AccountWizard.jsx` (Updated digital providers list)
+- `Supabase SQL` (Injected 'Seabank to Maribank' category into the `categories` table)
+
+**Outcome:**
+- Users can now select "Maribank" when creating or editing digital bank accounts.
+- A new "Seabank to Maribank" category is available for more granular transaction tracking.
+- All frontend dropdowns are automatically synchronized with these changes.
+
+---
+
 ## 🎯 Current Task
 
-**Joint Accounts (Per-Account Sharing) Implementation**
+**Monitoring & Reporting Enhancements**
 
 ---
 

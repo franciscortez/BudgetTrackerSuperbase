@@ -17,6 +17,7 @@ export default function Accounts() {
   const { theme } = useTheme()
   const { cards, loading: loadingCards, addCard, updateCard, deleteCard } = useBankCards()
   const { wallets, loading: loadingWallets, addWallet, updateWallet, deleteWallet } = useEWallets()
+  const loading = loadingCards || loadingWallets
 
   const [searchParams, setSearchParams] = useSearchParams()
   const tabFromUrl = searchParams.get('tab') || 'all'
@@ -160,6 +161,7 @@ export default function Accounts() {
       <TotalBalance
         total={totalBalance}
         onAddClick={handleAddAccount}
+        loading={loading}
       />
 
       {/* Search & Tabs */}
@@ -183,10 +185,11 @@ export default function Accounts() {
               {tab === 'all' ? 'All' : tab === 'cards' ? 'Cards' : tab === 'wallets' ? 'E-Wallet' : 'Cash'}
               <span className={`ml-2 px-2 py-0.5 rounded-full text-[10px] ${activeTab === tab ? 'bg-pink-100 dark:bg-dark-border text-pink-600 dark:text-pink-400' : 'bg-gray-100 dark:bg-dark-bg text-gray-400 dark:text-dark-muted'
                 }`}>
-                {tab === 'all' ? filteredCards.length + wallets.length :
+                {loading ? '...' : 
+                  (tab === 'all' ? filteredCards.length + wallets.length :
                   tab === 'cards' ? filteredCards.length :
                     tab === 'wallets' ? wallets.filter(w => (w.wallet_type || '').toLowerCase() !== 'cash').length :
-                      wallets.filter(w => (w.wallet_type || '').toLowerCase() === 'cash').length}
+                      wallets.filter(w => (w.wallet_type || '').toLowerCase() === 'cash').length)}
               </span>
             </button>
           ))}

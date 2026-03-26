@@ -134,7 +134,7 @@ export default function Dashboard() {
                 transition={{ delay: 0.2 }}
                 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter mb-8 sm:mb-10 break-all"
               >
-                ₱{totalBalance.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
+                {loading ? 'Loading...' : `₱${totalBalance.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`}
               </Motion.h2>
               <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
                 <Motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
@@ -142,14 +142,18 @@ export default function Dashboard() {
                     <Icon name="income" color="#6EE7B7" className="w-4 h-4" />
                     <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest">Monthly Income</p>
                   </div>
-                  <p className="text-2xl sm:text-3xl font-black">₱{stats.income.toLocaleString()}</p>
+                  <p className="text-2xl sm:text-3xl font-black">
+                    {loading ? 'Loading...' : `₱${stats.income.toLocaleString()}`}
+                  </p>
                 </Motion.div>
                 <Motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
                   <div className="flex items-center gap-2 opacity-80 mb-1">
                     <Icon name="expense" color="#FDA4AF" className="w-4 h-4" />
                     <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest">Monthly Expenses</p>
                   </div>
-                  <p className="text-2xl sm:text-3xl font-black">₱{stats.expenses.toLocaleString()}</p>
+                  <p className="text-2xl sm:text-3xl font-black">
+                    {loading ? 'Loading...' : `₱${stats.expenses.toLocaleString()}`}
+                  </p>
                 </Motion.div>
               </div>
             </div>
@@ -167,11 +171,11 @@ export default function Dashboard() {
               Pulse Report
             </h3>
             <div className="space-y-6 flex-1">
-              <div className="p-5 bg-pink-50/50 dark:bg-dark-bg/50 rounded-3xl border border-pink-100/50 dark:border-dark-border/50">
+              <div className="p-5 bg-pink-50/50 dark:bg-dark-bg/50 rounded-3xl border border-pink-100/50 dark:border-dark-border/50"> 
                 <div className="flex justify-between items-end mb-3">
                   <p className="text-xs font-black text-gray-400 dark:text-dark-muted uppercase tracking-widest">Savings Rate</p>
                   <p className="text-lg font-black text-pink-600">
-                    {stats.income > 0 ? Math.round(((stats.income - stats.expenses) / stats.income) * 100) : 0}%
+                    {loading ? 'Loading...' : `${stats.income > 0 ? Math.round(((stats.income - stats.expenses) / stats.income) * 100) : 0}%`}
                   </p>
                 </div>
                 <div className="h-3 bg-white dark:bg-dark-bg rounded-full overflow-hidden border border-pink-100 dark:border-dark-border">
@@ -227,7 +231,9 @@ export default function Dashboard() {
                     className="h-full bg-pink-500 rounded-full"
                   ></Motion.div>
                 </div>
-                <span className="text-xs font-black text-gray-800 dark:text-dark-text tracking-tighter shrink-0">{budgetProgress}% USED</span>
+                <span className="text-xs font-black text-gray-800 dark:text-dark-text tracking-tighter shrink-0">
+                  {loading ? 'Loading...' : `${budgetProgress}% USED`}
+                </span>
               </div>
             </Motion.div>
           </Link>
@@ -255,7 +261,9 @@ export default function Dashboard() {
                     className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full"
                   ></Motion.div>
                 </div>
-                <span className="text-xs font-black text-gray-800 dark:text-dark-text tracking-tighter shrink-0">{goalProgress}% REACHED</span>
+                <span className="text-xs font-black text-gray-800 dark:text-dark-text tracking-tighter shrink-0">
+                  {loading ? 'Loading...' : `${goalProgress}% REACHED`}
+                </span>
               </div>
             </Motion.div>
           </Link>

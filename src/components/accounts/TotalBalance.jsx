@@ -2,7 +2,7 @@ import React from 'react'
 import Icon from '../Icon'
 import { motion as Motion } from 'motion/react'
 
-export default function TotalBalance({ total, onAddClick }) {
+export default function TotalBalance({ total, onAddClick, loading }) {
   return (
     <Motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -26,7 +26,7 @@ export default function TotalBalance({ total, onAddClick }) {
             <p className="text-pink-100 font-black uppercase tracking-[0.2em] text-xs">Total Net Worth</p>
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-            ₱{total.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {loading ? 'Loading...' : `₱${total.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           </h2>
         </Motion.div>
         
