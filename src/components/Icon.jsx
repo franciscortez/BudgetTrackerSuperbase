@@ -34,7 +34,8 @@ import {
   X as CloseIcon,
   ArrowRight,
   Brain,
-  Cpu
+  Cpu,
+  Calculator
 } from "lucide-react";
 
 const icons = {
@@ -75,7 +76,8 @@ const icons = {
   search: Search,
   arrowRight: ArrowRight,
   brain: Brain,
-  cpu: Cpu
+  cpu: Cpu,
+  calculator: Calculator
 };
 
 const Icon = ({

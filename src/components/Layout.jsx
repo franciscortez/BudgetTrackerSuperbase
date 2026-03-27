@@ -12,7 +12,7 @@ import { motion as Motion } from "motion/react";
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: "bank" },
   { name: "Accounts", href: "/accounts", icon: "card" },
-  { name: "Calculator", href: "/calculator", icon: "plus" },
+  { name: "Calculator", href: "/calculator", icon: "calculator" },
   { 
     name: "Transactions", 
     href: "/transactions", 

@@ -21,9 +21,6 @@ const Reports = lazy(() => import('./pages/Reports'))
 const Monitoring = lazy(() => import('./pages/Monitoring'))
 const Calculator = lazy(() => import('./pages/Calculator'))
 
-
-
-
 export default function App() {
   return (
     <BrowserRouter>
