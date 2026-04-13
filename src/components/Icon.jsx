@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   Building2,
   Wallet,
@@ -20,6 +20,8 @@ import {
   ArrowLeft,
   Banknote,
   TrendingUp,
+  TrendingDown,
+  Briefcase,
   Menu,
   Settings,
   Moon,
@@ -61,6 +63,9 @@ const icons = {
   arrowLeft: ArrowLeft,
   cash: Banknote,
   reports: TrendingUp,
+  "trending-up": TrendingUp,
+  "trending-down": TrendingDown,
+  briefcase: Briefcase,
   menu: Menu,
   settings: Settings,
   moon: Moon,
@@ -80,7 +85,7 @@ const icons = {
   calculator: Calculator
 };
 
-const Icon = ({
+const Icon = memo(({
   name,
   color = "currentColor",
   className = "w-6 h-6",
@@ -100,6 +105,8 @@ const Icon = ({
       {...props}
     />
   );
-};
+});
+
+Icon.displayName = 'Icon';
 
 export default Icon;

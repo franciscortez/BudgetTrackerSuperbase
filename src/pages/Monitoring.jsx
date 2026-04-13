@@ -10,7 +10,6 @@ import { useGoals } from "../hooks/useGoals";
 import { getToast } from "../utils/toast";
 import { getConfirm, confirmPresets } from "../utils/confirm";
 import { useTheme } from "../contexts/ThemeContext";
-import { motion as Motion, AnimatePresence } from "motion/react";
 import AnimatedPage from "../components/common/AnimatedPage";
 import Icon from "../components/Icon";
 
@@ -148,32 +147,17 @@ export default function Monitoring() {
 
           </header>
 
-          <AnimatePresence mode="wait">
+          <div>
             {activeTab === 'goals' ? (
-              <Motion.div
-                key="goals"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <GoalList 
+              <GoalList 
                   goals={goals} 
                   loading={goalsLoading}
                   onEdit={(g) => { setEditingGoal(g); setIsGoalFormOpen(true); }}
                   onDelete={handleGoalDelete}
                   onAdd={() => { setEditingGoal(null); setIsGoalFormOpen(true); }}
                 />
-              </Motion.div>
             ) : (
-              <Motion.div
-                key="budgets"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <BudgetList 
+              <BudgetList 
                   budgets={budgets} 
                   stats={budgetStats} 
                   loading={budgetsLoading || statsLoading}
@@ -181,32 +165,29 @@ export default function Monitoring() {
                   onDelete={handleBudgetDelete}
                   onAdd={() => { setEditingBudget(null); setIsBudgetFormOpen(true); }}
                 />
-              </Motion.div>
             )}
-          </AnimatePresence>
+          </div>
 
         </div>
       </AnimatedPage>
 
       {/* Forms */}
-      <AnimatePresence>
-        {isBudgetFormOpen && (
-          <BudgetForm
+      {isBudgetFormOpen && (
+        <BudgetForm
             budget={editingBudget}
             onSubmit={handleBudgetSubmit}
             onCancel={() => setIsBudgetFormOpen(false)}
             loading={isSubmittingBudget}
-          />
-        )}
-        {isGoalFormOpen && (
-          <GoalForm
+        />
+      )}
+      {isGoalFormOpen && (
+        <GoalForm
             goal={editingGoal}
             onSubmit={handleGoalSubmit}
             onCancel={() => setIsGoalFormOpen(false)}
             loading={isSubmittingGoal}
-          />
-        )}
-      </AnimatePresence>
+        />
+      )}
     </Layout>
   );
 }

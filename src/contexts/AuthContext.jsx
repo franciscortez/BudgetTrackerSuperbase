@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 import { AuthContext } from "../hooks/useAuth";
 
@@ -7,7 +7,7 @@ export function AuthProvider({ children }) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchProfile = async (uid) => {
+  const fetchProfile = useCallback(async (uid) => {
     try {
       const { data, error } = await supabase
         .from("profiles")
@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
     } catch (err) {
       // Silent handling
     }
-  };
+  }, []);
 
   useEffect(() => {
     // Force Supabase to process the hash if it exists in the URL

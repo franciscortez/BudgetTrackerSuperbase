@@ -1,30 +1,23 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
 import Layout from "../components/Layout";
 import { useDashboardData } from "../hooks/useDashboardData";
 import { Link } from "react-router-dom";
 import Icon from "../components/Icon";
 import SkeletonLoader from "../components/common/SkeletonLoader";
-import { motion as Motion, AnimatePresence } from "motion/react";
-import { queryClient } from "../lib/queryClient";
-import { startOfMonth, endOfMonth, format } from "date-fns";
 import { useAuth } from "../hooks/useAuth";
 import { useGoals } from "../hooks/useGoals";
 import { useBudgets } from "../hooks/useBudgets";
 import { useBudgetStats } from "../hooks/useBudgetStats";
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
-};
+import { motion as Motion, AnimatePresence } from "motion/react";
 
 const staggerContainer = {
   initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.05,
-    }
-  }
+  animate: { transition: { staggerChildren: 0.05 } }
+};
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 }
 };
 
 export default function Dashboard() {
@@ -37,70 +30,35 @@ export default function Dashboard() {
 
   const loading = dashboardLoading || goalsLoading || budgetsLoading || budgetStatsLoading;
 
-  // Background Prefetching for other pages
-  useEffect(() => {
-    if (!user?.id) return;
-
-    // Prefetch Transactions (Page 1)
-    queryClient.prefetchQuery({
-      queryKey: ['transactions', user.id, 1, 10, '', 'all'],
-      staleTime: 1000 * 60 * 5,
-    });
-
-    // Prefetch Reports (This Month)
-    const now = new Date();
-    const start = format(startOfMonth(now), 'yyyy-MM-dd');
-    const end = format(endOfMonth(now), 'yyyy-MM-dd');
-    queryClient.prefetchQuery({
-      queryKey: ['report_transactions', user.id, start, end],
-      staleTime: 1000 * 60 * 5,
-    });
-
-    // Prefetch Budgets and Goals
-    queryClient.prefetchQuery({ queryKey: ['budgets', user.id], staleTime: 1000 * 60 * 5 });
-    queryClient.prefetchQuery({ queryKey: ['goals', user.id], staleTime: 1000 * 60 * 5 });
-    queryClient.prefetchQuery({ queryKey: ['budget_stats', user.id], staleTime: 1000 * 60 * 5 });
-
-    // Prefetch JS Chunks
-    import("./Transactions");
-    import("./Reports");
-    import("./Accounts");
-    import("./Monitoring");
-  }, [user?.id]);
-
 
   const totalBalance = useMemo(() => {
     const cardTotal = cards.reduce((sum, card) => sum + Number(card.balance || 0), 0);
     const walletTotal = wallets.reduce((sum, wallet) => sum + Number(wallet.balance || 0), 0);
     return cardTotal + walletTotal;
-  }, [cards, wallets]);
+  }, [cards.length, wallets.length]);
 
   const budgetProgress = useMemo(() => {
-    if (!budgets.length) return 0;
+    if (!budgets.length || !budgetStats) return 0;
     const totalLimit = budgets.reduce((sum, b) => sum + Number(b.limit_amount || 0), 0);
     const totalSpent = budgets.reduce((sum, b) => {
-      const spent = budgetStats ? (budgetStats[b.category_id] || 0) : 0;
+      const spent = budgetStats[b.category_id] || 0;
       return sum + spent;
     }, 0);
     return totalLimit > 0 ? Math.round((totalSpent / totalLimit) * 100) : 0;
-  }, [budgets, budgetStats]);
+  }, [budgets.length, budgetStats]);
 
   const goalProgress = useMemo(() => {
     if (!goals.length) return 0;
     const totalTarget = goals.reduce((sum, g) => sum + Number(g.target_amount || 0), 0);
     const totalCurrent = goals.reduce((sum, g) => sum + Number(g.current_amount || 0), 0);
     return totalTarget > 0 ? Math.round((totalCurrent / totalTarget) * 100) : 0;
-  }, [goals]);
+  }, [goals.length]);
 
   return (
     <Layout>
       <div className="space-y-10 pb-20">
         {/* Header */}
-        <Motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="flex flex-col md:flex-row md:justify-between md:items-end gap-4"
-        >
+        <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
           <div>
             <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-dark-text tracking-tight mb-2">My PennyWings</h1>
             <p className="text-sm sm:text-base text-gray-500 dark:text-dark-muted font-medium italic">"Every penny has wings, keep them flying in the right direction."</p>
@@ -109,17 +67,12 @@ export default function Dashboard() {
             <p className="text-xs font-black text-pink-400 uppercase tracking-widest mb-1">Current Date</p>
             <p className="text-lg font-bold text-gray-800 dark:text-dark-text">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
           </div>
-        </Motion.div>
+        </div>
 
         {/* Main Stats Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Total Balance Card */}
-          <Motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-pink-500 to-pink-600 rounded-[2.5rem] md:rounded-[3rem] p-6 sm:p-8 md:p-10 text-white group"
-          >
+          <div className="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-pink-500 to-pink-600 rounded-[2.5rem] md:rounded-[3rem] p-6 sm:p-8 md:p-10 text-white group">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full translate-x-10 translate-y-[-20px] blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-6 md:mb-8">
@@ -128,16 +81,11 @@ export default function Dashboard() {
                 </div>
                 <p className="text-xs sm:text-sm font-black uppercase tracking-[0.2em] opacity-80">Total Net Worth</p>
               </div>
-              <Motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter mb-8 sm:mb-10 break-all"
-              >
+              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter mb-8 sm:mb-10 break-all">
                 {loading ? 'Loading...' : `₱${totalBalance.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`}
-              </Motion.h2>
+              </h2>
               <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
-                <Motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+                <div>
                   <div className="flex items-center gap-2 opacity-80 mb-1">
                     <Icon name="income" color="#6EE7B7" className="w-4 h-4" />
                     <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest">Monthly Income</p>
@@ -145,8 +93,8 @@ export default function Dashboard() {
                   <p className="text-2xl sm:text-3xl font-black">
                     {loading ? 'Loading...' : `₱${stats.income.toLocaleString()}`}
                   </p>
-                </Motion.div>
-                <Motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+                </div>
+                <div>
                   <div className="flex items-center gap-2 opacity-80 mb-1">
                     <Icon name="expense" color="#FDA4AF" className="w-4 h-4" />
                     <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest">Monthly Expenses</p>
@@ -154,18 +102,13 @@ export default function Dashboard() {
                   <p className="text-2xl sm:text-3xl font-black">
                     {loading ? 'Loading...' : `₱${stats.expenses.toLocaleString()}`}
                   </p>
-                </Motion.div>
+                </div>
               </div>
             </div>
-          </Motion.div>
+          </div>
 
           {/* Quick Actions / Reports Summary */}
-          <Motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-white dark:bg-dark-card rounded-[2.5rem] md:rounded-[3.5rem] p-6 sm:p-8 border border-pink-50 dark:border-dark-border flex flex-col"
-          >
+          <div className="bg-white dark:bg-dark-card rounded-[2.5rem] md:rounded-[3.5rem] p-6 sm:p-8 border border-pink-50 dark:border-dark-border flex flex-col">
             <h3 className="text-lg sm:text-xl font-black text-gray-800 dark:text-dark-text mb-6 flex items-center gap-2">
               <span className="w-2 h-8 bg-pink-500 rounded-full"></span>
               Pulse Report
@@ -179,12 +122,10 @@ export default function Dashboard() {
                   </p>
                 </div>
                 <div className="h-3 bg-white dark:bg-dark-bg rounded-full overflow-hidden border border-pink-100 dark:border-dark-border">
-                  <Motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${Math.min(100, Math.max(0, stats.income > 0 ? ((stats.income - stats.expenses) / stats.income) * 100 : 0))}%` }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                    className="h-full bg-pink-500 rounded-full"
-                  ></Motion.div>
+                  <div 
+                    style={{ width: `${Math.min(100, Math.max(0, stats.income > 0 ? ((stats.income - stats.expenses) / stats.income) * 100 : 0))}%` }}
+                    className="h-full bg-pink-500 rounded-full transition-all duration-500"
+                  ></div>
                 </div>
               </div>
               
@@ -203,18 +144,13 @@ export default function Dashboard() {
                 </Link>
               </div>
             </div>
-          </Motion.div>
+          </div>
         </div>
 
         {/* Monitoring Overview Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Link to="/monitoring?tab=budgets" className="block group">
-            <Motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-white dark:bg-dark-card rounded-[2.5rem] p-8 border border-pink-50 dark:border-dark-border hover:shadow-xl transition-all"
-            >
+            <div className="bg-white dark:bg-dark-card rounded-[2.5rem] p-8 border border-pink-50 dark:border-dark-border hover:shadow-xl transition-all">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-black text-gray-900 dark:text-dark-text tracking-tight flex items-center gap-2">
                   <Icon name="reports" className="w-6 h-6 text-pink-500" />
@@ -225,26 +161,20 @@ export default function Dashboard() {
               <p className="text-sm text-gray-400 dark:text-dark-muted font-bold mb-4 italic">Monitor your category spending limits.</p>
               <div className="flex items-center gap-4">
                 <div className="flex-1 h-3 bg-pink-50 dark:bg-dark-bg rounded-full overflow-hidden border border-pink-100 dark:border-dark-border">
-                  <Motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${Math.min(100, budgetProgress)}%` }} 
-                    className="h-full bg-pink-500 rounded-full"
-                  ></Motion.div>
+                  <div 
+                    style={{ width: `${Math.min(100, budgetProgress)}%` }}
+                    className="h-full bg-pink-500 rounded-full transition-all duration-500"
+                  ></div>
                 </div>
                 <span className="text-xs font-black text-gray-800 dark:text-dark-text tracking-tighter shrink-0">
                   {loading ? 'Loading...' : `${budgetProgress}% USED`}
                 </span>
               </div>
-            </Motion.div>
+            </div>
           </Link>
 
           <Link to="/monitoring?tab=goals" className="block group">
-            <Motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-white dark:bg-dark-card rounded-[2.5rem] p-8 border border-pink-50 dark:border-dark-border hover:shadow-xl transition-all"
-            >
+            <div className="bg-white dark:bg-dark-card rounded-[2.5rem] p-8 border border-pink-50 dark:border-dark-border hover:shadow-xl transition-all">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-black text-gray-900 dark:text-dark-text tracking-tight flex items-center gap-2">
                   <Icon name="plus" className="w-6 h-6 text-pink-500" />
@@ -255,29 +185,23 @@ export default function Dashboard() {
               <p className="text-sm text-gray-400 dark:text-dark-muted font-bold mb-4 italic">Track progress toward your financial dreams.</p>
               <div className="flex items-center gap-4">
                 <div className="flex-1 h-3 bg-pink-50 dark:bg-dark-bg rounded-full overflow-hidden border border-pink-100 dark:border-dark-border">
-                  <Motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${Math.min(100, goalProgress)}%` }} 
-                    className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full"
-                  ></Motion.div>
+                  <div 
+                    style={{ width: `${Math.min(100, goalProgress)}%` }}
+                    className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transition-all duration-500"
+                  ></div>
                 </div>
                 <span className="text-xs font-black text-gray-800 dark:text-dark-text tracking-tighter shrink-0">
                   {loading ? 'Loading...' : `${goalProgress}% REACHED`}
                 </span>
               </div>
-            </Motion.div>
+            </div>
           </Link>
         </div>
 
 
         {/* Recent Activity */}
 
-        <Motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-white dark:bg-dark-card rounded-[2.5rem] md:rounded-[3.5rem] p-6 sm:p-10 border border-pink-50 dark:border-dark-border"
-        >
+        <div className="bg-white dark:bg-dark-card rounded-[2.5rem] md:rounded-[3.5rem] p-6 sm:p-10 border border-pink-50 dark:border-dark-border">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 sm:mb-10">
             <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-dark-text tracking-tight flex items-center gap-3">
               <Icon name="clock" color="#EC4899" className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -355,7 +279,7 @@ export default function Dashboard() {
               </div>
             )}
           </div>
-        </Motion.div>
+        </div>
       </div>
     </Layout>
   );

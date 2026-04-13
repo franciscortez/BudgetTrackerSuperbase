@@ -10,6 +10,7 @@ import { getConfirm, confirmPresets } from "../utils/confirm";
 import AnimatedPage from "./common/AnimatedPage";
 import { motion as Motion, AnimatePresence } from "motion/react";
 
+// Navigation config - defined outside component to prevent recreation
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: "bank", showInMobile: true },
   { name: "Accounts", href: "/accounts", icon: "card", showInMobile: true },
@@ -118,14 +119,13 @@ export default function Layout({ children }) {
           </span>
         </div>
         <div className="flex items-center gap-1">
-          <Motion.button
-            whileTap={{ scale: 0.9 }}
+          <button
             onClick={toggleTheme}
-            className="w-9 h-9 bg-pink-50 dark:bg-dark-border rounded-full flex items-center justify-center text-pink-500 dark:text-pink-400 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors"
+            className="w-9 h-9 bg-pink-50 dark:bg-dark-border rounded-full flex items-center justify-center text-pink-500 dark:text-pink-400 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-all duration-200 active:scale-90"
             title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
           >
             <Icon name={theme === 'light' ? 'moon' : 'sun'} className="w-5 h-5" />
-          </Motion.button>
+          </button>
         </div>
       </div>
 
@@ -196,18 +196,17 @@ export default function Layout({ children }) {
         </nav>
 
         <div className="p-4 border-t border-pink-50 dark:border-dark-border space-y-2">
-          <Motion.button
-            whileTap={{ scale: 0.95 }}
+          <button
             onClick={toggleTheme}
-            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 dark:text-dark-muted hover:text-pink-500 dark:hover:text-pink-400 hover:bg-pink-50 dark:hover:bg-dark-border rounded-lg transition-colors text-sm font-black italic`}
+            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 dark:text-dark-muted hover:text-pink-500 dark:hover:text-pink-400 hover:bg-pink-50 dark:hover:bg-dark-border rounded-lg transition-all duration-200 text-sm font-black italic active:scale-95`}
             title={!isSidebarOpen ? `Switch to ${theme === 'light' ? 'dark' : 'light'} mode` : undefined}
           >
             <Icon name={theme === 'light' ? 'moon' : 'sun'} className="w-6 h-6 shrink-0" />
             {isSidebarOpen && <span>{theme === 'light' ? 'Dark' : 'Light'} Mode</span>}
-          </Motion.button>
+          </button>
           <button
             onClick={handleLogout}
-            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 dark:text-dark-muted hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors text-sm font-black italic`}
+            className={`w-full flex items-center ${isSidebarOpen ? "gap-3 px-4" : "justify-center px-0"} py-2 text-gray-400 dark:text-dark-muted hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors text-sm font-black italic active:scale-95`}
             title={!isSidebarOpen ? "Sign Out" : undefined}
           >
             <Icon name="logout" className="w-6 h-6 shrink-0" />
@@ -266,19 +265,12 @@ export default function Layout({ children }) {
         <AnimatePresence>
           {isMoreMenuOpen && (
             <>
-              <Motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+              <div
                 onClick={() => setIsMoreMenuOpen(false)}
-                className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+                className="fixed inset-0 bg-black/40 z-40 animate-fade-in"
               />
-              <Motion.div
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 100, opacity: 0 }}
-                transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="absolute bottom-full left-0 right-0 mb-2 mx-2 bg-white dark:bg-dark-card rounded-3xl border border-pink-100 dark:border-dark-border shadow-2xl overflow-hidden z-50"
+              <div
+                className="absolute bottom-full left-0 right-0 mb-2 mx-2 bg-white dark:bg-dark-card rounded-3xl border border-pink-100 dark:border-dark-border shadow-2xl overflow-hidden z-50 animate-slide-up"
               >
                 <div className="p-2 space-y-1">
                   {/* Other Navigation Items */}
@@ -328,7 +320,7 @@ export default function Layout({ children }) {
                     <span className="text-sm font-bold">Sign Out</span>
                   </button>
                 </div>
-              </Motion.div>
+              </div>
             </>
           )}
         </AnimatePresence>

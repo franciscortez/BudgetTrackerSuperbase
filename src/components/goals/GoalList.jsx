@@ -1,7 +1,6 @@
 import React from 'react';
 import GoalItem from './GoalItem';
 import SkeletonLoader from '../common/SkeletonLoader';
-import { motion as Motion, AnimatePresence } from 'motion/react';
 import Icon from '../Icon';
 
 const GoalList = ({ goals, loading, onEdit, onDelete, onAdd }) => {
@@ -49,21 +48,16 @@ const GoalList = ({ goals, loading, onEdit, onDelete, onAdd }) => {
       </div>
 
       {goals.length > 0 ? (
-        <Motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-        >
-          <AnimatePresence mode="popLayout">
-            {goals.map(goal => (
-              <GoalItem
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {goals.map(goal => (
+            <GoalItem
                 key={goal.id}
                 goal={goal}
                 onEdit={onEdit}
                 onDelete={onDelete}
-              />
-            ))}
-          </AnimatePresence>
-        </Motion.div>
+            />
+          ))}
+        </div>
       ) : (
         <div className="py-24 text-center bg-pink-50/30 dark:bg-dark-bg/30 rounded-[3.5rem] border-2 border-dashed border-pink-100 dark:border-dark-border">
           <div className="w-20 h-20 bg-white dark:bg-dark-bg rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-xl shadow-pink-100/50 dark:shadow-none">

@@ -99,7 +99,7 @@ export default function EditAccountModal({ account, type, isOpen, onClose, onSav
   const title = isCash ? 'Edit Cash Account' : isCard ? 'Edit Bank Card' : 'Edit E-Wallet'
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-pink-900/20 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40">
       <div className="bg-white dark:bg-dark-card w-full max-w-md rounded-[2.5rem] border border-pink-100 dark:border-dark-border overflow-hidden animate-in fade-in zoom-in duration-300 flex flex-col max-h-[95vh] md:max-h-[90vh]">
         <div className="p-6 sm:p-8 pb-4 flex justify-between items-center border-b border-pink-50 dark:border-dark-border">
           <h2 className="text-2xl font-black text-gray-800 dark:text-white tracking-tight">{title}</h2>

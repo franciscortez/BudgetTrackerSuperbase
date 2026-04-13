@@ -1,7 +1,6 @@
 import React from 'react';
 import BudgetItem from './BudgetItem';
 import SkeletonLoader from '../common/SkeletonLoader';
-import { motion as Motion, AnimatePresence } from 'motion/react';
 import Icon from '../Icon';
 
 const BudgetList = ({ budgets, stats, loading, onEdit, onDelete, onAdd }) => {
@@ -48,22 +47,17 @@ const BudgetList = ({ budgets, stats, loading, onEdit, onDelete, onAdd }) => {
       </div>
 
       {budgets.length > 0 ? (
-        <Motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          <AnimatePresence mode="popLayout">
-            {budgets.map(budget => (
-              <BudgetItem
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {budgets.map(budget => (
+            <BudgetItem
                 key={budget.id}
                 budget={budget}
                 spent={stats[budget.category_id] || 0}
                 onEdit={onEdit}
                 onDelete={onDelete}
-              />
-            ))}
-          </AnimatePresence>
-        </Motion.div>
+            />
+          ))}
+        </div>
       ) : (
         <div className="py-20 text-center bg-pink-50/30 dark:bg-dark-bg/30 rounded-[3rem] border-2 border-dashed border-pink-100 dark:border-dark-border">
           <div className="w-16 h-16 bg-pink-100 dark:bg-dark-bg rounded-3xl flex items-center justify-center mx-auto mb-4">

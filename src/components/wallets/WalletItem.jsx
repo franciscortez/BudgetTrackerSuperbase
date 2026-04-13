@@ -84,13 +84,10 @@ export default function WalletItem({ wallet, onEdit, onDelete }) {
           </Motion.button>
         </div>
         
-        <Motion.div 
-          initial={{ scale: 1 }}
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="h-2 w-2 rounded-full" 
+        <div 
+          className="h-2 w-2 rounded-full animate-pulse" 
           style={{ backgroundColor: wallet.is_active !== false ? '#10B981' : '#EF4444' }}
-        ></Motion.div>
+        ></div>
       </div>
     </Motion.div>
   )

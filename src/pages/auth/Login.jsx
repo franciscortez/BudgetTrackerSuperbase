@@ -56,7 +56,7 @@ export default function Login() {
       <div className="hidden lg:flex relative bg-pink-100 p-8 lg:p-12 flex-col overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute top-20 left-20 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse delay-700"></div>
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" style={{ animationDelay: '700ms' }}></div>
 
         {/* Back Button */}
         <Link

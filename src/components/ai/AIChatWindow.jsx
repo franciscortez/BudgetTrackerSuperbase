@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import { useDashboardData } from '../../hooks/useDashboardData';
 import { useBudgets } from '../../hooks/useBudgets';
 import { useBudgetStats } from '../../hooks/useBudgetStats';
@@ -121,12 +121,7 @@ export default function AIChatWindow({ isOpen, onClose }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="hidden md:flex fixed bottom-6 right-6 w-96 h-[600px] max-h-[70vh] bg-white dark:bg-dark-card border border-pink-100 dark:border-dark-border rounded-[2.5rem] shadow-2xl flex-col overflow-hidden z-[60]"
-        >
+        <div className="hidden md:flex fixed bottom-6 right-6 w-96 h-[600px] max-h-[70vh] bg-white dark:bg-dark-card border border-pink-100 dark:border-dark-border rounded-[2.5rem] shadow-2xl flex-col overflow-hidden z-[60] animate-scale-in">
           {/* Header */}
           <div className="p-6 bg-gradient-to-r from-pink-500 to-pink-600 text-white flex justify-between items-center shrink-0">
             <div className="flex items-center gap-3">
@@ -140,7 +135,7 @@ export default function AIChatWindow({ isOpen, onClose }) {
             </div>
             <button 
               onClick={onClose}
-              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+              className="p-2 hover:bg-white/10 rounded-full transition-all active:scale-90"
             >
               <Icon name="close" color="white" className="w-6 h-6" />
             </button>
@@ -200,7 +195,7 @@ export default function AIChatWindow({ isOpen, onClose }) {
               </button>
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );

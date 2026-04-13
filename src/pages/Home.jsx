@@ -1,28 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { motion as Motion, AnimatePresence } from "motion/react";
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
-  animate: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-  },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-100px" },
-  transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-};
-
-const staggerContainer = {
-  initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
 
 export default function Home() {
   const { user } = useAuth();
@@ -98,37 +76,14 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-pink-50 font-sans text-gray-800 overflow-x-hidden">
       {/* 1. HERO SECTION */}
       <section className="relative flex flex-col items-center justify-center px-4 py-20 md:py-32 min-h-[90vh]">
-        {/* Animated Background Orbs */}
-        <Motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 0.3, scale: 1 }}
-          transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-          className="absolute top-20 left-10 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl"
-        ></Motion.div>
-        <Motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 0.3, scale: 1 }}
-          transition={{
-            duration: 2.5,
-            repeat: Infinity,
-            repeatType: "reverse",
-            delay: 1,
-          }}
-          className="absolute top-40 right-10 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl"
-        ></Motion.div>
+        {/* Animated Background Orbs - Removed blur for performance */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply opacity-20"></div>
+        <div className="absolute top-40 right-10 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply opacity-20"></div>
 
-        <Motion.div
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-          className="relative max-w-6xl w-full flex flex-col md:flex-row items-center justify-between gap-12 z-10"
-        >
+        <div className="relative max-w-6xl w-full flex flex-col md:flex-row items-center justify-between gap-12 z-10 animate-fade-in">
           {/* Left Side: Text and CTAs */}
           <div className="flex-1 text-center md:text-left space-y-6">
-            <Motion.div
-              variants={fadeInUp}
-              className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm text-pink-600 px-4 py-2 rounded-full text-sm font-medium mb-2 border border-pink-200"
-            >
+            <div className="inline-flex items-center gap-2 bg-white text-pink-600 px-4 py-2 rounded-full text-sm font-medium mb-2 border border-pink-200">
               <svg
                 className="w-5 h-5 text-pink-500"
                 viewBox="0 0 100 100"
@@ -186,29 +141,20 @@ export default function Home() {
                 <circle cx="50" cy="18" r="4" fill="currentColor" />
               </svg>
               PennyWings Tracker
-            </Motion.div>
-            <Motion.h1
-              variants={fadeInUp}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight"
-            >
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
               Watch your savings{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-pink-700">
                 flutter
               </span>{" "}
               to new heights.
-            </Motion.h1>
-            <Motion.p
-              variants={fadeInUp}
-              className="text-lg text-gray-600 max-w-lg mx-auto md:mx-0"
-            >
+            </h1>
+            <p className="text-lg text-gray-600 max-w-lg mx-auto md:mx-0">
               Take flight with your finances. Transform complex tracking into a
               beautiful, guided journey. Manage cards, e-wallets, and goals with
               ease.
-            </Motion.p>
-            <Motion.div
-              variants={fadeInUp}
-              className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4"
-            >
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4">
               <Link
                 to="/signup"
                 className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-medium rounded-xl transition-all duration-300 transform hover:-translate-y-1 text-center"
@@ -221,18 +167,13 @@ export default function Home() {
               >
                 Sign In
               </Link>
-            </Motion.div>
+            </div>
           </div>
 
           {/* Right Side: Hero Visual */}
-          <Motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="flex-1 w-full relative max-w-md mx-auto md:max-w-none group"
-          >
-            <div className="absolute inset-0 bg-gradient-to-tr from-pink-300 to-pink-200 rounded-[2.5rem] transform rotate-3 scale-105 opacity-50 blur-lg transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110"></div>
-            <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-[2.5rem] border border-pink-200 transition-transform duration-500 transform group-hover:-translate-y-2">
+          <div className="flex-1 w-full relative max-w-md mx-auto md:max-w-none group animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <div className="absolute inset-0 bg-gradient-to-tr from-pink-300 to-pink-200 rounded-[2.5rem] rotate-3 scale-105 opacity-30"></div>
+            <div className="relative bg-white p-8 rounded-[2.5rem] border border-pink-200 transition-transform duration-300 group-hover:-translate-y-2">
               {/* Mockup UI Elements */}
               <div className="space-y-6">
                 <div className="flex justify-between items-center mb-8">
@@ -368,12 +309,9 @@ export default function Home() {
                       ),
                     },
                   ].map((tx, i) => (
-                    <Motion.div
+                    <div
                       key={i}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 1 + i * 0.1 }}
-                      className="flex justify-between items-center p-3 rounded-xl bg-gray-50/80 hover:bg-pink-50 transition-all duration-300 border border-transparent hover:border-pink-200 transform hover:-translate-y-0.5"
+                      className="flex justify-between items-center p-3 rounded-xl bg-gray-50/80 hover:bg-pink-50 transition-all duration-300 border border-transparent hover:border-pink-200 hover:-translate-y-0.5"
                     >
                       <div className="flex items-center gap-3">
                         <div className="bg-white p-2 rounded-lg">
@@ -388,52 +326,35 @@ export default function Home() {
                       >
                         {tx.amount}
                       </span>
-                    </Motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
-          </Motion.div>
-        </Motion.div>
+          </div>
+        </div>
       </section>
 
       {/* 3. FEATURES SECTION */}
       <section className="py-24 px-4 bg-white">
         <div className="max-w-6xl mx-auto text-center">
-          <Motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
-          >
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Everything you need to{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-pink-700">
               thrive
             </span>{" "}
             financially
-          </Motion.h2>
-          <Motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-gray-500 max-w-2xl mx-auto mb-16"
-          >
+          </h2>
+          <p className="text-gray-500 max-w-2xl mx-auto mb-16">
             Ditch the complicated spreadsheets. Our tools are designed to be
             gorgeous, intuitive, and highly effective.
-          </Motion.p>
+          </p>
 
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, idx) => (
-              <Motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="group p-8 rounded-[2rem] bg-pink-50/50 border border-pink-200 transition-all duration-500 flex flex-col items-center text-center"
+                className="group p-8 rounded-[2rem] bg-pink-50/50 border border-pink-200 transition-all duration-300 flex flex-col items-center text-center hover:-translate-y-2"
               >
                 <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
                   {feature.icon}
@@ -442,7 +363,7 @@ export default function Home() {
                   {feature.title}
                 </h3>
                 <p className="text-gray-600 leading-relaxed">{feature.desc}</p>
-              </Motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -508,12 +429,9 @@ export default function Home() {
               />
               <circle cx="50" cy="18" r="4" fill="currentColor" />
             </svg>
-            <Motion.span
-              whileHover={{ scale: 1.05 }}
-              className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-pink-700"
-            >
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-pink-700 hover:scale-105 transition-transform inline-block">
               PennyWings
-            </Motion.span>
+            </span>
             Budget
           </div>
           <div className="flex gap-6 text-sm font-medium text-gray-500">

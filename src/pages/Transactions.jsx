@@ -154,33 +154,22 @@ export default function Transactions() {
     <Layout>
       <div className="space-y-8 pb-20">
         {/* Header */}
-        <Motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="flex flex-col md:flex-row md:items-center justify-between gap-4"
-        >
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-4xl font-black text-gray-900 dark:text-dark-text tracking-tight mb-2">Transaction History</h1>
             <p className="text-gray-500 dark:text-dark-muted font-medium font-bold">Manage your cashflow with precision.</p>
           </div>
-          <Motion.button 
-            whileHover={{ scale: 1.05, y: -4 }}
-            whileTap={{ scale: 0.95 }}
+          <button 
             onClick={handleOpenAdd}
-            className="flex items-center justify-center gap-2 px-8 py-4 bg-pink-500 text-white rounded-[2rem] font-black hover:bg-pink-600 transition-all font-bold"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-pink-500 text-white rounded-[2rem] font-black hover:bg-pink-600 transition-all duration-200 active:scale-95 font-bold"
           >
             <Icon name="plus" color="white" className="w-5 h-5" />
             New Transaction
-          </Motion.button>
-        </Motion.div>
+          </button>
+        </div>
 
         {/* Filters & Search */}
-        <Motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="flex flex-col lg:flex-row gap-4 items-center bg-white dark:bg-dark-card p-6 rounded-[2.5rem] border border-pink-50 dark:border-dark-border"
-        >
+        <div className="flex flex-col lg:flex-row gap-4 items-center bg-white dark:bg-dark-card p-6 rounded-[2.5rem] border border-pink-50 dark:border-dark-border">
           <div className="relative flex-1 w-full text-left">
             <label className="block text-[10px] font-black text-gray-400 dark:text-white uppercase tracking-widest mb-2 ml-4">Search Ledger</label>
             <div className="relative">
@@ -212,15 +201,10 @@ export default function Transactions() {
               ))}
             </div>
           </div>
-        </Motion.div>
+        </div>
 
         {/* Transactions Table */}
-        <Motion.div 
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="bg-white dark:bg-dark-card rounded-[3rem] border border-pink-50 dark:border-dark-border overflow-hidden"
-        >
+        <div className="bg-white dark:bg-dark-card rounded-[3rem] border border-pink-50 dark:border-dark-border overflow-hidden">
           {loading ? (
             <div className="p-6 space-y-4">
               {[1, 2, 3, 4, 5].map(i => (
@@ -252,7 +236,7 @@ export default function Transactions() {
                 </thead>
                 <Motion.tbody 
                   variants={staggerContainer}
-                  initial="initial"
+                  initial={false}
                   animate="animate"
                   className="divide-y divide-pink-50 dark:divide-dark-border"
                 >
@@ -405,7 +389,7 @@ export default function Transactions() {
               </div>
             </div>
           )}
-        </Motion.div>
+        </div>
       </div>
 
       <TransactionForm 

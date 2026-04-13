@@ -5,22 +5,7 @@ import Icon from "../components/Icon";
 import { useTheme } from "../contexts/ThemeContext";
 import { getToast } from "../utils/toast";
 import { getConfirm, confirmPresets } from "../utils/confirm";
-import { motion as Motion, AnimatePresence } from "motion/react"
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
-};
+import { AnimatePresence } from "motion/react"
 
 export default function Profile() {
   const { user, profile, updateProfile, updatePassword, deleteAccount } = useAuth();
@@ -137,62 +122,36 @@ export default function Profile() {
 
   return (
     <Layout>
-      <Motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="max-w-5xl mx-auto space-y-10 pb-20"
-      >
+      <div className="max-w-5xl mx-auto space-y-10 pb-20">
         {/* Header Section */}
-        <Motion.div
-          variants={item}
-          className="relative overflow-hidden bg-gradient-to-br from-pink-500 to-pink-600 dark:from-pink-600 dark:to-pink-700 rounded-[3rem] p-10 text-white"
-        >
+        <div className="relative overflow-hidden bg-gradient-to-br from-pink-500 to-pink-600 dark:from-pink-600 dark:to-pink-700 rounded-[3rem] p-10 text-white">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full translate-x-10 translate-y-[-20px] blur-3xl"></div>
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
-            <Motion.div
-              whileHover={{ scale: 1.05, rotate: 5 }}
-              className="w-32 h-32 bg-white/20 backdrop-blur-md rounded-full border-4 border-white/30 flex items-center justify-center p-2"
-            >
+            <div className="w-32 h-32 bg-white/20 backdrop-blur-md rounded-full border-4 border-white/30 flex items-center justify-center p-2 transition-transform hover:scale-105 hover:rotate-6">
               <div className="w-full h-full bg-pink-100 dark:bg-dark-border rounded-full flex items-center justify-center text-pink-500 dark:text-pink-400">
                 <Icon name="user" className="w-16 h-16" />
               </div>
-            </Motion.div>
+            </div>
             <div className="text-center md:text-left">
-              <Motion.h1
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-4xl font-black tracking-tight mb-2"
-              >
+              <h1 className="text-4xl font-black tracking-tight mb-2">
                 {profile?.full_name || user?.email?.split('@')[0]}
-              </Motion.h1>
-              <Motion.p
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-pink-100 font-bold flex items-center justify-center md:justify-start gap-2 italic"
-              >
+              </h1>
+              <p className="text-pink-100 font-bold flex items-center justify-center md:justify-start gap-2 italic">
                 <Icon name="clock" className="w-4 h-4" />
                 Member since {new Date(user?.created_at).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
-              </Motion.p>
+              </p>
             </div>
           </div>
-        </Motion.div>
+        </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Navigation Sidebar */}
-          <Motion.div
-            variants={item}
-            className="w-full lg:w-72 shrink-0 space-y-2"
-          >
+          <div className="w-full lg:w-72 shrink-0 space-y-2">
             {tabs.map((tab) => (
-              <Motion.button
+              <button
                 key={tab.id}
-                whileHover={{ x: 5 }}
-                whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-4 px-6 py-5 rounded-[2rem] font-black transition-all text-left ${activeTab === tab.id
+                className={`w-full flex items-center gap-4 px-6 py-5 rounded-[2rem] font-black transition-all text-left hover:translate-x-1 active:scale-95 ${activeTab === tab.id
                     ? tab.danger
                       ? "bg-rose-50 dark:bg-rose-900/20 text-rose-500 border-2 border-rose-100 dark:border-rose-900/30"
                       : "bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 border-2 border-pink-100 dark:border-pink-900/30"
@@ -202,26 +161,19 @@ export default function Profile() {
                 <Icon name={tab.icon} className="w-6 h-6" />
                 <span className="truncate">{tab.label}</span>
                 {activeTab === tab.id && (
-                  <Motion.div
-                    layoutId="activeIndicator"
-                    className={`ml-auto w-2 h-2 rounded-full ${tab.danger ? 'bg-rose-500' : 'bg-pink-500'}`}
-                  />
+                  <div className={`ml-auto w-2 h-2 rounded-full ${tab.danger ? 'bg-rose-500' : 'bg-pink-500'}`} />
                 )}
-              </Motion.button>
+              </button>
             ))}
-          </Motion.div>
+          </div>
 
           {/* Content Area */}
           <div className="flex-1 min-w-0">
             <AnimatePresence mode="wait">
               {activeTab === "details" && (
-                <Motion.div
+                <div
                   key="details"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white dark:bg-dark-card rounded-[3.5rem] p-8 md:p-10 border border-pink-50 dark:border-dark-border"
+                  className="bg-white dark:bg-dark-card rounded-[3.5rem] p-8 md:p-10 border border-pink-50 dark:border-dark-border animate-fade-in"
                 >
                   <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-3">
                     <span className="p-2 bg-pink-50 dark:bg-pink-900/20 rounded-xl text-pink-500">
@@ -240,8 +192,7 @@ export default function Profile() {
 
                     <div>
                       <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest mb-2 ml-1">Full Name</label>
-                      <Motion.input
-                        whileFocus={{ scale: 1.01 }}
+                      <input
                         type="text"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
@@ -250,12 +201,10 @@ export default function Profile() {
                       />
                     </div>
 
-                    <Motion.button
-                      whileHover={{ scale: 1.02, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
+                    <button
                       type="submit"
                       disabled={isUpdatingProfile}
-                      className="w-full py-4 bg-pink-500 text-white rounded-2xl font-black tracking-tight hover:bg-pink-600 transition-all shadow-lg shadow-pink-200 dark:shadow-none disabled:opacity-50 flex items-center justify-center gap-2"
+                      className="w-full py-4 bg-pink-500 text-white rounded-2xl font-black tracking-tight hover:bg-pink-600 transition-all shadow-lg shadow-pink-200 dark:shadow-none disabled:opacity-50 flex items-center justify-center gap-2 hover:scale-102 hover:-translate-y-0.5 active:scale-98"
                     >
                       {isUpdatingProfile ? (
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -263,19 +212,15 @@ export default function Profile() {
                         <Icon name="plus" className="w-5 h-5 rotate-45" />
                       )}
                       Save Changes
-                    </Motion.button>
+                    </button>
                   </form>
-                </Motion.div>
+                </div>
               )}
 
               {activeTab === "security" && (
-                <Motion.div
+                <div
                   key="security"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white dark:bg-dark-card rounded-[3.5rem] p-8 md:p-10 border border-pink-50 dark:border-dark-border"
+                  className="bg-white dark:bg-dark-card rounded-[3.5rem] p-8 md:p-10 border border-pink-50 dark:border-dark-border animate-fade-in"
                 >
                   <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-3">
                     <span className="p-2 bg-pink-50 dark:bg-pink-900/20 rounded-xl text-pink-500">
@@ -287,8 +232,7 @@ export default function Profile() {
                   <form onSubmit={handleUpdatePassword} className="space-y-6 text-left">
                     <div>
                       <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest mb-2 ml-1">New Password</label>
-                      <Motion.input
-                        whileFocus={{ scale: 1.01 }}
+                      <input
                         type="password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
@@ -299,8 +243,7 @@ export default function Profile() {
 
                     <div>
                       <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest mb-2 ml-1">Confirm Password</label>
-                      <Motion.input
-                        whileFocus={{ scale: 1.01 }}
+                      <input
                         type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
@@ -309,12 +252,10 @@ export default function Profile() {
                       />
                     </div>
 
-                    <Motion.button
-                      whileHover={{ scale: 1.02, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
+                    <button
                       type="submit"
                       disabled={isUpdatingPassword}
-                      className="w-full py-4 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-2xl font-black tracking-tight hover:bg-pink-700 transition-all shadow-lg shadow-pink-200 dark:shadow-none disabled:opacity-50 flex items-center justify-center gap-2"
+                      className="w-full py-4 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-2xl font-black tracking-tight hover:bg-pink-700 transition-all shadow-lg shadow-pink-200 dark:shadow-none disabled:opacity-50 flex items-center justify-center gap-2 hover:scale-102 hover:-translate-y-0.5 active:scale-98"
                     >
                       {isUpdatingPassword ? (
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -322,19 +263,15 @@ export default function Profile() {
                         <Icon name="lock" className="w-5 h-5" />
                       )}
                       Update Password
-                    </Motion.button>
+                    </button>
                   </form>
-                </Motion.div>
+                </div>
               )}
 
               {activeTab === "delete" && (
-                <Motion.div
+                <div
                   key="delete"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white dark:bg-dark-card rounded-[3.5rem] p-8 md:p-10 border border-rose-50 dark:border-rose-900/20"
+                  className="bg-white dark:bg-dark-card rounded-[3.5rem] p-8 md:p-10 border border-rose-50 dark:border-rose-900/20 animate-fade-in"
                 >
                   <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-4 flex items-center gap-3">
                     <span className="p-2 bg-rose-50 dark:bg-rose-900/20 rounded-xl text-rose-500">
@@ -355,8 +292,7 @@ export default function Profile() {
 
                   <div className="mb-8 space-y-4">
                     <label className="block text-xs font-black text-rose-500 dark:text-rose-400 uppercase tracking-widest ml-1">Confirm Identity with Password</label>
-                    <Motion.input
-                      whileFocus={{ scale: 1.01 }}
+                    <input
                       type="password"
                       value={deletionPassword}
                       onChange={(e) => setDeletionPassword(e.target.value)}
@@ -365,12 +301,10 @@ export default function Profile() {
                     />
                   </div>
 
-                  <Motion.button
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
+                  <button
                     onClick={handleDeleteAccount}
                     disabled={isDeleting}
-                    className="w-full py-4 bg-rose-500 text-white rounded-2xl font-black tracking-tight hover:bg-rose-600 transition-all shadow-lg shadow-rose-200 dark:shadow-none disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-rose-500 text-white rounded-2xl font-black tracking-tight hover:bg-rose-600 transition-all shadow-lg shadow-rose-200 dark:shadow-none disabled:opacity-50 flex items-center justify-center gap-2 hover:scale-102 hover:-translate-y-0.5 active:scale-98"
                   >
                     {isDeleting ? (
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -378,13 +312,13 @@ export default function Profile() {
                       <Icon name="delete" className="w-5 h-5" />
                     )}
                     Permanently Delete Account
-                  </Motion.button>
-                </Motion.div>
+                  </button>
+                </div>
               )}
             </AnimatePresence>
           </div>
         </div>
-      </Motion.div>
+      </div>
     </Layout>
   );
 }

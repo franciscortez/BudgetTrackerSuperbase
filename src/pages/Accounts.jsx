@@ -46,7 +46,7 @@ export default function Accounts() {
       card.card_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (card.card_type || '').toLowerCase().includes(searchQuery.toLowerCase())
     )
-  }, [cards, searchQuery])
+  }, [cards.length, searchQuery])
 
   const filteredWallets = useMemo(() => {
     if (activeTab === 'cash') {
@@ -63,13 +63,13 @@ export default function Accounts() {
       (wallet.wallet_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (wallet.wallet_type || '').toLowerCase().includes(searchQuery.toLowerCase()))
     )
-  }, [wallets, searchQuery, activeTab])
+  }, [wallets.length, searchQuery, activeTab])
 
   const totalBalance = useMemo(() => {
     const cardTotal = cards.reduce((sum, card) => sum + Number(card.balance || 0), 0)
     const walletTotal = wallets.reduce((sum, wallet) => sum + Number(wallet.balance || 0), 0)
     return cardTotal + walletTotal
-  }, [cards, wallets])
+  }, [cards.length, wallets.length])
 
   const handleAddAccount = () => {
     setIsWizardOpen(true)
@@ -149,14 +149,10 @@ export default function Accounts() {
 
   return (
     <Layout>
-      <Motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
+      <div className="mb-8">
         <h1 className="text-3xl font-extrabold text-gray-900 dark:text-dark-text tracking-tight mb-2">My Accounts</h1>
         <p className="text-gray-500 dark:text-dark-muted">Manage your bank cards and digital wallets in one place.</p>
-      </Motion.div>
+      </div>
 
       <TotalBalance
         total={totalBalance}
@@ -165,12 +161,7 @@ export default function Accounts() {
       />
 
       {/* Search & Tabs */}
-      <Motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="flex flex-col md:flex-row gap-4 mb-10 items-center justify-between"
-      >
+      <div className="flex flex-col md:flex-row gap-4 mb-10 items-center justify-between">
         <div className="flex gap-2 p-1.5 bg-pink-100/30 dark:bg-dark-card/30 backdrop-blur-md rounded-[2rem] border border-pink-100 dark:border-dark-border w-full overflow-x-auto no-scrollbar md:w-fit whitespace-nowrap snap-x">
           {['all', 'cards', 'wallets', 'cash'].map((tab) => (
             <button
@@ -204,17 +195,13 @@ export default function Accounts() {
             className="w-full px-5 py-3 bg-white dark:bg-dark-card border border-pink-100 dark:border-dark-border rounded-2xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all font-bold text-gray-700 dark:text-dark-text text-sm"
           />
         </div>
-      </Motion.div>
+      </div>
 
       {/* Content Area */}
       <div className="pb-20">
-        <AnimatePresence mode="wait">
-          <Motion.div
+        <div
             key={activeTab}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
+            className="opacity-100"
           >
             {activeTab === 'all' ? (
               <div className="space-y-12">
@@ -266,8 +253,7 @@ export default function Accounts() {
                 onDelete={handleDeleteWallet}
               />
             )}
-          </Motion.div>
-        </AnimatePresence>
+          </div>
       </div>
 
       {/* Unified Wizard */}

@@ -85,13 +85,10 @@ export default function CardItem({ card, onEdit, onDelete }) {
           </Motion.button>
         </div>
         
-        <Motion.div 
-          initial={{ scale: 1 }}
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-2.5 h-2.5 rounded-full"
+        <div 
+          className="w-2.5 h-2.5 rounded-full animate-pulse"
           style={{ backgroundColor: card.is_active !== false ? '#10B981' : '#EF4444' }}
-        ></Motion.div>
+        ></div>
       </div>
     </Motion.div>
   )

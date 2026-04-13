@@ -33,9 +33,9 @@ const TEXT_COLOR_OPTIONS = [
 ]
 
 const stepVariants = {
-  initial: { opacity: 0, x: 20 },
-  animate: { opacity: 1, x: 0 },
-  exit: { opacity: 0, x: -20 }
+  initial: { opacity: 0, x: 10 },
+  animate: { opacity: 1, x: 0, transition: { duration: 0.2, ease: 'easeOut' } },
+  exit: { opacity: 0, x: -10, transition: { duration: 0.15, ease: 'easeIn' } }
 }
 
 // Memoized individual color swatch to avoid re-rendering all swatches on every state change
@@ -52,27 +52,18 @@ const ColorSwatch = memo(({ color, isSelected, onClick }) => (
 
 // Memoized step 1 to avoid re-render when other steps' state changes
 const Step1 = memo(({ formData, hasCashAccount, onSelectType, onNext }) => (
-  <Motion.div
-    key="step1"
-    variants={stepVariants}
-    initial="initial"
-    animate="animate"
-    exit="exit"
-    className="space-y-6"
-  >
+  <div className="space-y-6">
     <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest ml-1">What kind of account?</label>
     <div className="grid grid-cols-2 gap-3 sm:gap-4">
       {ACCOUNT_TYPES.filter(type => !(type.id === 'cash' && hasCashAccount)).map((type) => (
-        <Motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+        <button
           key={type.id}
           type="button"
           onClick={() => onSelectType(type.id)}
-          className={`flex flex-col items-center justify-center gap-2 sm:gap-3 p-4 sm:p-6 border-2 rounded-[2rem] transition-all group text-center ${
+          className={`flex flex-col items-center justify-center gap-2 sm:gap-3 p-4 sm:p-6 border-2 rounded-[2rem] transition-all duration-200 active:scale-95 text-center ${
             formData.type === type.id
               ? 'border-pink-500 bg-pink-50 dark:bg-dark-bg scale-[1.02]'
-              : 'border-transparent bg-pink-50/50 dark:bg-dark-bg/50 hover:border-pink-200 dark:hover:border-dark-border hover:bg-white dark:hover:bg-dark-bg hover:scale-[1.02]'
+              : 'border-transparent bg-pink-50/50 dark:bg-dark-bg/50 hover:border-pink-200 dark:hover:border-dark-border hover:bg-white dark:hover:bg-dark-bg'
           }`}
         >
           <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-transform ${
@@ -83,7 +74,7 @@ const Step1 = memo(({ formData, hasCashAccount, onSelectType, onNext }) => (
           <span className={`text-xs sm:text-base font-bold ${
             formData.type === type.id ? 'text-pink-700' : 'text-gray-700'
           }`}>{type.label}</span>
-        </Motion.button>
+        </button>
       ))}
     </div>
     <button
@@ -94,19 +85,12 @@ const Step1 = memo(({ formData, hasCashAccount, onSelectType, onNext }) => (
     >
       Continue
     </button>
-  </Motion.div>
+  </div>
 ))
 
 // Memoized step 2
 const Step2 = memo(({ formData, onChange, onNext }) => (
-  <Motion.div
-    key="step2"
-    variants={stepVariants}
-    initial="initial"
-    animate="animate"
-    exit="exit"
-    className="space-y-6"
-  >
+  <div className="space-y-6">
     <div>
       <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-widest mb-3 ml-1">Select Provider</label>
       <select
@@ -163,7 +147,7 @@ const Step2 = memo(({ formData, onChange, onNext }) => (
     >
       Continue
     </button>
-  </Motion.div>
+  </div>
 ))
 
 // Memoized step 3 with memoized color swatches
@@ -172,14 +156,7 @@ const Step3 = memo(({ formData, onChange, loading }) => {
   const handleTextColorClick = useCallback((c) => onChange('text_color', c), [onChange])
 
   return (
-    <Motion.div
-      key="step3"
-      variants={stepVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      className="space-y-8"
-    >
+    <div className="space-y-8">
       <div className="text-center">
         <label className="block text-xs font-black text-gray-400 dark:text-white uppercase tracking-[0.2em] mb-4">Initial Balance</label>
         <div className="relative inline-block w-full">
@@ -231,7 +208,7 @@ const Step3 = memo(({ formData, onChange, loading }) => {
       >
         {loading ? 'Creating...' : 'Finalize Account'}
       </button>
-    </Motion.div>
+    </div>
   )
 })
 
@@ -328,7 +305,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
   }, [formData, onSubmit, onClose])
 
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false}>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <Motion.div
@@ -336,19 +313,19 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-pink-900/20 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/40"
           />
           <Motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            exit={{ opacity: 0, scale: 0.98, y: 5 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
             className="bg-white dark:bg-dark-card w-full max-w-md rounded-[2.5rem] border border-pink-100 dark:border-dark-border overflow-hidden relative z-10 flex flex-col max-h-[95vh] md:max-h-[90vh]"
           >
             {/* Header */}
             <div className="p-6 sm:p-8 pb-4 flex justify-between items-center border-b border-pink-50 dark:border-dark-border">
               <div className="flex items-center gap-2">
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" initial={false}>
                   {step > 1 && (
                     <Motion.button
                       initial={{ opacity: 0, x: -10 }}
@@ -365,14 +342,12 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                   {formData.type === 'cash' ? 'Cash on Hand' : `Step ${step} of 3`}
                 </h2>
               </div>
-              <Motion.button
-                whileHover={{ rotate: 90, scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+              <button
                 onClick={onClose}
-                className="p-2 hover:bg-pink-50 rounded-full text-gray-400 transition-colors"
+                className="p-2 hover:bg-pink-50 hover:rotate-90 rounded-full text-gray-400 transition-all duration-200 active:scale-90"
               >
                 <Icon name="x" color="currentColor" className="w-6 h-6" />
-              </Motion.button>
+              </button>
             </div>
 
             {/* Scrollable Content Area */}
@@ -389,6 +364,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
                       animate={{
                         width: (formData.type === 'cash' ? s <= 3 : s <= step) ? "100%" : "0%"
                       }}
+                      transition={{ duration: 0.2, ease: 'easeOut' }}
                       className="absolute inset-0 bg-pink-500"
                     />
                   </div>
@@ -396,7 +372,7 @@ export default function AccountWizard({ isOpen, onClose, onSubmit, hasCashAccoun
               </div>
 
               <form onSubmit={handleSubmitInternal} className="space-y-6">
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" initial={false}>
                   {step === 1 && (
                     <Step1
                       formData={formData}
